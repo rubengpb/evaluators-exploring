@@ -5,22 +5,22 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github helarteDeProgrmar/evaluators-exploring))
 
-(authors "Author Name <author@example.com>")
+(authors "Rubén García-Patos Benito <ruben.gbenito@alumnos.upm.es>")
 
-(maintainers "Maintainer Name <maintainer@example.com>")
+(maintainers "Rubén García-Patos Benito <ruben.gbenito@alumnos.upm.es>")
 
-(license LICENSE)
+; (license LICENSE)
 
-(documentation https://url/to/documentation)
+; (documentation https://url/to/documentation)
 
 (package
  (name evaluators-exploring)
- (synopsis "A short synopsis")
- (description "A longer description")
+ (synopsis "Exploring the strategy space of the lambda-calculus evaluators")
+ (description "Project growing while it is being studied the call-by-value strategy")
  (depends ocaml)
  (tags
-  ("add topics" "to describe" your project)))
+  ("lambda-calculus" "call-by-value")))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
