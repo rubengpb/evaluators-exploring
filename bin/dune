@@ -1,0 +1,4 @@
+(executable
+ (public_name evaluators-exploring)
+ (name main)
+ (libraries evaluators_exploring))

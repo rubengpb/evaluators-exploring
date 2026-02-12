@@ -1,0 +1,38 @@
+# OCaml compiled files
+*.cmo
+*.cmi
+*.cmx
+*.cma
+*.cmxa
+*.cmxs
+*.o
+*.a
+
+# Dune
+_build/
+.dune/
+
+# Merlin
+.merlin
+
+# Opam
+.opam-switch/
+.opam/
+*.opam.locked
+
+# Coverage / profiling
+*.coverage
+*.profraw
+
+# Executables
+*.exe
+*.out
+
+# Editor / OS files
+*~
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
