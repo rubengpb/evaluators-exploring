@@ -8,7 +8,7 @@ let rec eval_normal = function
 
   | App (t1, t2) ->
       let t1' = eval_normal t1 in
-      if t1' <> t1 then App (t1', t2)
+      if t1' <> t1 then eval_normal (App (t1', t2))
       else App (t1, eval_normal t2)
 
   | Abs (x, t) ->
