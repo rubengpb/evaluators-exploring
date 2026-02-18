@@ -14,6 +14,9 @@ let s =
 let b =
   Abs ("f", Abs("g", Abs("x", App(Var "f", App(Var "g", Var "x")))))
 
+let omega =
+  Abs ("x", App(Var "x", Var "x"))
+
 let once =
   Abs ("s", Abs("x", App(Var "s", Var "x")))
 
@@ -25,6 +28,7 @@ let tests =
     ("id id", App(id, id));
     ("K a b", App(App(k, Var "a"), Var "b"));
     ("twice id y", App(App(twice, id), Var "y"));
+    (* ("K id omega", App(App(k, id), omega)); *)
   ]
 
 let rec term_to_string t =
