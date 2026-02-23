@@ -1,6 +1,6 @@
-open Syntax
-open Subst
-open Strategy
+open Core.Syntax
+open Core.Subst
+open Core.Strategy
 
 let rec eval_normal = function
   | App (Abs (x, body), arg) ->

@@ -1,6 +1,6 @@
-open Evaluators_exploring.Syntax
-open Evaluators_exploring.Eval_subst
-open Evaluators_exploring.Strategy
+open Core.Syntax
+open Core.Strategy
+open Evals.Eval_subst
 
 let id =
   Abs ("x", Var "x")
