@@ -9,3 +9,20 @@ dune build
 dune exec evaluators-exploring
 dune clean
 ```
+
+## Test
+
+Test run with `alcotest`.
+
+Install with:
+
+```bash
+opam install alcotest
+```
+
+Execute with:
+
+```bash
+dune test
+dune test test_eval
+```

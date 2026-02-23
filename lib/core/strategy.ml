@@ -1,0 +1,3 @@
+type strategy =
+  | Normal
+  | CallByValue

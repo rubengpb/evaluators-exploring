@@ -1,6 +1,6 @@
 (lang dune 3.21)
 
-(name evaluators-exploring)
+(name evaluators_exploring)
 
 (generate_opam_files true)
 
@@ -16,7 +16,7 @@
 ; (documentation https://url/to/documentation)
 
 (package
- (name evaluators-exploring)
+ (name evaluators_exploring)
  (synopsis "Exploring the strategy space of the lambda-calculus evaluators")
  (description "Project growing while it is being studied the call-by-value strategy")
  (depends ocaml)

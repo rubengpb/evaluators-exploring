@@ -1,4 +1,5 @@
 (executable
- (public_name evaluators-exploring)
+ (public_name evaluators_exploring)
  (name main)
- (libraries evaluators_exploring))
+ (libraries evaluators_exploring.core evaluators_exploring.evals)
+ )
