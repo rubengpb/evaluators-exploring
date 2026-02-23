@@ -1,11 +1,9 @@
-(test
-(name test_term_to_string)
-(libraries evaluators_exploring.core alcotest))
-
-(test
-(name test_subst)
-(libraries evaluators_exploring.core alcotest))
-
-(test
-(name test_eval)
-(libraries evaluators_exploring.core evaluators_exploring.evals alcotest))
+(tests
+ (names
+   test_term_to_string
+   test_subst
+   test_eval)
+ (libraries
+   evaluators_exploring.core
+   evaluators_exploring.evals
+   alcotest))
