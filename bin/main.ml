@@ -1,5 +1,6 @@
 open Core.Syntax
 open Core.Strategy
+open Core.Subst
 open Evals.Eval_subst
 
 let id =
@@ -30,14 +31,6 @@ let tests =
     ("twice id y", App(App(twice, id), Var "y"));
     (* ("K id omega", App(App(k, id), omega)); *)
   ]
-
-let rec term_to_string t =
-  match t with
-  | Var x -> x
-  | Abs (x, t) ->
-      "(" ^ "\\" ^ x ^ "." ^ term_to_string t ^ ")"
-  | App (t1, t2) ->
-      "(" ^ term_to_string t1 ^ " " ^ term_to_string t2 ^ ")"
 
 
 let () =

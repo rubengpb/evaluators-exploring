@@ -5,3 +5,5 @@ val subst :
   Syntax.var ->
   Syntax.term ->
   Syntax.term
+
+val term_to_string : Syntax.term -> string
