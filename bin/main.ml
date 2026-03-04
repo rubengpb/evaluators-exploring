@@ -47,13 +47,13 @@ let () =
     )
     tests;
   print_endline "===============";
-  print_endline "CBV:";
+  print_endline "AO:";
   print_endline "===============";
   List.iter
     (fun (name, term) ->
       print_endline ("Test: " ^ name);
       print_endline ("  input : " ^ term_to_string term);
-      let result = eval CallByValue term in
+      let result = eval ApplicativeOrder term in
       print_endline ("  result: " ^ term_to_string result);
       print_endline ""
     )
