@@ -6,3 +6,9 @@ type strategy =
   | HeadReduction
   | HeadSpine
   | StricNormalisation
+  | HybridNormalOrder
+  | HybridApplicativeOrder
+  | AheadMachine
+  | HeadApplicativeOrder
+  | SpineApplicativeOrder
+  | BalancedSpineApplicativeOrder
