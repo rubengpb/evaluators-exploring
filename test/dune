@@ -2,7 +2,9 @@
  (names
    test_term_to_string
    test_subst
-   test_eval)
+   test_eval_nor
+   test_eval_ao
+   )
  (libraries
    evaluators_exploring.core
    evaluators_exploring.evals
