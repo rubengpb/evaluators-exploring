@@ -1,0 +1,4 @@
+open Repl
+
+let () =
+  loop()

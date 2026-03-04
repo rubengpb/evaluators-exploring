@@ -3,3 +3,8 @@
  (name main)
  (libraries evaluators_exploring.core evaluators_exploring.evals)
  )
+(executable
+ (public_name pure_lambda_repl)
+ (name lambda_repl)
+ (libraries evaluators_exploring.repl)
+ )
