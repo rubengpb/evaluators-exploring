@@ -1,7 +1,7 @@
 open Core.Syntax
 open Core.Strategy
 open Core.Subst
-open Evals.Eval_subst
+open Evals.Main_eval
 
 let id =
   Abs ("x", Var "x")

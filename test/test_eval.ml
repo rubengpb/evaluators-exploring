@@ -2,7 +2,7 @@ open Alcotest
 open Core.Subst
 open Core.Syntax
 open Core.Strategy
-open Evals.Eval_subst
+open Evals.Main_eval
 
 let test_eval_identity () =
   let id = Abs ("x", Var "x") in
