@@ -15,8 +15,11 @@ let s =
 let b =
   Abs ("f", Abs("g", Abs("x", App(Var "f", App(Var "g", Var "x")))))
 
-let omega =
+let omega_aux =
   Abs ("x", App(Var "x", Var "x"))
+
+let omega =
+  App (omega_aux, omega_aux)
 
 let once =
   Abs ("s", Abs("x", App(Var "s", Var "x")))
