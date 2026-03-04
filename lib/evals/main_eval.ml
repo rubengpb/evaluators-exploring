@@ -5,6 +5,7 @@ open Ao
 open Nor
 open Hr
 open He
+open Sn
 
 let eval strat t =
   match strat with
@@ -14,3 +15,4 @@ let eval strat t =
   | Normal -> eval_nor t
   | HeadReduction -> eval_hr t
   | HeadSpine -> eval_he t
+  | StricNormalisation -> eval_sn t

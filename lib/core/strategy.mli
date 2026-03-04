@@ -5,3 +5,4 @@ type strategy =
   | ApplicativeOrder
   | HeadReduction
   | HeadSpine
+  | StricNormalisation
