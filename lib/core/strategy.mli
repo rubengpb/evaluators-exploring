@@ -3,3 +3,5 @@ type strategy =
   | CallByValue
   | CallByName
   | ApplicativeOrder
+  | HeadReduction
+  | HeadSpine
