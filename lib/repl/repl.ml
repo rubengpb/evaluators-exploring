@@ -1,6 +1,8 @@
 open Parser
 open Lexer
 open Ast
+open Core.Syntax
+open Evals.Main_eval
 
 let token_to_string = function
   | Q -> "Q"
@@ -26,6 +28,18 @@ let parse line =
   let lexbuf = Lexing.from_string line in
   repl read lexbuf
 
+let handle_command = function
+  | Instr i ->
+      (match i with
+       | Quit -> print_endline "Bye!"; exit 0
+       | Info -> print_endline "Simple λ-REPL: type lambda-terms, assing lambda-terms and use it. Type :q for exit"
+      )
+  | Assign (v, t) ->
+      print_endline ("Assigned " ^ v ^ " = " ^ show_term t)
+  | Term t ->
+      let t' = eval Normal t in
+      print_endline ("Evaluated term: " ^ show_term t')
+
 let prompt = "λ> "
 
 let rec loop () =
@@ -37,7 +51,8 @@ let rec loop () =
   | line ->
       (try
          let ast = parse line in
-      print_endline @@ "Parsed input: [[ " ^ (show_command ast) ^ " ]]"
+      (* print_endline @@ "Parsed input: [[ " ^ (show_command ast) ^ " ]]" *)
+          handle_command ast
        with
        | Failure msg -> print_endline ("Failure: " ^ msg)
        | Parser.Error -> print_endline "Parse error");
