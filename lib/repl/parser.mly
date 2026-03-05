@@ -3,7 +3,6 @@ open Ast
 open Core.Syntax
 %}
 
-%token COLON
 %token Q
 %token INFO
 %token SET
@@ -18,7 +17,6 @@ open Core.Syntax
 %token <string> IDENT
 %token EOF
 
-(* %start <unit> main *)
 %start <Ast.command> repl
 
 %%
@@ -31,6 +29,10 @@ repl:
 instruction:
   | Q { Quit }
   | INFO { Info }
+  | SET IDENT { Set $2 }
+  | TYPE IDENT { Type $2 }
+  | H { Help }
+  | ENVM { Envm }
 
 term:
   | LAMBDA IDENT DOT term { Abs ($2, $4) }

@@ -24,7 +24,6 @@ let token_to_string = function
   | LAMBDA -> "LAMBDA"
   | DOT -> "DOT"
   | IDENT s -> "IDENT(" ^ s ^ ")"
-  | COLON -> "COLON"
   | EOF -> "EOF"
 
 let rec print_tokens lexbuf =
@@ -69,7 +68,7 @@ let handle_command st = function
               "\nType :env to see the current definitions." ^
               "\nType <var> = <term> to assing a varible to a term." ^
               "\nType <term> to evaluate a term." ^
-            "\nType :t <term> to know the type.");
+            "\nType :t <id> to know the type.");
            st
 
        | Envm ->
@@ -79,11 +78,17 @@ let handle_command st = function
              st.env;
            st
 
-       | Set ->
-           print_endline "Set not implemented yet";
-           st
+       | Set s ->
+        (match string_to_strategy s with
+         | Some ev ->
+             print_endline ("Evaluator set to " ^ s);
+             { st with eval = ev }
 
-       | Type ->
+         | None ->
+             print_endline ("Unknown evaluator: " ^ s);
+         st)
+
+       | Type x ->
            print_endline "Type not implemented yet";
            st)
 

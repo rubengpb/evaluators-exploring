@@ -4,8 +4,8 @@ open Core.Subst
 type instruction =
   | Quit
   | Info
-  | Set
-  | Type
+  | Set of string
+  | Type of string
   | Help
   | Envm
 
@@ -26,8 +26,8 @@ let rec show_term = term_to_string
 let show_instruction = function
   | Quit -> ":q"
   | Info -> ":info"
-  | Set -> ":set"
-  | Type -> ":t"
+  | Set x -> ":set " ^ x
+  | Type x -> ":t " ^ x
   | Help -> ":h"
   | Envm -> ":env"
 
