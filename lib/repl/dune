@@ -1,3 +1,7 @@
 (library
  (name repl)
- (public_name evaluators_exploring.repl))
+ (public_name evaluators_exploring.repl)
+ (libraries evaluators_exploring.core))
+
+(ocamllex (modules lexer))
+(menhir (modules parser))
