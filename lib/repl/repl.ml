@@ -88,8 +88,9 @@ let handle_command st = function
            st)
 
   | Assign (v, t) ->
-      print_endline ("Assigned " ^ v ^ " = " ^ show_term t);
-      { st with env = (v,t) :: st.env }
+      let t' = expand st.env t in
+      print_endline ("Assigned " ^ v ^ " = " ^ show_term t');
+      { st with env = (v,t') :: st.env }
 
   | Term t ->
       let t' = expand st.env t in
