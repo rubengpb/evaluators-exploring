@@ -8,8 +8,9 @@ let token_to_string = function
   | Q -> "Q"
   | INFO -> "INFO"
   | SET -> "SET"
-  | NOR -> "NOR"
-  | AOR -> "AOR"
+  | TYPE -> "TYPE"
+  | H -> "H"
+  | ENVM -> "ENVM"
   | EQUAL -> "EQUAL"
   | LPAREN -> "LPAREN"
   | RPAREN -> "RPAREN"
@@ -32,7 +33,11 @@ let handle_command = function
   | Instr i ->
       (match i with
        | Quit -> print_endline "Bye!"; exit 0
-       | Info -> print_endline "Simple λ-REPL: type lambda-terms, assing lambda-terms and use it. Type :q for exit"
+       | Info -> print_endline "Normal Order reduction!"
+       | Set -> print_endline "Set!"
+       | Type -> print_endline "Type!"
+       | Help -> print_endline "Simple λ-REPL: type lambda-terms, assing lambda-terms and use it. Type :q for exit"
+       | Envm -> print_endline "Envm!"
       )
   | Assign (v, t) ->
       print_endline ("Assigned " ^ v ^ " = " ^ show_term t)

@@ -8,9 +8,9 @@ rule read = parse
   | ":q" { Q }
   | ":info" { INFO }
   | ":set" { SET }
-
-  | "nor" { NOR }
-  | "aor" { AOR }
+  | ":t" { TYPE }
+  | ":h" { H }
+  | ":env" { ENVM }
 
   | "=" { EQUAL }
 

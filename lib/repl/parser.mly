@@ -7,8 +7,9 @@ open Core.Syntax
 %token Q
 %token INFO
 %token SET
-%token NOR
-%token AOR
+%token TYPE
+%token H
+%token ENVM
 %token EQUAL
 %token LPAREN
 %token RPAREN

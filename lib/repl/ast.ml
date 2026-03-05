@@ -1,15 +1,20 @@
 open Core.Syntax
 open Core.Subst
+
+type instruction =
+  | Quit
+  | Info
+  | Set
+  | Type
+  | Help
+  | Envm
+
 (* type var = string *)
 (**)
 (* type term = *)
 (*   | Var of var *)
 (*   | Abs of var * term *)
 (*   | App of term * term *)
-
-type instruction =
-  | Quit
-  | Info
 
 type command =
   | Instr of instruction
@@ -21,6 +26,10 @@ let rec show_term = term_to_string
 let show_instruction = function
   | Quit -> ":q"
   | Info -> ":info"
+  | Set -> ":set"
+  | Type -> ":t"
+  | Help -> ":h"
+  | Envm -> ":env"
 
 let show_command = function
   | Instr i -> show_instruction i
