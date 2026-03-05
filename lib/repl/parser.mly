@@ -9,6 +9,7 @@ open Core.Syntax
 %token TYPE
 %token H
 %token ENVM
+%token LOAD
 %token EQUAL
 %token LPAREN
 %token RPAREN
@@ -33,6 +34,7 @@ instruction:
   | TYPE IDENT { Type $2 }
   | H { Help }
   | ENVM { Envm }
+  | LOAD IDENT { Load $2 }
 
 term:
   | LAMBDA IDENT DOT term { Abs ($2, $4) }

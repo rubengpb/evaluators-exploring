@@ -11,6 +11,7 @@ rule read = parse
   | ":t" { TYPE }
   | ":h" { H }
   | ":env" { ENVM }
+  | ":load" { LOAD }
 
   | "=" { EQUAL }
 
@@ -20,7 +21,7 @@ rule read = parse
   | "\\" { LAMBDA }
   | "." { DOT }
 
-  | ['a'-'z' 'A'-'Z' '_']['a'-'z' 'A'-'Z' '0'-'9' '_']*
+  | ['a'-'z' 'A'-'Z' '_']['a'-'z' 'A'-'Z' '0'-'9' '_' '/']*
       { IDENT (Lexing.lexeme lexbuf) }
 
   | eof { EOF }

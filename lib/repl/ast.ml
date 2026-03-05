@@ -8,6 +8,7 @@ type instruction =
   | Type of string
   | Help
   | Envm
+  | Load of string
 
 (* type var = string *)
 (**)
@@ -30,6 +31,7 @@ let show_instruction = function
   | Type x -> ":t " ^ x
   | Help -> ":h"
   | Envm -> ":env"
+  | Load x -> ":load" ^ x
 
 let show_command = function
   | Instr i -> show_instruction i
