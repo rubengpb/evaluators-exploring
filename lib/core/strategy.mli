@@ -12,3 +12,5 @@ type strategy =
   | HeadApplicativeOrder
   | SpineApplicativeOrder
   | BalancedSpineApplicativeOrder
+
+val strategy_to_string : strategy -> string
