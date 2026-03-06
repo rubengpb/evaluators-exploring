@@ -1,0 +1,6 @@
+pair = \x.\y.\f. f x y
+fst = \p. p (\x.\y. x)
+snd = \p. p (\x.\y. y)
+nil = \x. true
+cons = pair
+isEmpty = \l. l (\x.\y. false) true

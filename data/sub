@@ -1,0 +1,3 @@
+v = \p. pair (snd p) (succ (snd p))
+pred = \n. fst (n v (pair zero zero))
+sub = \m.\n. n pred m

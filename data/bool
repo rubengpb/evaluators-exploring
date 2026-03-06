@@ -1,0 +1,6 @@
+true = \x.\y.x
+false = \x.\y.y
+and = \p.\q. p q p
+or = \p.\q. p p q
+not = \p. p false true
+cond = \b.\x.\y. b x y
