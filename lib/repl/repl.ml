@@ -4,6 +4,7 @@ open Ast
 open Core.Syntax
 open Core.Strategy
 open Core.Subst
+open Core.Church_numerals
 open Evals.Main_eval
 
 type state = {
@@ -142,7 +143,9 @@ let handle_command st = function
       print_endline @@ show_term t';
       print_endline "Evaluating...";
       let t'' = eval st.eval t' in
-      print_endline @@ show_term t'';
+      (match term_of_int t'' with
+        | Some n -> print_endline @@ string_of_int n
+      | None -> print_endline @@ show_term t'');
       st
 
 let prompt = "λ> "
