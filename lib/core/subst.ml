@@ -22,12 +22,16 @@ let rec subst t x s =
   match t with
   | Var y ->
       if y = x then s else t
-
-  | Abs (y, body) ->
-      if y = x then
-        t
-      else
-        Abs (y, subst body x s)
-
   | App (t1, t2) ->
       App (subst t1 x s, subst t2 x s)
+  | Abs (y, body) ->
+  if x = y then t
+  else (
+        let free_body = free_vars body in
+        let free_s = free_vars s in
+        if not (List.mem x free_body) then t
+        else (
+          if not (List.mem y free_s) then Abs (y, subst body x s)
+          else let z = y ^ y in Abs (z, subst (subst body y (Var z)) x s)
+        )
+      )
