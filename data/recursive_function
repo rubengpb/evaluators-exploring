@@ -1,2 +1,8 @@
+lower = \n.\m. and (isZero (sub n m)) (not (isZero (sub m n)))
 fac = \f.\n. cond (isZero n) one (prod n (f (pred n)))
 sum = \s.\n. cond (isZero n) zero (add n (s (pred n)))
+div = \d.\n.\m. cond (lower n m) zero (add one (d (sub n m) m))
+mod = \md.\m.\n. cond (lower m n) m (md (sub m n) n)
+isDiv = \m.\n. isZero (Y mod m n)
+isPrimeAux = \p.\n.\aux. cond (lower n two) false (cond (lower aux two) true (cond (isDiv n aux) false (p n (sub aux one))))
+isPrime = \n. Y isPrimeAux n (sub n one)
