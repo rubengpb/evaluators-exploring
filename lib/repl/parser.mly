@@ -1,6 +1,7 @@
 %{
 open Ast
 open Core.Syntax
+open Core.Church_numerals
 %}
 
 %token Q
@@ -16,6 +17,7 @@ open Core.Syntax
 %token LAMBDA
 %token DOT
 %token <string> IDENT
+%token <int> NUMBER
 %token EOF
 
 %start <Ast.command> repl
@@ -49,4 +51,5 @@ atoms:
 
 atom:
   | IDENT { Var $1 }
+  | NUMBER { int_of_term $1 }
   | LPAREN term RPAREN { $2 }

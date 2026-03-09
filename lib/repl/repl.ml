@@ -26,6 +26,7 @@ let token_to_string = function
   | LAMBDA -> "LAMBDA"
   | DOT -> "DOT"
   | IDENT s -> "IDENT(" ^ s ^ ")"
+  | NUMBER n -> "NUMBER(" ^ (string_of_int n) ^ ")"
   | EOF -> "EOF"
 
 let rec print_tokens lexbuf =
