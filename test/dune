@@ -2,6 +2,7 @@
  (names
    test_term_to_string
    test_subst
+   test_alpha_equiv
    test_eval_nor
    test_eval_ao
    )

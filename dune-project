@@ -1,5 +1,7 @@
 (lang dune 3.21)
 
+(using menhir 3.0)
+
 (name evaluators_exploring)
 
 (generate_opam_files true)

@@ -22,12 +22,23 @@ let rec subst t x s =
   match t with
   | Var y ->
       if y = x then s else t
-
-  | Abs (y, body) ->
-      if y = x then
-        t
-      else
-        Abs (y, subst body x s)
-
   | App (t1, t2) ->
       App (subst t1 x s, subst t2 x s)
+  | Abs (y, body) ->
+  if x = y then t
+  else (
+        let free_body = free_vars body in
+        let free_s = free_vars s in
+        if not (List.mem x free_body) then t
+        else if not (List.mem y free_s) then Abs (y, subst body x s)
+        else let z = y ^ y in Abs (z, subst (subst body y (Var z)) x s)
+      )
+
+let rec alpha_equiv t1 t2 =
+  match (t1, t2) with
+    | (Var x, Var y) -> x = y
+    | (Abs(x, b1), Abs(y, b2)) ->
+      if x = y then alpha_equiv b1 b2
+      else alpha_equiv b1 @@ subst b2 y (Var x)
+    | (App(t1, t2), App(tt1, tt2)) -> alpha_equiv t1 tt1 && alpha_equiv t2 tt2
+    | _ -> false

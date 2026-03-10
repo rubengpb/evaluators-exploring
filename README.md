@@ -26,3 +26,11 @@ Execute with:
 dune test
 dune test test_eval
 ```
+
+## repl
+
+The dependencies:
+
+```bash
+opam install menhir
+```

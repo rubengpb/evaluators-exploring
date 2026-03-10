@@ -1,0 +1,9 @@
+zero = \s.\z. z
+one = \s.\z. s z
+two = \s.\z. s (s z)
+three = \s.\z. s (s (s z))
+succ = \n.\f.\x. f (n f x)
+add = \m.\n.\s.\z. m s (n s z)
+prod = \m.\n.\s. m (n s)
+pow = \m.\n. n m
+isZero = \n. n (\x. (\x.\y. y)) (\x.\y. x)
