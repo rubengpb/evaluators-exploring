@@ -144,7 +144,7 @@ let handle_command st = function
       print_endline @@ show_term t';
       print_endline "Evaluating...";
       let t'' = eval st.eval t' in
-      (match term_of_int t'' with
+      (match int_of_term t'' with
         | Some n -> print_endline @@ string_of_int n
       | None -> print_endline @@ show_term t'');
       st
