@@ -1,4 +1,4 @@
-type strategy =
+type eval =
   | Normal
   | CallByValue
   | CallByName
@@ -13,7 +13,7 @@ type strategy =
   | SpineApplicativeOrder
   | BalancedSpineApplicativeOrder
 
-let strategy_to_string = function
+let string_of_eval = function
   | Normal -> "Normal"
   | CallByValue -> "CallByValue"
   | CallByName -> "CallByName"
@@ -28,7 +28,7 @@ let strategy_to_string = function
   | SpineApplicativeOrder -> "SpineApplicativeOrder"
   | BalancedSpineApplicativeOrder -> "BalancedSpineApplicativeOrder"
 
-let string_to_strategy = function
+let eval_of_string = function
   | "Normal" -> Some Normal
   | "CallByValue" -> Some CallByValue
   | "CallByName" -> Some CallByName

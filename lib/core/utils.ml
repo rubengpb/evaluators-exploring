@@ -1,3 +1,4 @@
+open Lexer
 open Parser
 open Syntax
 
@@ -52,5 +53,4 @@ let rec alpha_equiv t1 t2 =
 
 let rec term_of_string s =
   let lexbuf = Lexing.from_string s in
-  main read lexbuf
-
+  Parser.main read lexbuf

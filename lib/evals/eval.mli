@@ -1,4 +1,4 @@
-type strategy =
+type eval =
   | Normal
   | CallByValue
   | CallByName
@@ -13,6 +13,6 @@ type strategy =
   | SpineApplicativeOrder
   | BalancedSpineApplicativeOrder
 
-val strategy_to_string : strategy -> string
+val string_of_eval : eval -> string
 
-val string_to_strategy : string -> strategy option
+val eval_of_string : string -> eval option

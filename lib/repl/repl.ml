@@ -2,13 +2,13 @@ open Parser
 open Lexer
 open Ast
 open Core.Syntax
-open Core.Strategy
 open Core.Utils
 open Core.Church_numerals
+open Evals.Eval
 open Evals.Main_eval
 
 type state = {
-  eval : strategy;
+  eval : eval;
   env  : (string * term) list;
 }
 
@@ -85,7 +85,7 @@ let handle_command st = function
            exit 0
 
        | Info ->
-           print_endline @@ strategy_to_string st.eval;
+           print_endline @@ string_of_eval st.eval;
            st
 
        | Help ->
@@ -93,8 +93,8 @@ let handle_command st = function
              ("Simple λ-REPL: type lambda-terms, assign lambda-terms" ^
              " and use them. \n\nType :q for exit." ^
               "\nType :h for help." ^
-              "\nType :info to know the current strategy." ^
-              "\nType :set <strategy> to change the current strategy." ^
+              "\nType :info to know the current evaluator." ^
+              "\nType :set <eval> to change the current evaluator." ^
               "\nType :env to see the current definitions." ^
               "\nType <var> = <term> to assing a varible to a term." ^
               "\nType <term> to evaluate a term." ^
@@ -109,7 +109,7 @@ let handle_command st = function
            st
 
        | Set s ->
-        (match string_to_strategy s with
+        (match eval_of_string s with
          | Some ev ->
              print_endline ("Evaluator set to " ^ s);
              { st with eval = ev }

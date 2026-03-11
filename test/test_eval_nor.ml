@@ -1,7 +1,7 @@
 open Alcotest
 open Core.Utils
 open Core.Syntax
-open Core.Strategy
+open Evals.Eval
 open Evals.Main_eval
 
 let test_eval_identity () =

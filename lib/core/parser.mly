@@ -1,5 +1,6 @@
 %{
 open Syntax
+open Church_numerals
 %}
 
 %token LPAREN
@@ -8,10 +9,14 @@ open Syntax
 %token DOT
 %token <string> IDENT
 %token <int> NUMBER
+%token EOF
 
 %start <Syntax.term> main
 
 %%
+
+main:
+  | term EOF { $1 }
 
 term:
   | LAMBDA IDENT DOT term { Abs ($2, $4) }
