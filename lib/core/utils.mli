@@ -7,5 +7,6 @@ val subst :
   Syntax.term
 
 val string_of_term : Syntax.term -> string
+val term_of_string : string -> Syntax.term
 
 val alpha_equiv : Syntax.term -> Syntax.term -> bool

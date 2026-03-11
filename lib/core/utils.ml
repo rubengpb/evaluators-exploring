@@ -1,3 +1,4 @@
+open Parser
 open Syntax
 
 let rec string_of_term t =
@@ -48,3 +49,8 @@ let rec alpha_equiv t1 t2 =
       else alpha_equiv b1 @@ subst (Var x) y b2
     | (App(t1, t2), App(tt1, tt2)) -> alpha_equiv t1 tt1 && alpha_equiv t2 tt2
     | _ -> false
+
+let rec term_of_string s =
+  let lexbuf = Lexing.from_string s in
+  main read lexbuf
+

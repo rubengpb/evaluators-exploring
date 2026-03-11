@@ -20,7 +20,7 @@ open Core.Church_numerals
 %token <int> NUMBER
 %token EOF
 
-%start <Ast.command> repl
+%start <Ast.command> core
 
 %%
 
