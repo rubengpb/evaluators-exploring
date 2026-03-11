@@ -1,6 +1,6 @@
 open Core.Syntax
 open Core.Strategy
-open Core.Subst
+open Core.Utils
 open Evals.Main_eval
 
 let id =

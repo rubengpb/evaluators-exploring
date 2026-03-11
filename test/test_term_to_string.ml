@@ -1,7 +1,6 @@
 open Alcotest
-open Core
 open Core.Syntax
-open Core.Subst
+open Core.Utils
 
 let test_simple_var () =
   let t = Var "x" in

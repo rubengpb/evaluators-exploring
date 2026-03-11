@@ -1,5 +1,5 @@
 open Core.Syntax
-open Core.Subst
+open Core.Utils
 
 type instruction =
   | Quit

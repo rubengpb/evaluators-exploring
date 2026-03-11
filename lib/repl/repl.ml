@@ -3,7 +3,7 @@ open Lexer
 open Ast
 open Core.Syntax
 open Core.Strategy
-open Core.Subst
+open Core.Utils
 open Core.Church_numerals
 open Evals.Main_eval
 
