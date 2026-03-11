@@ -1,15 +1,15 @@
 open Syntax
 
-let rec term_to_string t =
+let rec string_of_term t =
   match t with
   | Var x -> x
   | Abs (x, t) ->
-      "\\" ^ x ^ "." ^ term_to_string t
+      "\\" ^ x ^ "." ^ string_of_term t
   | App (Var x1, Var x2) -> x1 ^ " " ^ x2
-  | App (Var x, t) -> x ^ " (" ^ term_to_string t ^ ")"
-  | App (App(t1, t2), Var x) -> "(" ^ term_to_string (App (t1, t2)) ^ ") " ^ x
-  | App (t, Var x) -> "(" ^ term_to_string t ^ ")" ^ x
-  | App (t1, t2) -> "(" ^ term_to_string t1 ^ ")(" ^ term_to_string t2 ^ ")"
+  | App (Var x, t) -> x ^ " (" ^ string_of_term t ^ ")"
+  | App (App(t1, t2), Var x) -> "(" ^ string_of_term (App (t1, t2)) ^ ") " ^ x
+  | App (t, Var x) -> "(" ^ string_of_term t ^ ")" ^ x
+  | App (t1, t2) -> "(" ^ string_of_term t1 ^ ")(" ^ string_of_term t2 ^ ")"
 
 let rec free_vars = function
   | Var x -> [x]

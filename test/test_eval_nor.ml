@@ -8,7 +8,7 @@ let test_eval_identity () =
   let id = Abs ("x", Var "x") in
   let t = App (id, Var "y") in
   let result = eval Normal t in
-  check string "eval identity" "y" (term_to_string result)
+  check string "eval identity" "y" (string_of_term result)
 
 let () =
   run "eval" [

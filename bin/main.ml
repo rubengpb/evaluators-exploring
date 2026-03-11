@@ -46,9 +46,9 @@ let () =
   List.iter
     (fun (name, term) ->
       print_endline ("Test: " ^ name);
-      print_endline ("  input : " ^ term_to_string term);
+      print_endline ("  input : " ^ string_of_term term);
       let result = eval HybridNormalOrder term in
-      print_endline ("  result: " ^ term_to_string result);
+      print_endline ("  result: " ^ string_of_term result);
       print_endline ""
     )
     tests;

@@ -1,6 +1,6 @@
 (tests
  (names
-   test_term_to_string
+   test_string_of_term
    test_subst
    test_alpha_equiv
    test_eval_nor
