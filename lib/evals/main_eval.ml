@@ -15,3 +15,5 @@ let eval strat t =
   | HeadApplicativeOrder -> Ho.eval_ho t
   | SpineApplicativeOrder -> So.eval_so t
   | BalancedSpineApplicativeOrder -> Bs.eval_bs t
+  | SmallStepNormalOrder -> Ssno.eval_ssno t
+  | SmallStepApplicativeOrder -> Ssno.eval_ssao t

@@ -34,3 +34,10 @@ let () =
     print_endline @@ "SO: " ^ string_of_term t_so;
   let t_bs = eval BalancedSpineApplicativeOrder main_term in
     print_endline @@ "BS: " ^ string_of_term t_bs;
+  print_endline "Small Step Evaluators:";
+  print_endline "== Normal Order ==";
+  let t_ssno = eval SmallStepNormalOrder main_term in
+    print_endline @@ string_of_term t_ssno;
+  print_endline "== Applicative Order ==";
+  let t_ssno = eval SmallStepApplicativeOrder main_term in
+    print_endline @@ string_of_term t_ssno;

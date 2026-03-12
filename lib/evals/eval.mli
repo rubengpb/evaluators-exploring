@@ -12,6 +12,8 @@ type eval =
   | HeadApplicativeOrder
   | SpineApplicativeOrder
   | BalancedSpineApplicativeOrder
+  | SmallStepNormalOrder
+  | SmallStepApplicativeOrder
 
 val string_of_eval : eval -> string
 

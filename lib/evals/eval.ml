@@ -12,6 +12,8 @@ type eval =
   | HeadApplicativeOrder
   | SpineApplicativeOrder
   | BalancedSpineApplicativeOrder
+  | SmallStepNormalOrder
+  | SmallStepApplicativeOrder
 
 let string_of_eval = function
   | Normal -> "Normal"
@@ -27,6 +29,8 @@ let string_of_eval = function
   | HeadApplicativeOrder -> "HeadApplicativeOrder"
   | SpineApplicativeOrder -> "SpineApplicativeOrder"
   | BalancedSpineApplicativeOrder -> "BalancedSpineApplicativeOrder"
+  | SmallStepNormalOrder -> "SmallStepNormalOrder"
+  | SmallStepApplicativeOrder -> "SmallStepApplicativeOrder"
 
 let eval_of_string = function
   | "Normal" -> Some Normal
@@ -42,4 +46,6 @@ let eval_of_string = function
   | "HeadApplicativeOrder" -> Some HeadApplicativeOrder
   | "SpineApplicativeOrder" -> Some SpineApplicativeOrder
   | "BalancedSpineApplicativeOrder" -> Some BalancedSpineApplicativeOrder
+  | "SmallStepNormalOrder" -> Some SmallStepNormalOrder
+  | "SmallStepApplicativeOrder" -> Some SmallStepApplicativeOrder
   | _ -> None
