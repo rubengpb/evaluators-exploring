@@ -17,3 +17,8 @@ let eval strat t =
   | BalancedSpineApplicativeOrder -> Bs.eval_bs t
   | SmallStepNormalOrder -> Ssno.eval_ssno t
   | SmallStepApplicativeOrder -> Ssno.eval_ssao t
+  | ReadBackCallByValue -> Rbbv.eval_rbbv t
+  | ReadBackCallByName -> Rbbn.eval_rbbn t
+  | ReadBackNormalOrder -> Rbno.eval_rbno t
+  | ReadBackAheadMachine -> Rbam.eval_rbam t
+  | ReadBackUnnamed -> Rbun.eval_rbun t

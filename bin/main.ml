@@ -34,6 +34,17 @@ let () =
     print_endline @@ "SO: " ^ string_of_term t_so;
   let t_bs = eval BalancedSpineApplicativeOrder main_term in
     print_endline @@ "BS: " ^ string_of_term t_bs;
+  print_endline "Read-Back Evaluators:";
+  let t_bs = eval ReadBackCallByValue main_term in
+    print_endline @@ "RBBV: " ^ string_of_term t_bs;
+  let t_bs = eval ReadBackCallByName main_term in
+    print_endline @@ "RBBN: " ^ string_of_term t_bs;
+  let t_bs = eval ReadBackNormalOrder main_term in
+    print_endline @@ "RBNO: " ^ string_of_term t_bs;
+  let t_bs = eval ReadBackAheadMachine main_term in
+    print_endline @@ "RBAM: " ^ string_of_term t_bs;
+  let t_bs = eval ReadBackUnnamed main_term in
+    print_endline @@ "RBUN: " ^ string_of_term t_bs;
   print_endline "Small Step Evaluators:";
   print_endline "== Normal Order ==";
   let t_ssno = eval SmallStepNormalOrder main_term in
