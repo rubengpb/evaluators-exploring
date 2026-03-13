@@ -7,6 +7,6 @@ let initial_config = {
 }
 
 let () =
-  print_endline @@ "λ-REPL evaluators-exploring, version 0.1.0:  " ^
+  print_endline @@ "λ-REPL evaluators-exploring, version 0.1.1:  " ^
     ":h for help,  :q for exit";
   loop initial_config
