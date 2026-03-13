@@ -1,6 +1,7 @@
 open Core.Syntax
 open Core.Utils
 open Evals.Eval
+open Evals.Gen
 open Evals.Main_eval
 
 let main_term = term_of_string "(((\\m.\\n.\\s.\\z. (m s (n s z)) ) 3 ) 2)"
@@ -33,7 +34,11 @@ let () =
   let t_so = eval SpineApplicativeOrder main_term in
     print_endline @@ "SO: " ^ string_of_term t_so;
   let t_bs = eval BalancedSpineApplicativeOrder main_term in
+  let eval_no = eval Normal in
     print_endline @@ "BS: " ^ string_of_term t_bs;
+  let t_gen =
+    gen eval_no (eval CallByName) (fun x -> x) eval_no eval_no main_term in
+    print_endline @@ "GEN no bn id no no: " ^ string_of_term t_gen;
   print_endline "Read-Back Evaluators:";
   let t_bs = eval ReadBackCallByValue main_term in
     print_endline @@ "RBBV: " ^ string_of_term t_bs;
