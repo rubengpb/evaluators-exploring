@@ -14,6 +14,11 @@ type eval =
   | BalancedSpineApplicativeOrder
   | SmallStepNormalOrder
   | SmallStepApplicativeOrder
+  | ReadBackCallByValue
+  | ReadBackCallByName
+  | ReadBackNormalOrder
+  | ReadBackAheadMachine
+  | ReadBackUnnamed
 
 let string_of_eval = function
   | Normal -> "Normal"
@@ -31,6 +36,11 @@ let string_of_eval = function
   | BalancedSpineApplicativeOrder -> "BalancedSpineApplicativeOrder"
   | SmallStepNormalOrder -> "SmallStepNormalOrder"
   | SmallStepApplicativeOrder -> "SmallStepApplicativeOrder"
+  | ReadBackCallByValue -> "ReadBackCallByValue"
+  | ReadBackCallByName -> "ReadBackCallByName "
+  | ReadBackNormalOrder -> "ReadBackNormalOrder "
+  | ReadBackAheadMachine -> "ReadBackAheadMachine "
+  | ReadBackUnnamed -> "ReadBackUnnamed "
 
 let eval_of_string = function
   | "Normal" -> Some Normal
@@ -48,4 +58,9 @@ let eval_of_string = function
   | "BalancedSpineApplicativeOrder" -> Some BalancedSpineApplicativeOrder
   | "SmallStepNormalOrder" -> Some SmallStepNormalOrder
   | "SmallStepApplicativeOrder" -> Some SmallStepApplicativeOrder
+  | "ReadBackCallByValue" -> Some ReadBackCallByValue
+  | "ReadBackCallByName" -> Some ReadBackCallByName
+  | "ReadBackNormalOrder" -> Some ReadBackNormalOrder
+  | "ReadBackAheadMachine" -> Some ReadBackAheadMachine
+  | "ReadBackUnnamed" -> Some ReadBackUnnamed
   | _ -> None

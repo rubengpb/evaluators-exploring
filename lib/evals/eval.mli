@@ -14,6 +14,11 @@ type eval =
   | BalancedSpineApplicativeOrder
   | SmallStepNormalOrder
   | SmallStepApplicativeOrder
+  | ReadBackCallByValue
+  | ReadBackCallByName
+  | ReadBackNormalOrder
+  | ReadBackAheadMachine
+  | ReadBackUnnamed
 
 val string_of_eval : eval -> string
 
