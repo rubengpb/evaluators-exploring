@@ -1,8 +1,9 @@
 open Repl.Main_repl
 open Repl.Config
+open Evals.Eval
 
 let initial_config = {
-  eval = Normal;
+  eval = One { style = Apply; strategy = NormalOrder; };
   env = [];
   church = false;
   display = false;
