@@ -6,10 +6,11 @@ open Core.Church_numerals
 
 let handle_term st t =
   let t' = expand st.env t in
-  print_endline @@ show_term t';
-  print_endline "Evaluating...";
+  if st.display then print_endline @@ "Evaluating: " ^ show_term t';
   let t'' = eval st.eval t' in
-  (match int_of_term t'' with
-    | Some n -> print_endline @@ string_of_int n
-    | None -> print_endline @@ show_term t'');
+  (if st.church then
+    match int_of_term t'' with
+      | Some n -> print_endline @@ string_of_int n
+      | None -> print_endline @@ show_term t''
+  else print_endline @@ show_term t'');
   st

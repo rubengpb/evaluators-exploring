@@ -3,12 +3,12 @@ open Parser
 
 let token_to_string = function
   | Q -> "Q"
-  | INFO -> "INFO"
+  | ICONFIG -> "ICONFIG"
   | SET -> "SET"
   | TYPE -> "TYPE"
   | H -> "H"
-  | ENVM -> "ENVM"
   | LOAD -> "LOAD"
+  | FILENAME s -> "FILENAME(" ^ s ^ ")"
   | EQUAL -> "EQUAL"
   | LPAREN -> "LPAREN"
   | RPAREN -> "RPAREN"

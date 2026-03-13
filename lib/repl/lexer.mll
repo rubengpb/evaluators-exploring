@@ -6,11 +6,10 @@ rule read = parse
   | [' ' '\t' '\n'] { read lexbuf }
 
   | ":q" { Q }
-  | ":info" { INFO }
+  | ":config" { ICONFIG }
   | ":set" { SET }
   | ":t" { TYPE }
   | ":h" { H }
-  | ":env" { ENVM }
   | ":load" { LOAD }
 
   | "=" { EQUAL }
@@ -21,8 +20,11 @@ rule read = parse
   | "\\" { LAMBDA }
   | "." { DOT }
 
-  | ['a'-'z' 'A'-'Z' '_']['a'-'z' 'A'-'Z' '0'-'9' '_' '/']*
+  | ['a'-'z' 'A'-'Z' '_']['a'-'z' 'A'-'Z' '0'-'9' '_']*
       { IDENT (Lexing.lexeme lexbuf) }
+
+  | ['a'-'z' 'A'-'Z' '_']['a'-'z' 'A'-'Z' '0'-'9' '_' '-' '/']*
+      { FILENAME (Lexing.lexeme lexbuf) }
 
   | ['0'-'9']+ { NUMBER (int_of_string @@ Lexing.lexeme lexbuf) }
   | eof { EOF }
