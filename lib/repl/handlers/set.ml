@@ -11,10 +11,10 @@ let handle_set st param opt =
         print_endline @@ "[ERROR in set eval]\nNon exists this eval";
         st)
   | "church" ->
-    if opt = "on" then { st with church = true }
+    if opt = "true" then { st with church = true }
     else { st with church = false }
   | "display" ->
-    if opt = "on" then { st with display = true }
+    if opt = "true" then { st with display = true }
     else { st with display = false }
   | other ->
     print_endline @@ "[ERROR in set]\nNon exists this param: " ^ other;
