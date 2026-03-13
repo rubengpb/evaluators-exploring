@@ -33,12 +33,16 @@ instruction:
   | Q { Quit }
   | ICONFIG { IConfig None }
   | ICONFIG IDENT { IConfig (Some $2) }
-  | SET IDENT IDENT { Set ($2, $3) }
+  | SET IDENT lident { Set ($2, String.concat "_" $3) }
   | TYPE IDENT { Type $2 }
   | H { Help None }
   | H IDENT { Help (Some $2) }
   | LOAD IDENT { Load $2 }
   | LOAD FILENAME { Load $2 }
+
+lident:
+  | IDENT lident { $1 :: $2 }
+  | { [] }
 
 term:
   | LAMBDA IDENT DOT term { Abs ($2, $4) }
