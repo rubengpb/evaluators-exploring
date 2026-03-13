@@ -34,7 +34,8 @@ instruction:
   | INFO { Info }
   | SET IDENT { Set $2 }
   | TYPE IDENT { Type $2 }
-  | H { Help }
+  | H { Help None }
+  | H IDENT { Help (Some $2) }
   | ENVM { Envm }
   | LOAD IDENT { Load $2 }
 

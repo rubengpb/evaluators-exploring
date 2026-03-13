@@ -7,7 +7,7 @@ let handle_command st = function
     (match i with
      | Quit -> print_endline "Bye!"; exit 0
      | Info -> Info.handle_info st
-     | Help -> Help.handle_help st
+     | Help h -> Help.handle_help st h
      | Envm -> Envm.handle_envm st
      | Set s -> Set.handle_set st s
      | Type x -> print_endline "Type not implemented yet"; st

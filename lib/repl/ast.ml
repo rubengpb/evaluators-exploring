@@ -6,7 +6,7 @@ type instruction =
   | Info
   | Set of string
   | Type of string
-  | Help
+  | Help of string option
   | Envm
   | Load of string
 
@@ -29,7 +29,10 @@ let show_instruction = function
   | Info -> ":info"
   | Set x -> ":set " ^ x
   | Type x -> ":t " ^ x
-  | Help -> ":h"
+  | Help h ->
+    (match h with
+      | Some s -> ":h " ^ s
+      | None -> ":h")
   | Envm -> ":env"
   | Load x -> ":load" ^ x
 
