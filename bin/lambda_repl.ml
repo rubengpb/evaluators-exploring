@@ -4,6 +4,8 @@ open Repl.Config
 let initial_config = {
   eval = Normal;
   env = [];
+  church = false;
+  display = false;
 }
 
 let () =
