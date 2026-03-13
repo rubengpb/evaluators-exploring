@@ -1,3 +1,4 @@
+include data/sub
 lower = \n.\m. and (isZero (sub n m)) (not (isZero (sub m n)))
 fac = \f.\n. cond (isZero n) one (prod n (f (pred n)))
 sum = \s.\n. cond (isZero n) zero (add n (s (pred n)))
