@@ -1,4 +1,5 @@
 open Eval
+open Core.Forms
 
 let eval strat t =
   match strat with
@@ -15,8 +16,8 @@ let eval strat t =
   | HeadApplicativeOrder -> Ho.eval_ho t
   | SpineApplicativeOrder -> So.eval_so t
   | BalancedSpineApplicativeOrder -> Bs.eval_bs t
-  | SmallStepNormalOrder -> Ssno.eval_ssno t
-  | SmallStepApplicativeOrder -> Ssno.eval_ssao t
+  | SmallStepNormalOrder -> Ss.eval_ss is_nf Ssno.step_left_outer t
+  | SmallStepApplicativeOrder -> Ss.eval_ss is_nf Ssao.step_left_inner t
   | ReadBackCallByValue -> Rbbv.eval_rbbv t
   | ReadBackCallByName -> Rbbn.eval_rbbn t
   | ReadBackNormalOrder -> Rbno.eval_rbno t
