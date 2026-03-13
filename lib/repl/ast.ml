@@ -22,7 +22,7 @@ type command =
   | Term of term
   | Assign of var * term
 
-let rec show_term = string_of_term
+let show_term = string_of_term
 
 let show_instruction = function
   | Quit -> ":q"

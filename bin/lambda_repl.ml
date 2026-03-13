@@ -1,6 +1,7 @@
-open Repl
+open Repl.Main_repl
+open Repl.Config
 
-let initial_state = {
+let initial_config = {
   eval = Normal;
   env = [];
 }
@@ -8,4 +9,4 @@ let initial_state = {
 let () =
   print_endline @@ "λ-REPL evaluators-exploring, version 0.1.0:  " ^
     ":h for help,  :q for exit";
-  loop initial_state
+  loop initial_config
