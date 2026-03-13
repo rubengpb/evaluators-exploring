@@ -6,10 +6,9 @@ let handle_command st = function
   | Instr i ->
     (match i with
      | Quit -> print_endline "Bye!"; exit 0
-     | Info -> Info.handle_info st
+     | IConfig param -> Iconfig.handle_iconfig st param
      | Help h -> Help.handle_help st h
-     | Envm -> Envm.handle_envm st
-     | Set s -> Set.handle_set st s
+     | Set (param, opt) -> Set.handle_set st param opt
      | Type x -> print_endline "Type not implemented yet"; st
      | Load file -> File.handle_file st file)
   | Assign (v, t) -> Assign.handle_assing st v t

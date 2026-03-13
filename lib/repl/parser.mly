@@ -5,12 +5,12 @@ open Core.Church_numerals
 %}
 
 %token Q
-%token INFO
+%token ICONFIG
 %token SET
 %token TYPE
 %token H
-%token ENVM
 %token LOAD
+%token <string> FILENAME
 %token EQUAL
 %token LPAREN
 %token RPAREN
@@ -31,13 +31,14 @@ repl:
 
 instruction:
   | Q { Quit }
-  | INFO { Info }
-  | SET IDENT { Set $2 }
+  | ICONFIG { IConfig None }
+  | ICONFIG IDENT { IConfig (Some $2) }
+  | SET IDENT IDENT { Set ($2, $3) }
   | TYPE IDENT { Type $2 }
   | H { Help None }
   | H IDENT { Help (Some $2) }
-  | ENVM { Envm }
   | LOAD IDENT { Load $2 }
+  | LOAD FILENAME { Load $2 }
 
 term:
   | LAMBDA IDENT DOT term { Abs ($2, $4) }

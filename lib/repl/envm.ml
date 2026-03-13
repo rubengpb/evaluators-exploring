@@ -1,6 +1,4 @@
 open Core.Syntax
-open Config
-open Ast
 
 let rec expand env = function
   | Var x ->
@@ -13,10 +11,3 @@ let rec expand env = function
 
   | App (t1,t2) ->
       App (expand env t1, expand env t2)
-
-let handle_envm st =
-   List.iter
-     (fun (v,t) ->
-        print_endline (v ^ " = " ^ show_term t))
-     st.env;
-   st

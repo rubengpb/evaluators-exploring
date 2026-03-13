@@ -5,7 +5,7 @@ let main_message =
   "     :load <file>\n" ^
   "     :t <id>|<term>\n" ^
   "     :config <param>\n" ^
-  "     :set <param>\n\n" ^
+  "     :set <param> <opt>\n\n" ^
   "More info about each command with :h <command>.\n\n" ^
   "   Evaluation of terms:\n" ^
   "     Type <id> = <term> to assing to an id a term.\n" ^
@@ -27,13 +27,13 @@ let handle_help st = function
     | "config" -> "Options of config:\n\n" ^
           "   :config eval  (displais the current evaluator)\n" ^
           "   :config env  (displais the current evairoment, with the map of <id> = <term>)\n" ^
-          "   :config church  (format numbers in the output. ON or OFF)\n" ^
-          "   :config display  (print the initial term before evaluating. ON or OFF)"
+          "   :config church  (format numbers in the output, true or false)\n" ^
+          "   :config display  (print the initial term before evaluating, true or false)"
     | "set" -> "Options of set:\n\n" ^
           "   :set eval <eval>  (set <eval> at current evaluator)\n" ^
           "   :set env clean  (clean the enviroment)\n" ^
           "   :set church (on|off)  (activate/disactivate church output)\n" ^
-          "   :config display (on|off) (activate/disactivate initial print)"
+          "   :set display (on|off) (activate/disactivate initial print)"
     | other -> "[ERROR in help]\nNon exists this instruction: " ^ other);
     st
 

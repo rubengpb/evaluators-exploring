@@ -3,11 +3,10 @@ open Core.Utils
 
 type instruction =
   | Quit
-  | Info
-  | Set of string
+  | IConfig of string option
+  | Set of string * string
   | Type of string
   | Help of string option
-  | Envm
   | Load of string
 
 (* type var = string *)
@@ -26,14 +25,16 @@ let show_term = string_of_term
 
 let show_instruction = function
   | Quit -> ":q"
-  | Info -> ":info"
-  | Set x -> ":set " ^ x
+  | IConfig i ->
+    (match i with
+      | Some s -> ":config " ^ s
+      | None -> ":config")
+  | Set (param, opt) -> ":set " ^ param ^ " " ^ opt
   | Type x -> ":t " ^ x
   | Help h ->
     (match h with
       | Some s -> ":h " ^ s
       | None -> ":h")
-  | Envm -> ":env"
   | Load x -> ":load" ^ x
 
 let show_command = function
