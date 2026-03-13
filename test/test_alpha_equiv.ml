@@ -1,6 +1,6 @@
 open Alcotest
 open Core.Syntax
-open Core.Subst
+open Core.Utils
 
 let test_same_variable () =
   check bool "same variable"

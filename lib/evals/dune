@@ -1,3 +1,5 @@
+(include_subdirs unqualified)
+
 (library
  (name evals)
  (public_name evaluators_exploring.evals)

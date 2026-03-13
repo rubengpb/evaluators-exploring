@@ -1,4 +1,4 @@
-type strategy =
+type eval =
   | Normal
   | CallByValue
   | CallByName
@@ -12,8 +12,10 @@ type strategy =
   | HeadApplicativeOrder
   | SpineApplicativeOrder
   | BalancedSpineApplicativeOrder
+  | SmallStepNormalOrder
+  | SmallStepApplicativeOrder
 
-let strategy_to_string = function
+let string_of_eval = function
   | Normal -> "Normal"
   | CallByValue -> "CallByValue"
   | CallByName -> "CallByName"
@@ -27,8 +29,10 @@ let strategy_to_string = function
   | HeadApplicativeOrder -> "HeadApplicativeOrder"
   | SpineApplicativeOrder -> "SpineApplicativeOrder"
   | BalancedSpineApplicativeOrder -> "BalancedSpineApplicativeOrder"
+  | SmallStepNormalOrder -> "SmallStepNormalOrder"
+  | SmallStepApplicativeOrder -> "SmallStepApplicativeOrder"
 
-let string_to_strategy = function
+let eval_of_string = function
   | "Normal" -> Some Normal
   | "CallByValue" -> Some CallByValue
   | "CallByName" -> Some CallByName
@@ -42,4 +46,6 @@ let string_to_strategy = function
   | "HeadApplicativeOrder" -> Some HeadApplicativeOrder
   | "SpineApplicativeOrder" -> Some SpineApplicativeOrder
   | "BalancedSpineApplicativeOrder" -> Some BalancedSpineApplicativeOrder
+  | "SmallStepNormalOrder" -> Some SmallStepNormalOrder
+  | "SmallStepApplicativeOrder" -> Some SmallStepApplicativeOrder
   | _ -> None

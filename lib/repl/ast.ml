@@ -1,5 +1,5 @@
 open Core.Syntax
-open Core.Subst
+open Core.Utils
 
 type instruction =
   | Quit
@@ -22,7 +22,7 @@ type command =
   | Term of term
   | Assign of var * term
 
-let rec show_term = term_to_string
+let show_term = string_of_term
 
 let show_instruction = function
   | Quit -> ":q"
