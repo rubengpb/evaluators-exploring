@@ -73,7 +73,7 @@ let string_of_style = function
 let string_of_eval = function
   | One eval -> string_of_style eval.style ^ "_" ^ string_of_strategy eval.strategy
   | Gen eval ->
-    "Gen_" ^ string_of_style eval.style ^
+    "Gen_" ^ string_of_style eval.style ^ "_" ^
     (String.concat "_" eval.params)
 
 let eval_of_string s =

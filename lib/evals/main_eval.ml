@@ -3,6 +3,7 @@ open Gen
 open Core.Forms
 
 let eval_of_short_string = function
+  | "id" -> fun x -> x
   | "bv" -> Bv.eval_bv
   | "bn" -> Bn.eval_bn
   | "ao" -> Ao.eval_ao
@@ -16,7 +17,7 @@ let eval_of_short_string = function
   | "ho" -> Ho.eval_ho
   | "so" -> So.eval_so
   | "bs" -> Bs.eval_bs
-  | _ -> failwith "ERROR: wrong shot string"
+  | _ -> failwith "ERROR: wrong short string"
 
 let eval e t =
   match e with
