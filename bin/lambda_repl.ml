@@ -10,6 +10,7 @@ let initial_config = {
 }
 
 let () =
+  Sys.catch_break true;
   print_endline @@ "λ-REPL evaluators-exploring, version 0.2.0:  " ^
     ":h for help,  :q for exit";
   loop initial_config

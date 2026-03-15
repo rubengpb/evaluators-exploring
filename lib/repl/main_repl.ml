@@ -20,14 +20,29 @@ let rec loop st =
   print_string prompt;
   flush stdout;
 
-  match read_line () with
-  | exception End_of_file -> print_endline "\nBye!"
-  | line ->
+  let line =
+    try Some (read_line ())
+    with
+    | End_of_file ->
+        print_endline "\nBye!";
+        None
+    | Sys.Break ->
+        print_endline "";
+        Some ""
+  in
+
+  match line with
+  | None -> ()
+  | Some "" -> loop st
+  | Some line ->
       let st' =
         try
           let ast = parse line in
           handle_command st ast
         with
+        | Stdlib.Sys.Break ->
+            print_endline "Interrumped.";
+            st
         | Failure msg ->
             print_endline ("Failure: " ^ msg);
             st
