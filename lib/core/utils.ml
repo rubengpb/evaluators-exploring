@@ -9,9 +9,11 @@ let rec string_of_term t =
       "\\" ^ x ^ "." ^ string_of_term t
   | App (Var x1, Var x2) -> x1 ^ " " ^ x2
   | App (Var x, t) -> x ^ " (" ^ string_of_term t ^ ")"
-  | App (App(t1, t2), Var x) -> "(" ^ string_of_term (App (t1, t2)) ^ ") " ^ x
-  | App (t, Var x) -> "(" ^ string_of_term t ^ ")" ^ x
-  | App (t1, t2) -> "(" ^ string_of_term t1 ^ ")(" ^ string_of_term t2 ^ ")"
+  | App (App(t1, t2), Var x) -> string_of_term (App (t1, t2)) ^ " " ^ x
+  | App (App(t1, t2), Abs(x,t)) -> string_of_term (App (t1, t2)) ^ " (" ^ string_of_term (Abs(x,t)) ^ ")"
+  | App (App(t1, t2), t) -> string_of_term (App (t1, t2)) ^ " (" ^ string_of_term t ^ ")"
+  | App (t, Var x) -> "(" ^ string_of_term t ^ ") " ^ x
+  | App (t1, t2) -> "(" ^ string_of_term t1 ^ ") (" ^ string_of_term t2 ^ ")"
 
 let rec free_vars = function
   | Var x -> [x]
