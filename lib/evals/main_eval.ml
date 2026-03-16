@@ -47,8 +47,8 @@ let eval e t =
         | _ -> print_endline "Running unnamed evaluator"; Rbun.eval_rbun t)
       | SmallStep -> (
         match one_e.strategy with
-        | NormalOrder -> Ss.eval_ss is_nf Ssno.step_left_outer t
-        | ApplicativeOrder -> Ss.eval_ss is_nf Ssao.step_left_inner t
+        | NormalOrder -> Ss.eval_ss is_nf "outermost" Ssno.step_left_outer t
+        | ApplicativeOrder -> Ss.eval_ss is_nf "innermost" Ssao.step_left_inner t
         | _ -> failwith "TODO"))
   | Gen gen_e -> (
     match gen_e.style with
