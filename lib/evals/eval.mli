@@ -17,6 +17,7 @@ type style =
   | Apply
   | ReadBack
   | SmallStep
+  | Clousure
 
 type one_eval = {
   strategy : strategy;

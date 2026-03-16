@@ -17,6 +17,7 @@ type style =
   | Apply
   | ReadBack
   | SmallStep
+  | Clousure
 
 let apply_params = ["id"; "bv"; "bn"; "ao"; "no"; "hr"; "he"; "sn"; "hn"; "ha"; "am"; "ho"; "so"; "bs"]
 
@@ -69,6 +70,7 @@ let string_of_style = function
   | Apply -> "Apply"
   | ReadBack -> "ReadBack"
   | SmallStep -> "SmallStep"
+  | Clousure -> "Clousure"
 
 let string_of_eval = function
   | One eval -> string_of_style eval.style ^ "_" ^ string_of_strategy eval.strategy
@@ -98,5 +100,9 @@ let eval_of_string s =
     | ["SmallStep"; str] -> (
      match strategy_of_string str with
       | Some s -> Some (One { strategy = s; style = SmallStep })
+      | None -> None)
+    | ["Clousure"; str] -> (
+     match strategy_of_string str with
+      | Some s -> Some (One { strategy = s; style = Clousure })
       | None -> None)
     | _ -> None

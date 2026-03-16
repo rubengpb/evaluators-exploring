@@ -38,6 +38,7 @@ let eval e t =
         | HeadApplicativeOrder -> Ho.eval_ho t
         | SpineApplicativeOrder -> So.eval_so t
         | BalancedSpineApplicativeOrder -> Bs.eval_bs t)
+      | Clousure -> Eval_cl.eval_cl_pure t
       | ReadBack -> (
         match one_e.strategy with
         | CallByValue -> Rbbv.eval_rbbv t
@@ -61,4 +62,5 @@ let eval e t =
         )
       | ReadBack -> failwith "TODO"
       | SmallStep -> failwith "TODO"
+      | Clousure -> failwith "TODO"
     )
