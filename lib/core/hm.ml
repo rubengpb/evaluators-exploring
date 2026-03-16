@@ -22,8 +22,6 @@ let rec apply_subst s t =
   | TFun (t1,t2) ->
       TFun (apply_subst s t1, apply_subst s t2)
 
-exception Type_error
-
 let rec occurs v t =
   match t with
   | TVar x -> x = v
@@ -49,7 +47,7 @@ let rec infer env term =
 
   | Var x ->
       (try (List.assoc x env, [])
-       with Not_found -> raise Type_error)
+       with Not_found -> failwith "Error: term without type")
 
   | Abs (x,t) ->
       let tv = fresh_type_var () in
@@ -65,6 +63,11 @@ let rec infer env term =
               (TFun(ty2, tv))
       in
       (apply_subst s3 tv, s3 @ s2 @ s1)
+
+let infer_type term =
+  counter := 0;
+  let (ty, subst) = infer [] term in
+  apply_subst subst ty
 
 let rec string_of_type t =
   match t with
