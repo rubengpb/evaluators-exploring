@@ -64,11 +64,6 @@ let rec infer env term =
       in
       (apply_subst s3 tv, s3 @ s2 @ s1)
 
-let infer_type term =
-  counter := 0;
-  let (ty, subst) = infer [] term in
-  apply_subst subst ty
-
 let rec string_of_type t =
   match t with
   | TVar v -> v
@@ -76,3 +71,12 @@ let rec string_of_type t =
     "(" ^ string_of_type tf ^ ") -> " ^ string_of_type t
   | TFun (t1, t2) ->
     string_of_type t1 ^ " -> " ^ string_of_type t2
+
+(* let string_of_subst s = *)
+(*   (List.fold_left (fun acc (str, ty) -> acc ^ "(" ^ str ^ " : " ^ string_of_type ty ^ "), ") "[" s) ^ "]" *)
+
+let infer_type term =
+  counter := 0;
+  let (ty, subst) = infer [] term in
+  (* print_endline @@ string_of_type ty ^ "\n" ^ string_of_subst subst; *)
+  apply_subst subst ty
