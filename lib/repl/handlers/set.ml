@@ -8,7 +8,7 @@ let handle_set st param opt =
     (match eval_of_string opt with
     | Some ev -> { st with eval = ev }
     | None ->
-        print_endline @@ "[ERROR in set eval]\nNon exists this eval";
+        print_endline @@ "[ERROR in set eval]\nNon exists this eval: " ^ opt;
         st)
   | "church" ->
     if opt = "true" then { st with church = true }

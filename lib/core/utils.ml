@@ -9,9 +9,11 @@ let rec string_of_term t =
       "\\" ^ x ^ "." ^ string_of_term t
   | App (Var x1, Var x2) -> x1 ^ " " ^ x2
   | App (Var x, t) -> x ^ " (" ^ string_of_term t ^ ")"
-  | App (App(t1, t2), Var x) -> "(" ^ string_of_term (App (t1, t2)) ^ ") " ^ x
-  | App (t, Var x) -> "(" ^ string_of_term t ^ ")" ^ x
-  | App (t1, t2) -> "(" ^ string_of_term t1 ^ ")(" ^ string_of_term t2 ^ ")"
+  | App (App(t1, t2), Var x) -> string_of_term (App (t1, t2)) ^ " " ^ x
+  | App (App(t1, t2), Abs(x,t)) -> string_of_term (App (t1, t2)) ^ " (" ^ string_of_term (Abs(x,t)) ^ ")"
+  | App (App(t1, t2), t) -> string_of_term (App (t1, t2)) ^ " (" ^ string_of_term t ^ ")"
+  | App (t, Var x) -> "(" ^ string_of_term t ^ ") " ^ x
+  | App (t1, t2) -> "(" ^ string_of_term t1 ^ ") (" ^ string_of_term t2 ^ ")"
 
 let rec free_vars = function
   | Var x -> [x]
@@ -50,6 +52,12 @@ let rec alpha_equiv t1 t2 =
       else alpha_equiv b1 @@ subst (Var x) y b2
     | (App(t1, t2), App(tt1, tt2)) -> alpha_equiv t1 tt1 && alpha_equiv t2 tt2
     | _ -> false
+
+let rec is_there_redex = function
+  | Var _ -> false
+  | Abs(_, body) -> is_there_redex body
+  | App(Abs(_, _), _) -> true
+  | App(t1, t2) -> is_there_redex t1 || is_there_redex t2
 
 let rec term_of_string s =
   let lexbuf = Lexing.from_string s in

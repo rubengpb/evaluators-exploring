@@ -9,7 +9,7 @@ let handle_command st = function
      | IConfig param -> Iconfig.handle_iconfig st param
      | Help h -> Help.handle_help st h
      | Set (param, opt) -> Set.handle_set st param opt
-     | Type x -> print_endline "Type not implemented yet"; st
+     | Type x -> Type.handle_type st x
      | Load file -> File.handle_file st file)
   | Assign (v, t) -> Assign.handle_assing st v t
   | Term t -> Term.handle_term st t
@@ -20,14 +20,29 @@ let rec loop st =
   print_string prompt;
   flush stdout;
 
-  match read_line () with
-  | exception End_of_file -> print_endline "\nBye!"
-  | line ->
+  let line =
+    try Some (read_line ())
+    with
+    | End_of_file ->
+        print_endline "\nBye!";
+        None
+    | Sys.Break ->
+        print_endline "";
+        Some ""
+  in
+
+  match line with
+  | None -> ()
+  | Some "" -> loop st
+  | Some line ->
       let st' =
         try
           let ast = parse line in
           handle_command st ast
         with
+        | Stdlib.Sys.Break ->
+            print_endline "Interrumped.";
+            st
         | Failure msg ->
             print_endline ("Failure: " ^ msg);
             st

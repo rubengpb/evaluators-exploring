@@ -9,4 +9,6 @@ val subst :
 val string_of_term : Syntax.term -> string
 val term_of_string : string -> Syntax.term
 
+val is_there_redex : Syntax.term -> bool
+
 val alpha_equiv : Syntax.term -> Syntax.term -> bool
