@@ -53,6 +53,12 @@ let rec alpha_equiv t1 t2 =
     | (App(t1, t2), App(tt1, tt2)) -> alpha_equiv t1 tt1 && alpha_equiv t2 tt2
     | _ -> false
 
+let rec is_there_redex = function
+  | Var _ -> false
+  | Abs(_, body) -> is_there_redex body
+  | App(Abs(_, _), _) -> true
+  | App(t1, t2) -> is_there_redex t1 || is_there_redex t2
+
 let rec term_of_string s =
   let lexbuf = Lexing.from_string s in
   Parser.main read lexbuf
