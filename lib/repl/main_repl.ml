@@ -9,7 +9,7 @@ let handle_command st = function
      | IConfig param -> Iconfig.handle_iconfig st param
      | Help h -> Help.handle_help st h
      | Set (param, opt) -> Set.handle_set st param opt
-     | Type x -> print_endline "Type not implemented yet"; st
+     | Type x -> Type.handle_type st x
      | Load file -> File.handle_file st file)
   | Assign (v, t) -> Assign.handle_assing st v t
   | Term t -> Term.handle_term st t
