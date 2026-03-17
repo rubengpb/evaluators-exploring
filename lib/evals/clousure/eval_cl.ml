@@ -1,4 +1,5 @@
 open Core.Syntax
+open Eval
 open Core.Utils
 
 let rec append_cntx c1 c2 =
@@ -13,21 +14,37 @@ let rec clean_cntx x cntx =
       if y = x then clean_cntx x c
       else Bind (y, t, clean_cntx x c)
 
-let rec eval_cl cntx t =
+let rec eval_cl_bv cntx t =
   match t, cntx with
   | CVar x, Nihil -> CVar x
   | CVar x, Bind (y, v', c) ->
     if x = y then v'
-    else eval_cl c (CVar x)
+    else eval_cl_bv c (CVar x)
   | CAbs (x, b), c ->
     Clou (CAbs(x, b), c)
   | CApp (t1, t2), cont ->
-    apply (eval_cl cont t1) (eval_cl cont t2)
-  | Clou (t , c1), c2 -> eval_cl (append_cntx c1 c2) t
+    apply (eval_cl_bv cont t1) (eval_cl_bv cont t2)
+  | Clou (t , c1), c2 -> eval_cl_bv (append_cntx c1 c2) t
   and apply f v =
     match f with
-    | Clou (CAbs (x, b), c) -> eval_cl (Bind (x, v, c)) b
+    | Clou (CAbs (x, b), c) -> eval_cl_bv (Bind (x, v, c)) b
     | _ -> CApp (f, v)
+
+(* let rec eval_cl_bv cntx t = *)
+(*   match t, cntx with *)
+(*   | CVar x, Nihil -> CVar x *)
+(*   | CVar x, Bind (y, v', c) -> *)
+(*     if x = y then v' *)
+(*     else eval_cl_bv c (CVar x) *)
+(*   | CAbs (x, b), c -> *)
+(*     Clou (CAbs(x, b), c) *)
+(*   | CApp (t1, t2), cont -> *)
+(*     apply (eval_cl_bv cont t1) (eval_cl_bv cont t2) *)
+(*   | Clou (t , c1), c2 -> eval_cl_bv (append_cntx c1 c2) t *)
+(*   and apply f v = *)
+(*     match f with *)
+(*     | Clou (CAbs (x, b), c) -> eval_cl_bv (Bind (x, v, c)) b *)
+(*     | _ -> CApp (f, v) *)
 
 let rec pure_of_clousure = function
   | CVar x -> Var x
@@ -40,7 +57,7 @@ and apply_context env t =
   match env with
   | Nihil -> t
   | Bind (x, v, c) ->
-      apply_context c (subst (pure_of_clousure (eval_cl Nihil v)) x t)
+      apply_context c (subst (pure_of_clousure (eval_cl_bv Nihil v)) x t)
 
 
 
@@ -49,5 +66,13 @@ let rec clousure_of_pure = function
     | Abs (x, b) -> CAbs (x, clousure_of_pure b)
     | App (t1, t2) -> CApp (clousure_of_pure t1, clousure_of_pure t2)
 
-let eval_cl_pure t =
-  t |> clousure_of_pure |> (eval_cl Nihil) |> pure_of_clousure
+let eval_cl_pure str t =
+  let eval =
+    match str with
+      | CallByValue -> eval_cl_bv
+      | CallByName -> eval_cl_bv
+      | NormalOrder -> eval_cl_bv
+      | ApplicativeOrder -> eval_cl_bv
+      | _ -> eval_cl_bv
+  in
+  t |> clousure_of_pure |> (eval Nihil) |> pure_of_clousure
