@@ -1,3 +1,7 @@
+b:
+  dune build
+t:
+  dune test
 repl:
   dune build && dune exec pure_lambda_repl
 main:
