@@ -15,10 +15,10 @@ let rec eval_cl cntx t =
     if x = y then v'
     else eval_cl c (CVar x)
   | CAbs (x, b), c ->
-    Clou (CAbs(x, eval_cl (clean_cntx x c) b), c)
+    Clou (CAbs(x, b), c)
   | CApp (t1, t2), cont ->
     apply (eval_cl cont t1) (eval_cl cont t2)
-  | _ -> failwith "Error: the cterm cannot be reduced"
+  | _ -> failwith "[Error] wrong path in clousure evaluation"
   and apply f v =
     match f with
     | Clou (CAbs (x, b), c) -> eval_cl (Bind (x, v, c)) b
@@ -29,7 +29,8 @@ let rec pure_of_clousure = function
   | CAbs (x, b) -> Abs (x, pure_of_clousure b)
   | CApp (t1, t2) -> App (pure_of_clousure t1, pure_of_clousure t2)
   | Clou (t, Nihil) -> pure_of_clousure t
-  | Clou (t, Bind(_, _, _)) -> failwith "Error: context non empthy"
+  | Clou (t, Bind(x, v, c)) ->
+    subst (pure_of_clousure (eval_cl Nihil v)) x (pure_of_clousure t)
 
 let rec clousure_of_pure = function
     | Var x -> CVar x
