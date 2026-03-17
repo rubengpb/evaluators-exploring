@@ -1,6 +1,11 @@
 open Core.Syntax
 open Core.Utils
 
+let rec append_cntx c1 c2 =
+  match c1 with
+  | Nihil -> c2
+  | Bind (x, v, c) -> Bind (x, v, append_cntx c c2)
+
 let rec clean_cntx x cntx =
   match cntx with
     | Nihil -> Nihil
@@ -18,7 +23,7 @@ let rec eval_cl cntx t =
     Clou (CAbs(x, b), c)
   | CApp (t1, t2), cont ->
     apply (eval_cl cont t1) (eval_cl cont t2)
-  | _ -> failwith "[Error] wrong path in clousure evaluation"
+  | Clou (t , c1), c2 -> eval_cl (append_cntx c1 c2) t
   and apply f v =
     match f with
     | Clou (CAbs (x, b), c) -> eval_cl (Bind (x, v, c)) b
@@ -29,8 +34,15 @@ let rec pure_of_clousure = function
   | CAbs (x, b) -> Abs (x, pure_of_clousure b)
   | CApp (t1, t2) -> App (pure_of_clousure t1, pure_of_clousure t2)
   | Clou (t, Nihil) -> pure_of_clousure t
-  | Clou (t, Bind(x, v, c)) ->
-    subst (pure_of_clousure (eval_cl Nihil v)) x (pure_of_clousure t)
+  | Clou (t, env) ->
+    apply_context env (pure_of_clousure t)
+and apply_context env t =
+  match env with
+  | Nihil -> t
+  | Bind (x, v, c) ->
+      apply_context c (subst (pure_of_clousure (eval_cl Nihil v)) x t)
+
+
 
 let rec clousure_of_pure = function
     | Var x -> CVar x
