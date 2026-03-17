@@ -1,4 +1,5 @@
 open Syntax
+module StringMap = Map.Make(String)
 
 type typ =
   | TVar of string
@@ -74,9 +75,33 @@ let rec string_of_type t =
 
 (* let string_of_subst s = *)
 (*   (List.fold_left (fun acc (str, ty) -> acc ^ "(" ^ str ^ " : " ^ string_of_type ty ^ "), ") "[" s) ^ "]" *)
+let normalize typ =
+  let counter = ref 0 in
+  let env = ref StringMap.empty in
+
+  let fresh () =
+    let v = "t" ^ string_of_int !counter in
+    incr counter;
+    v
+  in
+
+  let rec aux t =
+    match t with
+    | TVar x ->
+        if StringMap.mem x !env then
+          TVar (StringMap.find x !env)
+        else
+          let x' = fresh () in
+          env := StringMap.add x x' !env;
+          TVar x'
+    | TFun (t1, t2) ->
+        TFun (aux t1, aux t2)
+  in
+
+  aux typ
 
 let infer_type term =
   counter := 0;
   let (ty, subst) = infer [] term in
   (* print_endline @@ string_of_type ty ^ "\n" ^ string_of_subst subst; *)
-  apply_subst subst ty
+  apply_subst subst ty |> normalize
