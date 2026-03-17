@@ -86,10 +86,20 @@ let string_of_style = function
   | SmallStep -> "SmallStep"
 
 let string_of_eval = function
-  | One eval -> string_of_style eval.style ^ "_" ^ string_of_strategy eval.strategy
+  | One eval ->
+    String.concat "_"
+      [
+        string_of_language eval.language;
+        string_of_style eval.style;
+        string_of_strategy eval.strategy
+      ]
   | Gen eval ->
-    "Gen_" ^ string_of_style eval.style ^ "_" ^
-    (String.concat "_" eval.params)
+    String.concat "_"
+      ([
+        string_of_language eval.language;
+        "Gen";
+        string_of_style eval.style;
+      ] @ eval.params)
 
 let eval_of_string s =
   let lst = String.split_on_char '_' s in
