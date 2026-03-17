@@ -27,13 +27,13 @@ let rec string_of_term_ss_outer = function
   | App (App(t1, t2), Abs(x,t)) -> string_of_term_ss_outer (App (t1, t2))  ^ " (" ^ string_of_term_ss_outer (Abs(x,t))  ^ ")"
   | App (App(t1, t2), t) -> string_of_term_ss_outer (App (t1, t2)) ^ " (" ^ string_of_term_ss_outer t ^ ")"
   | App (Abs (x, body) as l, Var y) ->
-      let left = colorize (string_of_term l) "blue" in
+      let left = colorize ("(" ^ string_of_term l ^ ")") "blue" in
       let right = colorize y "red" in
-      "(" ^ left ^ ") " ^ right
+      left ^ " " ^ right
   | App (Abs (x, body) as l, arg) ->
-      let left = colorize (string_of_term l) "blue" in
-      let right = colorize (string_of_term arg) "red" in
-      "(" ^ left ^ ") (" ^ right ^ ")"
+      let left = colorize ("(" ^ string_of_term l ^ ")") "blue" in
+      let right = colorize ("(" ^ string_of_term arg ^ ")") "red" in
+      left ^ " " ^ right
 
 let rec string_of_term_ss_inner = function
   | Var x -> x
@@ -48,16 +48,16 @@ let rec string_of_term_ss_inner = function
       if is_there_redex body then
         "(" ^ string_of_term_ss_inner l ^ ")" ^ y
       else
-        let left = colorize (string_of_term l) "blue" in
+        let left = colorize ("(" ^ string_of_term l ^ ")") "blue" in
         let right = colorize y "red" in
-        "(" ^ left ^ ") " ^ right
+        left ^ " " ^ right
   | App (Abs (x, body) as l, arg) ->
       if is_there_redex body then
         "(" ^ string_of_term_ss_inner l ^ ") (" ^ string_of_term_ss_inner arg ^ ")"
       else
-        let left = colorize (string_of_term l) "blue" in
-        let right = colorize (string_of_term arg) "red" in
-        "(" ^ left ^ ") (" ^ right ^ ")"
+        let left = colorize ("(" ^ string_of_term l ^ ")") "blue" in
+        let right = colorize ("(" ^ string_of_term arg ^ ")") "red" in
+        left ^ " " ^ right
 
 let string_of_term_ss t = function
   | "outermost" -> string_of_term_ss_outer t
