@@ -2,18 +2,36 @@ open Lexer
 open Parser
 open Syntax
 
-let rec string_of_term t =
-  match t with
+let rec string_of_cterm = function
+  | CVar x -> x
+  | CAbs (x, t) -> "\\" ^ x ^ "." ^ string_of_cterm t
+  | CApp (CVar x1, CVar x2) -> x1 ^ " " ^ x2
+  | CApp (CVar x, t) -> x ^ " (" ^ string_of_cterm t ^ ")"
+  | CApp (CApp(t1, t2), CVar x) -> string_of_cterm (CApp (t1, t2)) ^ " " ^ x
+  | CApp (CApp(t1, t2), CAbs(x,t)) -> string_of_cterm (CApp (t1, t2)) ^ " (" ^ string_of_cterm (CAbs(x,t)) ^ ")"
+  | CApp (CApp(t1, t2), t) -> string_of_cterm (CApp (t1, t2)) ^ " (" ^ string_of_cterm t ^ ")"
+  | CApp (t, CVar x) -> "(" ^ string_of_cterm t ^ ") " ^ x
+  | CApp (t1, t2) -> "(" ^ string_of_cterm t1 ^ ") (" ^ string_of_cterm t2 ^ ")"
+  | Clou (t, ctxt) -> string_of_cterm t ^ " [" ^ string_of_ctxt ctxt ^ "]"
+and string_of_ctxt ctxt =
+  let subs = List.map (fun (v, ct) -> v ^ " -> " ^ string_of_cterm ct) ctxt in
+  String.concat ", " subs
+
+let rec string_of_pterm = function
   | Var x -> x
   | Abs (x, t) ->
-      "\\" ^ x ^ "." ^ string_of_term t
+      "\\" ^ x ^ "." ^ string_of_pterm t
   | App (Var x1, Var x2) -> x1 ^ " " ^ x2
-  | App (Var x, t) -> x ^ " (" ^ string_of_term t ^ ")"
-  | App (App(t1, t2), Var x) -> string_of_term (App (t1, t2)) ^ " " ^ x
-  | App (App(t1, t2), Abs(x,t)) -> string_of_term (App (t1, t2)) ^ " (" ^ string_of_term (Abs(x,t)) ^ ")"
-  | App (App(t1, t2), t) -> string_of_term (App (t1, t2)) ^ " (" ^ string_of_term t ^ ")"
-  | App (t, Var x) -> "(" ^ string_of_term t ^ ") " ^ x
-  | App (t1, t2) -> "(" ^ string_of_term t1 ^ ") (" ^ string_of_term t2 ^ ")"
+  | App (Var x, t) -> x ^ " (" ^ string_of_pterm t ^ ")"
+  | App (App(t1, t2), Var x) -> string_of_pterm (App (t1, t2)) ^ " " ^ x
+  | App (App(t1, t2), Abs(x,t)) -> string_of_pterm (App (t1, t2)) ^ " (" ^ string_of_pterm (Abs(x,t)) ^ ")"
+  | App (App(t1, t2), t) -> string_of_pterm (App (t1, t2)) ^ " (" ^ string_of_pterm t ^ ")"
+  | App (t, Var x) -> "(" ^ string_of_pterm t ^ ") " ^ x
+  | App (t1, t2) -> "(" ^ string_of_pterm t1 ^ ") (" ^ string_of_pterm t2 ^ ")"
+
+let string_of_term = function
+  | Pure t -> string_of_pterm t
+  | Clousure t -> string_of_cterm t
 
 let rec free_vars = function
   | Var x -> [x]

@@ -6,12 +6,12 @@ open Core.Utils
 let test_simple_subst () =
   let t = Var "z" in
   let result = subst (Var "y") "y" t in
-  check string "subst y -> z" "z" (string_of_term result)
+  check string "subst y -> z" "z" (string_of_pterm result)
 
 let test_simple_subst_dif () =
   let t = Var "z" in
   let result = subst (Var "y") "y" t in
-  check string "subst y -> z" "z" (string_of_term result)
+  check string "subst y -> z" "z" (string_of_pterm result)
 
 let () =
   run "subst" [

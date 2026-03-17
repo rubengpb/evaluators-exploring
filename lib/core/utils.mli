@@ -1,14 +1,16 @@
-val free_vars : Syntax.term -> Syntax.var list
+val free_vars : Syntax.pterm -> Syntax.var list
 
 val subst :
-  Syntax.term ->
+  Syntax.pterm ->
   Syntax.var ->
-  Syntax.term ->
-  Syntax.term
+  Syntax.pterm ->
+  Syntax.pterm
 
 val string_of_term : Syntax.term -> string
-val term_of_string : string -> Syntax.term
+val string_of_pterm : Syntax.pterm -> string
+val string_of_cterm : Syntax.cterm -> string
+val term_of_string : string -> Syntax.pterm
 
-val is_there_redex : Syntax.term -> bool
+val is_there_redex : Syntax.pterm -> bool
 
-val alpha_equiv : Syntax.term -> Syntax.term -> bool
+val alpha_equiv : Syntax.pterm -> Syntax.pterm -> bool

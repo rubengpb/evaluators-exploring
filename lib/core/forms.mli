@@ -1,10 +1,10 @@
 open Syntax
 
-val spine : term -> term * term list
+val spine : pterm -> pterm * pterm list
 
-val is_neu : term -> bool
-val is_nf : term -> bool
-val is_wnf : term -> bool
-val is_hnf : term -> bool
-val is_whnf : term -> bool
-val is_vhnf : term -> bool
+val is_neu : pterm -> bool
+val is_nf : pterm -> bool
+val is_wnf : pterm -> bool
+val is_hnf : pterm -> bool
+val is_whnf : pterm -> bool
+val is_vhnf : pterm -> bool

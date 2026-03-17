@@ -18,10 +18,10 @@ type instruction =
 
 type command =
   | Instr of instruction
-  | Term of term
-  | Assign of var * term
+  | Term of pterm
+  | Assign of var * pterm
 
-let show_term = string_of_term
+let show_term = string_of_pterm
 
 let show_instruction = function
   | Quit -> ":q"

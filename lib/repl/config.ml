@@ -3,7 +3,7 @@ open Evals.Eval
 
 type config = {
   eval : eval;
-  env  : (string * term) list;
+  env  : (string * pterm) list;
   church : bool;
   display : bool;
 }

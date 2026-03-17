@@ -11,7 +11,7 @@ open Church_numerals
 %token <int> NUMBER
 %token EOF
 
-%start <Syntax.term> main
+%start <Syntax.pterm> main
 
 %%
 
