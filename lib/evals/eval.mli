@@ -1,3 +1,7 @@
+type language =
+  | Pure
+  | Clousure
+
 type strategy =
   | CallByValue
   | CallByName
@@ -17,14 +21,15 @@ type style =
   | Apply
   | ReadBack
   | SmallStep
-  | Clousure
 
 type one_eval = {
+  language : language;
   strategy : strategy;
   style: style;
 }
 
 type gen_eval = {
+  language : language;
   style :style;
   params: string list;
 }

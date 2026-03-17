@@ -7,7 +7,7 @@ open Evals.Main_eval
 let test_eval_identity () =
   let id = Abs ("x", Var "x") in
   let t = App (id, Var "y") in
-  let result = eval (One { style = Apply; strategy = NormalOrder; }) t in
+  let result = eval (One { language = Pure; style = Apply; strategy = NormalOrder; }) t in
   check string "eval identity" "y" (string_of_pterm result)
 
 let () =

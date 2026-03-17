@@ -1,3 +1,7 @@
+type language =
+  | Pure
+  | Clousure
+
 type strategy =
   | CallByValue
   | CallByName
@@ -17,16 +21,17 @@ type style =
   | Apply
   | ReadBack
   | SmallStep
-  | Clousure
 
 let apply_params = ["id"; "bv"; "bn"; "ao"; "no"; "hr"; "he"; "sn"; "hn"; "ha"; "am"; "ho"; "so"; "bs"]
 
 type one_eval = {
+  language : language;
   strategy : strategy;
   style: style;
 }
 
 type gen_eval = {
+  language : language;
   style :style;
   params: string list;
 }
@@ -34,6 +39,15 @@ type gen_eval = {
 type eval =
   | One of one_eval
   | Gen of gen_eval
+
+let string_of_language = function
+  | Pure -> "Pure"
+  | Clousure -> "Clousure"
+
+let language_of_string = function
+  | "Pure" -> Some Pure
+  | "Clousure" -> Some Clousure
+  | _ -> None
 
 let string_of_strategy = function
   | CallByValue -> "CallByValue"
@@ -70,7 +84,6 @@ let string_of_style = function
   | Apply -> "Apply"
   | ReadBack -> "ReadBack"
   | SmallStep -> "SmallStep"
-  | Clousure -> "Clousure"
 
 let string_of_eval = function
   | One eval -> string_of_style eval.style ^ "_" ^ string_of_strategy eval.strategy
@@ -85,24 +98,24 @@ let eval_of_string s =
       if List.length params = 5 &&
         List.for_all (fun x -> List.mem x apply_params) params
       then
-        Some (Gen { style = Apply; params = params })
+        Some (Gen {language = Pure; style = Apply; params = params })
       else None
     | "Gen" :: "ReadBack" :: params -> print_endline "TODO"; None
     | "Gen" :: "SmallStep" :: params -> print_endline "TODO"; None
+    | ["Clousure"; "Apply"; str] -> (
+     match strategy_of_string str with
+      | Some s -> Some (One { language = Clousure; strategy = s; style = Apply })
+      | None -> None)
     | ["Apply"; str] -> (
      match strategy_of_string str with
-      | Some s -> Some (One { strategy = s; style = Apply })
+      | Some s -> Some (One { language = Pure; strategy = s; style = Apply })
       | None -> None)
     | ["ReadBack"; str] -> (
      match strategy_of_string str with
-      | Some s -> Some (One { strategy = s; style = ReadBack })
+      | Some s -> Some (One { language = Pure; strategy = s; style = ReadBack })
       | None -> None)
     | ["SmallStep"; str] -> (
      match strategy_of_string str with
-      | Some s -> Some (One { strategy = s; style = SmallStep })
-      | None -> None)
-    | ["Clousure"; str] -> (
-     match strategy_of_string str with
-      | Some s -> Some (One { strategy = s; style = Clousure })
+      | Some s -> Some (One { language = Pure; strategy = s; style = SmallStep })
       | None -> None)
     | _ -> None
