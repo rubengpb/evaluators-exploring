@@ -38,6 +38,7 @@ type eval =
   | One of one_eval
   | Gen of gen_eval
 
+val get_language : eval -> language
 val string_of_eval : eval -> string
 val eval_of_string : string -> eval option
 val string_of_strategy : strategy -> string

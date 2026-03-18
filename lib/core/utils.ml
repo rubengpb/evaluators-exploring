@@ -30,8 +30,14 @@ let rec string_of_pterm = function
   | App (t1, t2) -> "(" ^ string_of_pterm t1 ^ ") (" ^ string_of_pterm t2 ^ ")"
 
 let string_of_term = function
-  | Pure t -> string_of_pterm t
-  | Clousure t -> string_of_cterm t
+  | TPure t -> string_of_pterm t
+  | TClousure t -> string_of_cterm t
+
+let rec clousure_of_pure = function
+    | Var x -> CVar x
+    | Abs (x, b) -> CAbs (x, clousure_of_pure b)
+    | App (t1, t2) -> CApp (clousure_of_pure t1, clousure_of_pure t2)
+
 
 let rec free_vars = function
   | Var x -> [x]

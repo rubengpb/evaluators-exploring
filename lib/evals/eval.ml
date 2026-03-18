@@ -40,6 +40,10 @@ type eval =
   | One of one_eval
   | Gen of gen_eval
 
+let get_language = function
+  | One e -> e.language
+  | Gen e -> e.language
+
 let string_of_language = function
   | Pure -> "Pure"
   | Clousure -> "Clousure"

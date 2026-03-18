@@ -1,5 +1,7 @@
 open Syntax
 
-val term_of_int : int -> pterm
+val pterm_of_int : int -> pterm
+val term_of_int : int -> term
 
-val int_of_term : pterm -> int option
+val int_of_pterm : pterm -> int option
+val int_of_term : term -> int option

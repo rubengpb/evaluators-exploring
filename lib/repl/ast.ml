@@ -21,7 +21,7 @@ type command =
   | Term of pterm
   | Assign of var * pterm
 
-let show_term = string_of_pterm
+let show_term = string_of_term
 
 let show_instruction = function
   | Quit -> ":q"
@@ -39,5 +39,5 @@ let show_instruction = function
 
 let show_command = function
   | Instr i -> show_instruction i
-  | Assign (v, t) -> v ^ " = " ^ show_term t
-  | Term t -> show_term t
+  | Assign (v, t) -> v ^ " = " ^ string_of_term (TPure t)
+  | Term t -> string_of_term (TPure t)

@@ -13,5 +13,5 @@ and cterm =
   | Clou of cterm * context
 
 type term =
-  | Pure of pterm
-  | Clousure of cterm
+  | TPure of pterm
+  | TClousure of cterm

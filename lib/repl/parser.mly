@@ -57,5 +57,5 @@ atoms:
 
 atom:
   | IDENT { Var $1 }
-  | NUMBER { term_of_int $1 }
+  | NUMBER { pterm_of_int $1 }
   | LPAREN term RPAREN { $2 }
