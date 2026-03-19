@@ -4,7 +4,7 @@ let rec eval_cl_bn ctxt t =
   match t, ctxt with
   | CVar x, [] -> CVar x
   | CVar x, (y, v') :: c ->
-    if x = y then v'
+    if x = y then eval_cl_bn c v'
     else eval_cl_bn c (CVar x)
   | CAbs (x, b), c ->
     Clou (CAbs(x, b), c)
