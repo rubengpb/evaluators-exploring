@@ -12,6 +12,7 @@ let rec string_of_cterm = function
   | CApp (CApp(t1, t2), t) -> string_of_cterm (CApp (t1, t2)) ^ " (" ^ string_of_cterm t ^ ")"
   | CApp (t, CVar x) -> "(" ^ string_of_cterm t ^ ") " ^ x
   | CApp (t1, t2) -> "(" ^ string_of_cterm t1 ^ ") (" ^ string_of_cterm t2 ^ ")"
+  | Clou (CAbs(x, t), ctxt) -> "(\\" ^ x ^ "." ^ string_of_cterm t ^ " [" ^ string_of_ctxt ctxt ^ "])"
   | Clou (t, ctxt) -> string_of_cterm t ^ " [" ^ string_of_ctxt ctxt ^ "]"
 and string_of_ctxt ctxt =
   let subs = List.map (fun (v, ct) -> v ^ " -> " ^ string_of_cterm ct) ctxt in
