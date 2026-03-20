@@ -23,6 +23,7 @@ type style =
   | SmallStep
 
 let apply_params = ["id"; "bv"; "bn"; "ao"; "no"; "hr"; "he"; "sn"; "hn"; "ha"; "am"; "ho"; "so"; "bs"]
+let readback_params = ["id";"rn";"bodies";"bodies2";"bodies3";"args";"bv";"bn";"he";]
 
 type one_eval = {
   language : language;
@@ -114,7 +115,12 @@ let eval_of_string s =
       then
         Some (Gen {language = Pure; style = Apply; params = params })
       else None
-    | "Gen" :: "ReadBack" :: params -> print_endline "TODO"; None
+    | "Gen" :: "ReadBack" :: params ->
+      if List.length params = 4 &&
+        List.for_all (fun x -> List.mem x readback_params) params
+      then
+        Some (Gen {language = Pure; style = ReadBack; params = params })
+      else None
     | "Gen" :: "SmallStep" :: params -> print_endline "TODO"; None
     | ["Clousure"; "Apply"; str] -> (
      match strategy_of_string str with

@@ -2,8 +2,9 @@ open Core.Syntax
 open Eval
 open Core.Forms
 open Gen
+open Gen_rb
 
-let eval_of_short_string = function
+let evalapply_of_short_string = function
   | "id" -> fun x -> x
   | "bv" -> Bv.eval_bv
   | "bn" -> Bn.eval_bn
@@ -18,7 +19,19 @@ let eval_of_short_string = function
   | "ho" -> Ho.eval_ho
   | "so" -> So.eval_so
   | "bs" -> Bs.eval_bs
-  | _ -> failwith "ERROR: wrong short string"
+  | s -> failwith @@ "ERROR: wrong short string: " ^ s
+
+let evalreadback_of_short_string = function
+  | "id" -> fun x -> x
+  | "rn" -> Rbno.rn
+  | "bodies" -> Rbbv.bodies
+  | "bodies2" -> Rbam.bodies2
+  | "bodies3" -> Rbun.bodies3
+  | "args" -> Rbbn.args
+  | "bv" -> Bv.eval_bv
+  | "bn" -> Bn.eval_bn
+  | "he" -> He.eval_he
+  | s -> failwith @@ "ERROR: wrong short string: " ^ s
 
 let eval_pure e t =
   match e with
@@ -54,12 +67,19 @@ let eval_pure e t =
   | Gen gen_e -> (
     match gen_e.style with
       | Apply ->
-        let params = List.map eval_of_short_string gen_e.params in (
+        let params = List.map evalapply_of_short_string gen_e.params in (
         (* let f = List.fold_left (fun acc_fn arg -> acc_fn arg) gen params in f t *)
         match params with
           | [la; op1; ar1; op2; ar2] -> TPure (gen la op1 ar1 op2 ar2 t)
           | _ -> failwith "ERROR: Incorrect number of params in gen eval."
         )
-      | ReadBack -> failwith "TODO"
+      | ReadBack ->
+        let params = List.map evalreadback_of_short_string gen_e.params in (
+        (* let f = List.fold_left (fun acc_fn arg -> acc_fn arg) gen params in f t *)
+        match params with
+          | [la_1; la_2; ar2_1; ar2_2] ->
+            TPure (gen_rb (Fun.compose la_1 la_2) (Fun.compose ar2_1 ar2_2) t)
+          | _ -> failwith "ERROR: Incorrect number of params in gen eval."
+        )
       | SmallStep -> failwith "TODO"
     )
