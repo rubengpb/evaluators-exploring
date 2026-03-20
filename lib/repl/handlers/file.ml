@@ -39,11 +39,9 @@ let rec load_file filename =
     loop_assign initial_acc
   with
   | Sys_error msg ->
-      print_endline ("File error: " ^ msg);
-      []
+      failwith ("File error. " ^ msg)
   | Failure msg ->
-      print_endline msg;
-      []
+      failwith ("File error. " ^ msg)
 
 let handle_file st file =
   let assigns = load_file file in
