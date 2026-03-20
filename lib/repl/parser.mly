@@ -33,6 +33,7 @@ instruction:
   | Q { Quit }
   | ICONFIG { IConfig None }
   | ICONFIG IDENT { IConfig (Some $2) }
+  | ICONFIG IDENT IDENT { IConfig (Some ($2 ^ "_" ^ $3)) }
   | SET IDENT lident { Set ($2, String.concat "_" $3) }
   | TYPE IDENT { Type $2 }
   | H { Help None }
