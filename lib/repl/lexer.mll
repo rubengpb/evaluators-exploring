@@ -10,6 +10,7 @@ rule read = parse
   | ":set" { SET }
   | ":t" { TYPE }
   | ":h" { H }
+  | ":?" { H }
   | ":load" { LOAD }
 
   | "=" { EQUAL }
