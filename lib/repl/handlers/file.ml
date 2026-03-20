@@ -2,6 +2,7 @@ open Config
 open Ast
 open Envm
 open Main_parse
+open Assign
 
 let rec load_file filename =
   try
@@ -50,7 +51,7 @@ let handle_file st file =
     List.fold_left
       (fun st (v,t) ->
          let t' = expand st.env t in
-         { st with env = (v,t',t) :: st.env })
+         { st with env = add_to_main_env st.env v t' t})
       st
       assigns
   in
