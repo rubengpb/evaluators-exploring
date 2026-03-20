@@ -9,7 +9,7 @@ let handle_iconfig st = function
       (match param with
       | "eval" -> print_endline @@ string_of_eval st.eval
       | "env" -> List.iter
-         (fun (v,t) -> print_endline (v ^ " = " ^ string_of_pterm t)) st.env
+         (fun (v,_,t) -> print_endline (v ^ " = " ^ string_of_pterm t)) st.env
       | "church" -> print_endline @@ string_of_bool st.church
       | "display" -> print_endline @@ string_of_bool st.display
       | other -> print_endline @@

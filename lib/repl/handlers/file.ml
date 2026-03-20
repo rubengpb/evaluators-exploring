@@ -50,7 +50,7 @@ let handle_file st file =
     List.fold_left
       (fun st (v,t) ->
          let t' = expand st.env t in
-         { st with env = (v,t') :: st.env })
+         { st with env = (v,t',t) :: st.env })
       st
       assigns
   in
