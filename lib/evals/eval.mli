@@ -18,7 +18,7 @@ type strategy =
   | BalancedSpineApplicativeOrder
 
 type style =
-  | Apply
+  | EvalApply
   | ReadBack
   | SmallStep
 

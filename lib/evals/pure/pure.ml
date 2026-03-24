@@ -37,7 +37,7 @@ let eval_pure e t =
   match e with
   | One one_e -> (
     match one_e.style with
-      | Apply -> (
+      | EvalApply -> (
         match one_e.strategy with
         | CallByValue -> TPure (Bv.eval_bv t)
         | CallByName -> TPure (Bn.eval_bn t)
@@ -63,7 +63,7 @@ let eval_pure e t =
   )
   | Gen gen_e -> (
     match gen_e.style with
-      | Apply ->
+      | EvalApply ->
         let params = List.map evalapply_of_short_string gen_e.params in (
         (* let f = List.fold_left (fun acc_fn arg -> acc_fn arg) gen params in f t *)
         match params with

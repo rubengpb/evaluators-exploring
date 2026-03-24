@@ -14,7 +14,7 @@ let rec step_he = function
 let rec string_of_term_ss_he = function
   | Var x -> x
   | Abs (x, t) ->
-      "\\" ^ x ^ "." ^ string_of_term_ss_he t 
+      "\\" ^ x ^ "." ^ string_of_term_ss_he t
   | App (Var x1, Var x2) -> x1 ^ " " ^ x2
   | App (Var x, t) -> x ^ " (" ^ string_of_term_ss_he t  ^ ")"
   | App (App(t1, t2), Var x) -> string_of_term_ss_he (App (t1, t2))  ^ " " ^ x

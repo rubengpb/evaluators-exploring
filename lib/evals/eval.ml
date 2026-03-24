@@ -18,7 +18,7 @@ type strategy =
   | BalancedSpineApplicativeOrder
 
 type style =
-  | Apply
+  | EvalApply
   | ReadBack
   | SmallStep
 
@@ -86,7 +86,7 @@ let strategy_of_string = function
   | _ -> None
 
 let string_of_style = function
-  | Apply -> "Apply"
+  | EvalApply -> "EvalApply"
   | ReadBack -> "ReadBack"
   | SmallStep -> "SmallStep"
 
@@ -109,11 +109,11 @@ let string_of_eval = function
 let eval_of_string s =
   let lst = String.split_on_char '_' s in
   match lst with
-    | "Gen" :: "Apply" :: params ->
+    | "Gen" :: "EvalApply" :: params ->
       if List.length params = 5 &&
         List.for_all (fun x -> List.mem x apply_params) params
       then
-        Some (Gen {language = Pure; style = Apply; params = params })
+        Some (Gen {language = Pure; style = EvalApply; params = params })
       else None
     | "Gen" :: "ReadBack" :: params ->
       if List.length params = 4 &&
@@ -122,13 +122,13 @@ let eval_of_string s =
         Some (Gen {language = Pure; style = ReadBack; params = params })
       else None
     | "Gen" :: "SmallStep" :: params -> print_endline "TODO"; None
-    | ["Clousure"; "Apply"; str] -> (
+    | ["Clousure"; "EvalApply"; str] -> (
      match strategy_of_string str with
-      | Some s -> Some (One { language = Clousure; strategy = s; style = Apply })
+      | Some s -> Some (One { language = Clousure; strategy = s; style = EvalApply })
       | None -> None)
-    | ["Apply"; str] -> (
+    | ["EvalApply"; str] -> (
      match strategy_of_string str with
-      | Some s -> Some (One { language = Pure; strategy = s; style = Apply })
+      | Some s -> Some (One { language = Pure; strategy = s; style = EvalApply })
       | None -> None)
     | ["ReadBack"; str] -> (
      match strategy_of_string str with

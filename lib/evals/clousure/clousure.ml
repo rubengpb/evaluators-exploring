@@ -6,9 +6,9 @@ let eval_clou e t =
     | Gen _ -> failwith "TODO"
     | One eval -> (
       match eval.style, eval.strategy with
-        | Apply, CallByValue -> TClousure (Cl_bv.eval_cl_bv [] t)
-        | Apply, CallByName -> TClousure (Cl_bn.eval_cl_bn (Clou (t,[])))
-        | Apply, ApplicativeOrder -> TClousure (Cl_ao.eval_cl_ao (Clou (t, [])))
-        | Apply, NormalOrder -> TClousure (Cl_no.eval_cl_no (Clou (t, [])))
+        | EvalApply, CallByValue -> TClousure (Cl_bv.eval_cl_bv [] t)
+        | EvalApply, CallByName -> TClousure (Cl_bn.eval_cl_bn (Clou (t,[])))
+        | EvalApply, ApplicativeOrder -> TClousure (Cl_ao.eval_cl_ao (Clou (t, [])))
+        | EvalApply, NormalOrder -> TClousure (Cl_no.eval_cl_no (Clou (t, [])))
         | _ -> failwith "TODO"
     )
