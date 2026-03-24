@@ -11,7 +11,7 @@ let handle_term st t =
   if st.display then print_endline @@ "Evaluating: " ^ string_of_pterm t;
   let t = eval st.eval t in (
   match get_language st.eval with
-  | Pure ->
+  | Pure | Value ->
     (if st.church then
       match int_of_term t with
         | Some n -> print_endline @@ string_of_int n

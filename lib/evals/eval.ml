@@ -1,6 +1,7 @@
 type language =
   | Pure
   | Clousure
+  | Value
 
 type strategy =
   | CallByValue
@@ -48,10 +49,12 @@ let get_language = function
 let string_of_language = function
   | Pure -> "Pure"
   | Clousure -> "Clousure"
+  | Value -> "Value"
 
 let language_of_string = function
   | "Pure" -> Some Pure
   | "Clousure" -> Some Clousure
+  | "Value" -> Some Value
   | _ -> None
 
 let string_of_strategy = function
@@ -125,6 +128,10 @@ let eval_of_string s =
     | ["Clousure"; "EvalApply"; str] -> (
      match strategy_of_string str with
       | Some s -> Some (One { language = Clousure; strategy = s; style = EvalApply })
+      | None -> None)
+    | ["Value"; "EvalApply"; str] -> (
+     match strategy_of_string str with
+      | Some s -> Some (One { language = Value; strategy = s; style = EvalApply })
       | None -> None)
     | ["EvalApply"; str] -> (
      match strategy_of_string str with

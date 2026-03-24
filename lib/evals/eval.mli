@@ -1,6 +1,7 @@
 type language =
   | Pure
   | Clousure
+  | Value
 
 type strategy =
   | CallByValue
