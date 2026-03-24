@@ -59,11 +59,8 @@ let eval_pure e t =
         | NormalOrder -> TPure (Rbno.eval_rbno t)
         | AheadMachine -> TPure (Rbam.eval_rbam t)
         | _ -> print_endline "Running unnamed evaluator"; TPure (Rbun.eval_rbun t))
-      | SmallStep -> (
-        match one_e.strategy with
-        | NormalOrder -> TPure (Eval_ss.eval_ss is_nf "outermost" Ssno.step_left_outer t)
-        | ApplicativeOrder -> TPure (Eval_ss.eval_ss is_nf "innermost" Ssao.step_left_inner t)
-        | _ -> failwith "TODO"))
+      | SmallStep -> TPure (Eval_ss.eval_ss one_e.strategy t)
+  )
   | Gen gen_e -> (
     match gen_e.style with
       | Apply ->
