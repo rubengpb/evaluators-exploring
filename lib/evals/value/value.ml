@@ -7,7 +7,7 @@ let eval_value e t =
     match one_e.style with
       | EvalApply -> (
         match one_e.strategy with
-        | CallByValue -> failwith "TODO"
+        | CallByValue -> TPure (Lv_bv.bv t)
         | CallByName -> failwith "TODO"
         | ApplicativeOrder -> failwith "TODO"
         | NormalOrder -> failwith "TODO"
