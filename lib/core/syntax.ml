@@ -15,3 +15,11 @@ and cterm =
 type term =
   | TPure of pterm
   | TClousure of cterm
+
+type zipper_ctxt =
+  | Top
+  | AppL of zipper_ctxt * pterm (* [] n *)
+  | AppR of pterm * zipper_ctxt (* m [] *)
+  | AbsC of string * zipper_ctxt
+
+type zipper = term * context
