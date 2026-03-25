@@ -8,18 +8,18 @@ let eval_value e t =
       | EvalApply -> (
         match one_e.strategy with
         | CallByValue -> TPure (Lv_bv.bv t)
-        | CallByName -> failwith "TODO"
-        | ApplicativeOrder -> failwith "TODO"
-        | NormalOrder -> failwith "TODO"
-        | HeadReduction -> failwith "TODO"
-        | HeadSpine -> failwith "TODO"
-        | StricNormalisation -> failwith "TODO"
-        | HybridNormalOrder -> failwith "TODO"
-        | HybridApplicativeOrder -> failwith "TODO"
-        | AheadMachine -> failwith "TODO"
-        | HeadApplicativeOrder -> failwith "TODO"
-        | SpineApplicativeOrder -> failwith "TODO"
-        | BalancedSpineApplicativeOrder -> failwith "TODO"
+        | CallByName -> TPure (Lv_bn.bn t)
+        | ApplicativeOrder -> TPure (Lv_ao.ao t)
+        | NormalOrder -> TPure (Lv_no.no t)
+        | HeadReduction -> TPure (Lv_hr.hr t)
+        | HeadSpine -> TPure (Lv_he.he t)
+        | StricNormalisation -> TPure (Lv_sn.sn t)
+        | HybridNormalOrder -> TPure (Lv_hn.hn t)
+        | HybridApplicativeOrder -> TPure (Lv_ha.ha t)
+        | AheadMachine -> TPure (Lv_am.am t)
+        | HeadApplicativeOrder -> TPure (Lv_ho.ho t)
+        | SpineApplicativeOrder -> TPure (Lv_so.so t)
+        | BalancedSpineApplicativeOrder -> TPure (Lv_bs.bs t)
         )
       | ReadBack -> failwith "TODO"
       | SmallStep -> failwith "TODO"
