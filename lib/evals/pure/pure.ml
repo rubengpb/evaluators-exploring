@@ -39,19 +39,20 @@ let eval_pure e t =
     match one_e.style with
       | EvalApply -> (
         match one_e.strategy with
-        | CallByValue -> TPure (Bv.eval_bv t)
+        | CallByValue -> TPure (fst (Bv.eval_bv_zipp (t, Top)))
         | CallByName -> TPure (fst (Bn.eval_bn_zipp (t, Top)))
         | ApplicativeOrder -> TPure (fst (Ao.eval_ao_zipp (t, Top)))
-        | NormalOrder -> TPure (No.eval_no t)
-        | HeadReduction -> TPure (Hr.eval_hr t)
-        | HeadSpine -> TPure (He.eval_he t)
-        | StricNormalisation -> TPure (Sn.eval_sn t)
-        | HybridNormalOrder -> TPure (Hn.eval_hn t)
-        | HybridApplicativeOrder -> TPure (Ha.eval_ha t)
-        | AheadMachine -> TPure (Am.eval_am t)
-        | HeadApplicativeOrder -> TPure (Ho.eval_ho t)
-        | SpineApplicativeOrder -> TPure (So.eval_so t)
-        | BalancedSpineApplicativeOrder -> TPure (Bs.eval_bs t))
+        | NormalOrder -> TPure (fst (No.eval_no_zipp (t, Top)))
+        | HeadReduction -> TPure (fst (Hr.eval_hr_zipp (t, Top)))
+        | HeadSpine -> TPure (fst (He.eval_he_zipp (t, Top)))
+        | StricNormalisation -> TPure (fst (Sn.eval_sn_zipp (t, Top)))
+        | HybridNormalOrder -> TPure (fst (Hn.eval_hn_zipp (t, Top)))
+        | HybridApplicativeOrder -> TPure (fst (Ha.eval_ha_zipp (t, Top)))
+        | AheadMachine -> TPure (fst (Am.eval_am_zipp (t, Top)))
+        | HeadApplicativeOrder -> TPure (fst (Ho.eval_ho_zipp (t, Top)))
+        | SpineApplicativeOrder -> TPure (fst (So.eval_so_zipp (t, Top)))
+        | BalancedSpineApplicativeOrder -> TPure (fst (Bs.eval_bs_zipp (t, Top)))
+      )
       | ReadBack -> (
         match one_e.strategy with
         | CallByValue -> TPure (Rbbv.eval_rbbv t)
