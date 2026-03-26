@@ -8,36 +8,36 @@ let main_term = term_of_string "(((\\m.\\n.\\s.\\z. (m s (n s z)) ) 3 ) 2)"
 
 let () =
   print_endline @@ "Evaluating: " ^ string_of_pterm main_term;
-  let t_bv = eval (One { language = Pure; strategy = CallByValue; style = Apply; }) main_term in
+  let t_bv = eval (One { language = Pure; strategy = CallByValue; style = EvalApply; }) main_term in
     print_endline @@ "BV: " ^ string_of_term t_bv;
-  let t_bn = eval (One { language = Pure; strategy = CallByName; style = Apply; }) main_term in
+  let t_bn = eval (One { language = Pure; strategy = CallByName; style = EvalApply; }) main_term in
     print_endline @@ "BN: " ^ string_of_term t_bn;
-  let t_ao = eval (One { language = Pure; strategy = ApplicativeOrder; style = Apply; }) main_term in
+  let t_ao = eval (One { language = Pure; strategy = ApplicativeOrder; style = EvalApply; }) main_term in
     print_endline @@ "AO: " ^ string_of_term t_ao;
-  let t_no = eval (One { language = Pure; strategy = NormalOrder; style = Apply; }) main_term in
+  let t_no = eval (One { language = Pure; strategy = NormalOrder; style = EvalApply; }) main_term in
     print_endline @@ "NO: " ^ string_of_term t_no;
-  let t_hr = eval (One { language = Pure; strategy = HeadReduction; style = Apply; }) main_term in
+  let t_hr = eval (One { language = Pure; strategy = HeadReduction; style = EvalApply; }) main_term in
     print_endline @@ "HR: " ^ string_of_term t_hr;
-  let t_he = eval (One { language = Pure; strategy = HeadSpine; style = Apply; }) main_term in
+  let t_he = eval (One { language = Pure; strategy = HeadSpine; style = EvalApply; }) main_term in
     print_endline @@ "HE: " ^ string_of_term t_he;
-  let t_sn = eval (One { language = Pure; strategy = StricNormalisation; style = Apply; }) main_term in
+  let t_sn = eval (One { language = Pure; strategy = StricNormalisation; style = EvalApply; }) main_term in
     print_endline @@ "SN: " ^ string_of_term t_sn;
-  let t_hn = eval (One { language = Pure; strategy = HybridNormalOrder; style = Apply; }) main_term in
+  let t_hn = eval (One { language = Pure; strategy = HybridNormalOrder; style = EvalApply; }) main_term in
     print_endline @@ "HN: " ^ string_of_term t_hn;
-  let t_ha = eval (One { language = Pure; strategy = HeadApplicativeOrder; style = Apply; }) main_term in
+  let t_ha = eval (One { language = Pure; strategy = HeadApplicativeOrder; style = EvalApply; }) main_term in
     print_endline @@ "HA: " ^ string_of_term t_ha;
-  let t_am = eval (One { language = Pure; strategy = AheadMachine; style = Apply; }) main_term in
+  let t_am = eval (One { language = Pure; strategy = AheadMachine; style = EvalApply; }) main_term in
     print_endline @@ "AM: " ^ string_of_term t_am;
-  let t_ho = eval (One { language = Pure; strategy = HybridNormalOrder; style = Apply; }) main_term in
+  let t_ho = eval (One { language = Pure; strategy = HybridNormalOrder; style = EvalApply; }) main_term in
     print_endline @@ "HO: " ^ string_of_term t_ho;
-  let t_so = eval (One { language = Pure; strategy = SpineApplicativeOrder; style = Apply; }) main_term in
+  let t_so = eval (One { language = Pure; strategy = SpineApplicativeOrder; style = EvalApply; }) main_term in
     print_endline @@ "SO: " ^ string_of_term t_so;
-  let t_bs = eval (One { language = Pure; strategy = BalancedSpineApplicativeOrder; style = Apply; }) main_term in
+  let t_bs = eval (One { language = Pure; strategy = BalancedSpineApplicativeOrder; style = EvalApply; }) main_term in
     print_endline @@ "BS: " ^ string_of_term t_bs;
-  let eval_gen = eval (Gen {language = Pure; style = Apply; params = ["no";"bn";"id";"no";"no"]}) in
+  let eval_gen = eval (Gen {language = Pure; style = EvalApply; params = ["no";"bn";"id";"no";"no"]}) in
   let t_gen = eval_gen main_term in
     print_endline @@ "GEN no bn id no no: " ^ string_of_term t_gen;
-  let eval_gen = eval (Gen {language = Pure; style = Apply; params = ["id";"bv";"bv";"id";"bv"]}) in
+  let eval_gen = eval (Gen {language = Pure; style = EvalApply; params = ["id";"bv";"bv";"id";"bv"]}) in
   let t_gen = eval_gen main_term in
     print_endline @@ "GEN id bv bv id bv: " ^ string_of_term t_gen;
   print_endline "Read-Back Evaluators:";
