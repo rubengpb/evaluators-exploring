@@ -92,14 +92,3 @@ let rec plug t = function
   | AppL (ctx, n) -> plug (App (t, n)) ctx
   | AppR (m, ctx) -> plug (App (m, t)) ctx
   | AbsC (x, ctx) -> plug (Abs (x, t)) ctx
-
-let string_of_zipper t z_ctxt = string_of_pterm @@ plug t z_ctxt
-
-let rec plug_str t_str = function
-  | Top -> t_str
-  | AppL (ctx, n) ->
-      plug_str ("(" ^ t_str ^ " " ^ string_of_pterm n ^ ")") ctx
-  | AppR (m, ctx) ->
-      plug_str ("(" ^ string_of_pterm m ^ " " ^ t_str ^ ")") ctx
-  | AbsC (x, ctx) ->
-      plug_str ("(\\" ^ x ^ "." ^ t_str ^ ")") ctx

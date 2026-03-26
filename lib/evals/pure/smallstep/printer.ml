@@ -16,3 +16,29 @@ let color_code color =
 let colorize text color =
   let code = color_code color in
   Printf.sprintf "\027[1;4;%sm%s\027[0m" code text
+
+let string_of_zipper t z_ctxt = string_of_pterm @@ plug t z_ctxt
+
+let string_of_redex = function
+    | App(Abs(x,b), Var y) ->
+      colorize ("(\\" ^ x ^ "." ^ string_of_pterm b ^ ")") "red" ^ " " ^
+      colorize y "blue"
+    | App(Abs(x,b), n) ->
+      colorize ("(\\" ^ x ^ "." ^ string_of_pterm b ^ ")") "red" ^ " " ^
+      colorize ("(" ^ string_of_pterm n ^ ")") "blue"
+    | _ -> failwith "Error: Not redex to print"
+
+let rec plug_str t_str z_ctxt =
+  match z_ctxt with
+    | Top -> t_str
+    | AppL (ctx, Var x) ->
+        plug_str (t_str ^ " " ^ x) ctx
+    | AppL (ctx, n) ->
+        plug_str (t_str ^ " (" ^ string_of_pterm n ^ ")") ctx
+    | AppR (m, ctx) ->
+        plug_str (string_of_pterm m ^ " (" ^ t_str ^ ")") ctx
+    | AbsC (x, Top) -> "\\" ^ x ^ "." ^ t_str
+    | AbsC (x, AbsC (y, ctx)) ->
+      plug_str ("\\" ^ x ^ "." ^ t_str) (AbsC(y, ctx))
+    | AbsC (x, ctx) ->
+      plug_str ("(\\" ^ x ^ "." ^ t_str ^ ")") ctx
