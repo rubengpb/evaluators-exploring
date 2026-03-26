@@ -41,7 +41,7 @@ let eval_pure e t =
         match one_e.strategy with
         | CallByValue -> TPure (Bv.eval_bv t)
         | CallByName -> TPure (fst (Bn.eval_bn_zipp (t, Top)))
-        | ApplicativeOrder -> TPure (Ao.eval_ao t)
+        | ApplicativeOrder -> TPure (fst (Ao.eval_ao_zipp (t, Top)))
         | NormalOrder -> TPure (No.eval_no t)
         | HeadReduction -> TPure (Hr.eval_hr t)
         | HeadSpine -> TPure (He.eval_he t)
