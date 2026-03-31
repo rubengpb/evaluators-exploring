@@ -1,12 +1,15 @@
+(include_subdirs unqualified)
+
 (tests
  (names
    test_string_of_term
    test_subst
    test_alpha_equiv
-   test_eval_nor
+   test_eval_no
    test_eval_ao
    )
  (libraries
    evaluators_exploring.core
    evaluators_exploring.evals
+   evaluators_exploring.repl
    alcotest))
