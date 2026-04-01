@@ -7,6 +7,10 @@ let handle_iconfig st = function
     | None -> print_endline @@ string_of_config st; st
     | Some param ->
       (match param with
+      | "language" -> print_endline @@ string_of_language st.eval.language
+      | "subst" -> print_endline @@ string_of_subst st.eval.subst
+      | "style" -> print_endline @@ string_of_style st.eval.style
+      | "strategy" -> print_endline @@ string_of_strategy st.eval.strategy
       | "eval" -> print_endline @@ string_of_eval st.eval
       | "env" -> List.iter
         (fun (v,_,t) -> print_endline (v ^ " = " ^ string_of_pterm t)) st.env
