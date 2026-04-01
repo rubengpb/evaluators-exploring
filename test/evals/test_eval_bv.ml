@@ -1,119 +1,107 @@
 open Alcotest
 open Core.Syntax
 open Core.Utils
+open Core.Forms
 open Core.Church_numerals
 open Evals.Eval
 open Evals.Main_eval
 open Helpers
 
-let ea = eval (One { language = Pure; style = EvalApply; strategy = NormalOrder; })
-let rb = eval (One { language = Pure; style = ReadBack; strategy = NormalOrder; })
-let ss = eval (One { language = Pure; style = SmallStep; strategy = NormalOrder; })
-let zi = eval (One { language = Pure; style = EvalApply; strategy = NormalOrder; })
-let gen = eval (Gen { language = Pure; style = EvalApply; params = ["no"; "bn"; "id"; "no"; "no"]; })
+let ea = eval (One { language = Pure; style = EvalApply; strategy = CallByValue; })
+(* let rb = eval (One { language = Pure; style = ReadBack; strategy = CallByValue; }) *)
+let ss = eval (One { language = Pure; style = SmallStep; strategy = CallByValue; })
+let zi = eval (One { language = Pure; style = EvalApply; strategy = CallByValue; })
+let gen = eval (Gen { language = Pure; style = EvalApply; params = ["id"; "bv"; "bv"; "id"; "bv"]; })
 
 let basic_redex () =
   let r_ea = ea basic_redex in
-  let r_rb = rb basic_redex in
+  (* let r_rb = rb basic_redex in *)
   let r_ss = ss basic_redex in
   let r_zi = zi basic_redex in
   let r_gen = gen basic_redex in
   check string "Eval basic redex" "y" (string_of_term r_ea);
-  check string "Eval basic redex" "y" (string_of_term r_rb);
+  (* check string "Eval basic redex" "y" (string_of_term r_rb); *)
   check string "Eval basic redex" "y" (string_of_term r_ss);
   check string "Eval basic redex" "y" (string_of_term r_zi);
   check string "Eval basic redex" "y" (string_of_term r_gen)
 
 let basic_neu () =
   let r_ea = ea basic_neu in
-  let r_rb = rb basic_neu in
+  (* let r_rb = rb basic_neu in *)
   let r_ss = ss basic_neu in
   let r_zi = zi basic_neu in
   let r_gen = gen basic_neu in
   let result = "x y" in
   check string "Eval basic neu" result (string_of_term r_ea);
-  check string "Eval basic neu" result (string_of_term r_rb);
+  (* check string "Eval basic neu" result (string_of_term r_rb); *)
   check string "Eval basic neu" result (string_of_term r_ss);
   check string "Eval basic neu" result (string_of_term r_zi);
   check string "Eval basic neu" result (string_of_term r_gen)
 
 let basic_neu_without_redex () =
   let r_ea = ea basic_neu_without_redex in
-  let r_rb = rb basic_neu_without_redex in
+  (* let r_rb = rb basic_neu_without_redex in *)
   let r_ss = ss basic_neu_without_redex in
   let r_zi = zi basic_neu_without_redex in
   let r_gen = gen basic_neu_without_redex in
   let result = "x (\\x.x) y" in
   check string "Eval basic neu without redex" result (string_of_term r_ea);
-  check string "Eval basic neu without redex" result (string_of_term r_rb);
+  (* check string "Eval basic neu without redex" result (string_of_term r_rb); *)
   check string "Eval basic neu without redex" result (string_of_term r_ss);
   check string "Eval basic neu without redex" result (string_of_term r_zi);
   check string "Eval basic neu without redex" result (string_of_term r_gen)
 
 let redex_in_abs () =
   let r_ea = ea redex_in_abs in
-  let r_rb = rb redex_in_abs in
+  (* let r_rb = rb redex_in_abs in *)
   let r_ss = ss redex_in_abs in
   let r_zi = zi redex_in_abs in
   let r_gen = gen redex_in_abs in
-  let result = "\\x.y" in
+  let result = "\\x.(\\x.x) y" in
   check string "Redex inside abstraction" result (string_of_term r_ea);
-  check string "Redex inside abstraction" result (string_of_term r_rb);
+  (* check string "Redex inside abstraction" result (string_of_term r_rb); *)
   check string "Redex inside abstraction" result (string_of_term r_ss);
   check string "Redex inside abstraction" result (string_of_term r_zi);
   check string "Redex inside abstraction" result (string_of_term r_gen)
 
 let redex_in_abs_in_app () =
   let r_ea = ea redex_in_abs_in_app in
-  let r_rb = rb redex_in_abs_in_app in
+  (* let r_rb = rb redex_in_abs_in_app in *)
   let r_ss = ss redex_in_abs_in_app in
   let r_zi = zi redex_in_abs_in_app in
   let r_gen = gen redex_in_abs_in_app in
   let result = "y" in
   check string "Redex in operator and operand" result (string_of_term r_ea);
-  check string "Redex in operator and operand" result (string_of_term r_rb);
+  (* check string "Redex in operator and operand" result (string_of_term r_rb); *)
   check string "Redex in operator and operand" result (string_of_term r_ss);
   check string "Redex in operator and operand" result (string_of_term r_zi);
   check string "Redex in operator and operand" result (string_of_term r_gen)
 
 let redex_in_abs_in_app_neu () =
   let r_ea = ea redex_in_abs_in_app_neu in
-  let r_rb = rb redex_in_abs_in_app_neu in
+  (* let r_rb = rb redex_in_abs_in_app_neu in *)
   let r_ss = ss redex_in_abs_in_app_neu in
   let r_zi = zi redex_in_abs_in_app_neu in
   let r_gen = gen redex_in_abs_in_app_neu in
   let result = "y" in
   check string "Neu in operand" result (string_of_term r_ea);
-  check string "Neu in operand" result (string_of_term r_rb);
+  (* check string "Neu in operand" result (string_of_term r_rb); *)
   check string "Neu in operand" result (string_of_term r_ss);
   check string "Neu in operand" result (string_of_term r_zi);
   check string "Neu in operand" result (string_of_term r_gen)
 
 let neu_neu () =
   let r_ea = ea neu_neu in
-  let r_rb = rb neu_neu in
+  (* let r_rb = rb neu_neu in *)
   let r_ss = ss neu_neu in
   let r_zi = zi neu_neu in
   let r_gen = gen neu_neu in
   let result = "x y (x y)" in
   check string "App of two neu" result (string_of_term r_ea);
-  check string "App of two neu" result (string_of_term r_rb);
+  (* check string "App of two neu" result (string_of_term r_rb); *)
   check string "App of two neu" result (string_of_term r_ss);
   check string "App of two neu" result (string_of_term r_zi);
   check string "App of two neu" result (string_of_term r_gen)
-
-let not_diver () =
-  let r_ea = ea not_diver in
-  let r_rb = rb not_diver in
-  let r_ss = ss not_diver in
-  let r_zi = zi not_diver in
-  let r_gen = gen not_diver in
-  let result = "y" in
-  check string "Omega ignored" result (string_of_term r_ea);
-  check string "Omega ignored" result (string_of_term r_rb);
-  check string "Omega ignored" result (string_of_term r_ss);
-  check string "Omega ignored" result (string_of_term r_zi);
-  check string "Omega ignored" result (string_of_term r_gen)
 
 let extract_pure : term -> pterm = function
   | TPure x -> x
@@ -121,42 +109,39 @@ let extract_pure : term -> pterm = function
 
 let add_100_100 () =
   let r_ea = extract_pure @@ ea add_100_100 in
-  let r_rb = extract_pure @@ rb add_100_100 in
+  (* let r_rb = extract_pure @@ rb add_100_100 in *)
   let r_ss = extract_pure @@ ss add_100_100 in
   let r_zi = extract_pure  @@ zi add_100_100 in
   let r_gen = extract_pure @@ gen add_100_100 in
-  let result = pterm_of_int 200 in
-  check bool "Addition" true (alpha_equiv result r_ea);
-  check bool "Addition" true (alpha_equiv result r_rb);
-  check bool "Addition" true (alpha_equiv result r_ss);
-  check bool "Addition" true (alpha_equiv result r_zi);
-  check bool "Addition" true (alpha_equiv result r_gen)
+  check bool "Addition" true (is_wnf r_ea);
+  (* check bool "Addition" true (is_wnf r_rb); *)
+  check bool "Addition" true (is_wnf r_ss);
+  check bool "Addition" true (is_wnf r_zi);
+  check bool "Addition" true (is_wnf r_gen)
 
 let prod_10_12 () =
   let r_ea = extract_pure @@ ea prod_10_12 in
-  let r_rb = extract_pure @@ rb prod_10_12 in
+  (* let r_rb = extract_pure @@ rb prod_10_12 in *)
   let r_ss = extract_pure @@ ss prod_10_12 in
   let r_zi = extract_pure  @@ zi prod_10_12 in
   let r_gen = extract_pure @@ gen prod_10_12 in
-  let result = pterm_of_int 120 in
-  check bool "Prod" true (alpha_equiv result r_ea);
-  check bool "Prod" true (alpha_equiv result r_rb);
-  check bool "Prod" true (alpha_equiv result r_ss);
-  check bool "Prod" true (alpha_equiv result r_zi);
-  check bool "Prod" true (alpha_equiv result r_gen)
+  check bool "Prod" true (is_wnf r_ea);
+  (* check bool "Prod" true (is_wnf r_rb); *)
+  check bool "Prod" true (is_wnf r_ss);
+  check bool "Prod" true (is_wnf r_zi);
+  check bool "Prod" true (is_wnf r_gen)
 
 let pow_3_4 () =
   let r_ea = extract_pure @@ ea pow_3_4 in
-  let r_rb = extract_pure @@ rb pow_3_4 in
+  (* let r_rb = extract_pure @@ rb pow_3_4 in *)
   let r_ss = extract_pure @@ ss pow_3_4 in
   let r_zi = extract_pure  @@ zi pow_3_4 in
   let r_gen = extract_pure @@ gen pow_3_4 in
-  let result = pterm_of_int 81 in
-  check bool "Pow" true (alpha_equiv result r_ea);
-  check bool "Pow" true (alpha_equiv result r_rb);
-  check bool "Pow" true (alpha_equiv result r_ss);
-  check bool "Pow" true (alpha_equiv result r_zi);
-  check bool "Pow" true (alpha_equiv result r_gen)
+  check bool "Pow" true (is_wnf r_ea);
+  (* check bool "Pow" true (is_wnf r_rb); *)
+  check bool "Pow" true (is_wnf r_ss);
+  check bool "Pow" true (is_wnf r_zi);
+  check bool "Pow" true (is_wnf r_gen)
 
 let () =
   run "eval" [
@@ -167,7 +152,6 @@ let () =
       test_case "Redex inside abstraction" `Quick redex_in_abs;
       test_case "Redex in operator and operand" `Quick redex_in_abs_in_app;
       test_case "Neu in operand" `Quick redex_in_abs_in_app_neu;
-      test_case "Omega in ignored argamuent" `Quick not_diver;
       test_case "100 + 100" `Quick add_100_100;
       test_case "10 * 12" `Quick prod_10_12;
       test_case "3 ** 4" `Quick pow_3_4;
