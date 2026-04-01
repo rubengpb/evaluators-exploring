@@ -1,10 +1,10 @@
 open Eval
-open Gen
 open Core.Utils
 open Core.Forms
+open Pure.Main
+open Value.Main
 
 let eval e t =
-  match get_language e with
-    | Pure -> Pure.eval_pure e t
-    | Clousure -> Clousure.eval_clou e (clousure_of_pure t)
-    | Value -> Value.eval_value e t
+  match e.language with
+    | Pure -> eval_pure e t
+    | Value -> eval_value e t

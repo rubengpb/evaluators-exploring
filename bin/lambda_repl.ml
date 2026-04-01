@@ -3,7 +3,7 @@ open Repl.Config
 open Evals.Eval
 
 let initial_config = {
-  eval = One { language = Pure; style = EvalApply; strategy = NormalOrder; };
+  eval = { language = Pure; subst = Subst; style = EvalApply; strategy = One NormalOrder; };
   env = [];
   church = false;
   display = false;

@@ -6,11 +6,11 @@ open Evals.Eval
 open Evals.Main_eval
 open Helpers
 
-let ea = eval (One { language = Pure; style = EvalApply; strategy = NormalOrder; })
-let rb = eval (One { language = Pure; style = ReadBack; strategy = NormalOrder; })
-let ss = eval (One { language = Pure; style = SmallStep; strategy = NormalOrder; })
-let zi = eval (One { language = Pure; style = EvalApply; strategy = NormalOrder; })
-let gen = eval (Gen { language = Pure; style = EvalApply; params = ["no"; "bn"; "id"; "no"; "no"]; })
+let ea = eval { language = Pure; subst = Subst; style = EvalApply; strategy = One NormalOrder; }
+let rb = eval { language = Pure; subst = Subst; style = ReadBack; strategy = One NormalOrder; }
+let ss = eval { language = Pure; subst = Subst; style = SmallStep; strategy = One NormalOrder; }
+let zi = eval { language = Pure; subst = Subst; style = EvalApply; strategy = One NormalOrder; }
+let gen = eval { language = Pure; subst = Subst; style = EvalApply; strategy = Gen ["no"; "bn"; "id"; "no"; "no"]; }
 
 let basic_redex () =
   let r_ea = ea basic_redex in
