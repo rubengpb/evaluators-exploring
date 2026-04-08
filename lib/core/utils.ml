@@ -29,9 +29,72 @@ let rec string_of_pterm = function
   | App (t, Var x) -> "(" ^ string_of_pterm t ^ ") " ^ x
   | App (t1, t2) -> "(" ^ string_of_pterm t1 ^ ") (" ^ string_of_pterm t2 ^ ")"
 
+let index_of x ctx =
+  let rec aux i = function
+    | [] -> None
+    | y :: ys -> if x = y then Some i else aux (i + 1) ys
+  in
+  aux 0 ctx
+
+let rec dbterm_of_pterm_aux ctx = function
+  | Var x -> (
+    match index_of x ctx with
+      | None -> FDBVar x
+      | Some n -> DBVar n
+    )
+  | Abs (x, t) ->
+      DBAbs (dbterm_of_pterm_aux (x :: ctx) t)
+  | App (m, n) ->
+      DBApp (dbterm_of_pterm_aux ctx m, dbterm_of_pterm_aux ctx n)
+
+let dbterm_of_pterm t = dbterm_of_pterm_aux [] t
+
+let fresh_var =
+  let counter = ref 0 in
+  fun () ->
+    let v = "x" ^ string_of_int !counter in
+    incr counter;
+    v
+
+let rec pterm_of_dbterm_aux ctx = function
+  | FDBVar x -> Var x
+  | DBVar k ->
+      (try Var (List.nth ctx k)
+       with Failure _ -> failwith "Bad number inside De Bruijn term")
+  | DBAbs b ->
+      let x = fresh_var () in
+      Abs (x, pterm_of_dbterm_aux (x :: ctx) b)
+  | DBApp (m, n) ->
+      App (pterm_of_dbterm_aux ctx m, pterm_of_dbterm_aux ctx n)
+
+let pterm_of_dbterm = pterm_of_dbterm_aux []
+
+let string_of_dbterm dbt = string_of_pterm @@ pterm_of_dbterm dbt
+
+let rec string_of_dbterm_pure = function
+  | FDBVar x -> x
+  | DBVar i ->
+      string_of_int i
+  | DBAbs b ->
+      "\\." ^ string_of_dbterm_pure b
+  | DBApp (DBVar x1, DBVar x2) -> string_of_int x1 ^ " " ^ string_of_int x2
+  | DBApp (FDBVar x1, DBVar x2) -> x1 ^ " " ^ string_of_int x2
+  | DBApp (DBVar x1, FDBVar x2) -> string_of_int x1 ^ " " ^ x2
+  | DBApp (FDBVar x1, FDBVar x2) -> x1 ^ " " ^ x2
+  | DBApp (DBVar x, t) -> string_of_int x ^ " (" ^ string_of_dbterm_pure t ^ ")"
+  | DBApp (FDBVar x, t) -> x ^ " (" ^ string_of_dbterm_pure t ^ ")"
+  | DBApp (DBApp(t1, t2), DBVar x) -> string_of_dbterm_pure (DBApp (t1, t2)) ^ " " ^ string_of_int x
+  | DBApp (DBApp(t1, t2), FDBVar x) -> string_of_dbterm_pure (DBApp (t1, t2)) ^ " " ^ x
+  | DBApp (DBApp(t1, t2), DBAbs t) -> string_of_dbterm_pure (DBApp (t1, t2)) ^ " (" ^ string_of_dbterm_pure (DBAbs t) ^ ")"
+  | DBApp (DBApp(t1, t2), t) -> string_of_dbterm_pure (DBApp (t1, t2)) ^ " (" ^ string_of_dbterm_pure t ^ ")"
+  | DBApp (t, DBVar x) -> "(" ^ string_of_dbterm_pure t ^ ") " ^ string_of_int x
+  | DBApp (t, FDBVar x) -> "(" ^ string_of_dbterm_pure t ^ ") " ^ x
+  | DBApp (t1, t2) -> "(" ^ string_of_dbterm_pure t1 ^ ") (" ^ string_of_dbterm_pure t2 ^ ")"
+
 let string_of_term = function
   | TPure t -> string_of_pterm t
   | TClousure t -> string_of_cterm t
+  | TDeBruijn t -> string_of_dbterm t
 
 let rec clousure_of_pure = function
     | Var x -> CVar x

@@ -3,6 +3,7 @@
 (tests
  (names
    test_string_of_term
+   test_from_to_debruijn
    test_subst
    test_alpha_equiv
    test_eval_bv

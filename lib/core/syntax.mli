@@ -12,9 +12,16 @@ and cterm =
   | CApp of cterm * cterm
   | Clou of cterm * context
 
+type dbterm =
+  | FDBVar of string
+  | DBVar of int
+  | DBAbs of dbterm
+  | DBApp of dbterm * dbterm
+
 type term =
   | TPure of pterm
   | TClousure of cterm
+  | TDeBruijn of dbterm
 
 type zipper_ctxt =
   | Top
