@@ -8,6 +8,9 @@ rule read = parse
   | ":q" { Q }
   | ":config" { ICONFIG }
   | ":set" { SET }
+  | ":env" { ENV }
+  | ":expEnv" { EXENV1 }
+  | ":expandedEnv" { EXENV2 }
   | ":t" { TYPE }
   | ":h" { H }
   | ":?" { H }

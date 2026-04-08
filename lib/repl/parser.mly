@@ -7,6 +7,9 @@ open Core.Church_numerals
 %token Q
 %token ICONFIG
 %token SET
+%token ENV
+%token EXENV1
+%token EXENV2
 %token TYPE
 %token H
 %token LOAD
@@ -33,6 +36,12 @@ instruction:
   | Q { Quit }
   | ICONFIG { IConfig None }
   | ICONFIG IDENT { IConfig (Some $2) }
+  | ENV { IConfig (Some "env") }
+  | ENV IDENT { IConfig (Some ("env_" ^ $2)) }
+  | EXENV1 { IConfig (Some "expEnv") }
+  | EXENV1 IDENT { IConfig (Some ("expEnv_" ^ $2)) }
+  | EXENV2 { IConfig (Some "expEnv") }
+  | EXENV2 IDENT { IConfig (Some ("expEnv_" ^ $2)) }
   | ICONFIG IDENT IDENT { IConfig (Some ($2 ^ "_" ^ $3)) }
   | SET IDENT lident { Set ($2, String.concat "_" $3) }
   | TYPE IDENT { Type $2 }
