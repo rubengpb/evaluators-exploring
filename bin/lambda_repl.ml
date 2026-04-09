@@ -7,6 +7,7 @@ let initial_config = {
   env = [];
   church = false;
   display = false;
+  simulator = None;
 }
 
 let () =

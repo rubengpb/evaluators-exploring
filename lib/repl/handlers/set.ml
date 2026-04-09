@@ -36,6 +36,15 @@ let handle_set st param opt =
          print_endline @@ "[ERROR in set strategy]\nNon exists this strategy: " ^ opt;
          st
     )
+  | "sim" | "simulator" -> (
+    match simulator_option_of_string opt with
+      | Some sim -> let st = { st with simulator = Some sim} in
+        let ev = { st.eval with strategy = One sim.host } in
+        { st with eval = ev}
+      | None ->
+         print_endline @@ "[ERROR in set simulator]\nNon exists this simulator: " ^ opt;
+         st
+    )
   | "eval" ->
     (match eval_of_string opt with
     | Some ev -> { st with eval = ev }

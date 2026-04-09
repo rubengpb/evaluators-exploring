@@ -39,6 +39,11 @@ type eval = {
   strategy : strategy;
 }
 
+type simulator = {
+  guest : pstrategy;
+  host : pstrategy;
+}
+
 let apply_params = ["id"; "bv"; "bn"; "ao"; "no"; "hr"; "he"; "sn"; "hn"; "ha"; "am"; "ho"; "so"; "bs"]
 let readback_params = ["id";"rn";"bodies";"bodies2";"bodies3";"args";"bv";"bn";"he";]
 
@@ -94,7 +99,7 @@ let string_of_pstrategy = function
 
 let pstrategy_of_string = function
   | "CallByValue" | "bv" -> Some CallByValue
-  | "CallByName" | "bn "-> Some CallByName
+  | "CallByName" | "bn"-> Some CallByName
   | "ApplicativeOrder" | "ao" -> Some ApplicativeOrder
   | "NormalOrder" | "no" -> Some NormalOrder
   | "HeadReduction" | "hr" -> Some HeadReduction
@@ -157,3 +162,17 @@ let eval_of_string s =
     let* str = strategy_of_string @@ String.concat "_" str in
     Some {language = lang; subst = subst; style = style; strategy = str}
     | _ -> None
+
+let simulator_option_of_string str =
+  let splited_str = String.split_on_char '_' str in
+  match splited_str with
+    | [guest_str;host_str] ->
+      let* guest = pstrategy_of_string guest_str in
+      let* host = pstrategy_of_string host_str in
+      Some {guest = guest; host = host}
+    | _ -> None
+
+let string_of_simulator_option = function
+  | None -> "None"
+  | Some sim ->
+    string_of_pstrategy sim.guest ^ " in " ^ string_of_pstrategy sim.host

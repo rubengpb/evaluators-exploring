@@ -39,6 +39,11 @@ type eval = {
   strategy : strategy;
 }
 
+type simulator = {
+  guest : pstrategy;
+  host : pstrategy;
+}
+
 val string_of_language : language -> string
 val language_of_string : string -> language option
 val string_of_subst : subst -> string
@@ -51,3 +56,5 @@ val string_of_strategy : strategy -> string
 val strategy_of_string : string -> strategy option
 val string_of_eval : eval -> string
 val eval_of_string : string -> eval option
+val string_of_simulator_option : simulator option -> string
+val simulator_option_of_string : string -> simulator option
