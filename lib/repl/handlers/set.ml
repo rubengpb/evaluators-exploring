@@ -1,6 +1,8 @@
 open Evals.Eval
 open Config
 
+let handle_sim_incongruence st = { st with simulator = None }
+
 let handle_set st param opt =
   match param with
   | "env" -> { st with env = [] }
@@ -29,6 +31,7 @@ let handle_set st param opt =
          st
     )
   | "str" | "strategy" -> (
+    let st = handle_sim_incongruence st in
     match strategy_of_string opt with
       | Some str -> let ev = { st.eval with strategy = str } in
         { st with eval = ev}
@@ -46,6 +49,7 @@ let handle_set st param opt =
          st
     )
   | "eval" ->
+    let st = handle_sim_incongruence st in
     (match eval_of_string opt with
     | Some ev -> { st with eval = ev }
     | None ->

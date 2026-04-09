@@ -11,6 +11,7 @@ let handle_iconfig st = function
       | "sub" | "subst" -> print_endline @@ string_of_subst st.eval.subst
       | "sty" | "style" -> print_endline @@ string_of_style st.eval.style
       | "str" | "strategy" -> print_endline @@ string_of_strategy st.eval.strategy
+      | "sim" | "simulator" -> print_endline @@ string_of_simulator_option st.simulator
       | "eval" -> print_endline @@ string_of_eval st.eval
       | "env" -> List.iter
         (fun (v,_,t) -> print_endline (v ^ " = " ^ string_of_pterm t)) st.env

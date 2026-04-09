@@ -3,11 +3,15 @@ open Envm
 open Config
 open Evals.Main_eval
 open Evals.Eval
+open Evals.Simulator
 open Core.Utils
 open Core.Church_numerals
 
 let handle_term st t =
   let t = expand st.env t in
+  let t = (match st.simulator with
+            | None -> t
+            | Some sim -> simulation_transform sim t) in
   if st.display then print_endline @@ "Evaluating: " ^ string_of_pterm t;
   let t = eval st.eval t in (
     if st.church then
