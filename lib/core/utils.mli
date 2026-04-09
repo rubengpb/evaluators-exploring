@@ -5,6 +5,11 @@ val subst :
   Syntax.var ->
   Syntax.pterm ->
   Syntax.pterm
+val subst_db :
+  Syntax.dbterm ->
+  int ->
+  Syntax.dbterm ->
+  Syntax.dbterm
 
 val string_of_term : Syntax.term -> string
 val string_of_pterm : Syntax.pterm -> string

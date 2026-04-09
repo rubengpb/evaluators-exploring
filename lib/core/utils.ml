@@ -49,25 +49,22 @@ let rec dbterm_of_pterm_aux ctx = function
 
 let dbterm_of_pterm t = dbterm_of_pterm_aux [] t
 
-let fresh_var =
-  let counter = ref 0 in
-  fun () ->
-    let v = "x" ^ string_of_int !counter in
-    incr counter;
-    v
-
-let rec pterm_of_dbterm_aux ctx = function
-  | FDBVar x -> Var x
-  | DBVar k ->
-      (try Var (List.nth ctx k)
-       with Failure _ -> failwith "Bad number inside De Bruijn term")
-  | DBAbs b ->
-      let x = fresh_var () in
-      Abs (x, pterm_of_dbterm_aux (x :: ctx) b)
-  | DBApp (m, n) ->
-      App (pterm_of_dbterm_aux ctx m, pterm_of_dbterm_aux ctx n)
-
-let pterm_of_dbterm = pterm_of_dbterm_aux []
+let rec pterm_of_dbterm t =
+  let rec aux ctx counter = function
+    | FDBVar x -> (Var x, counter)
+    | DBVar k ->
+        (try (Var (List.nth ctx k), counter)
+         with _ -> failwith "Bad number inside De Bruijn term")
+    | DBAbs b ->
+        let x = "x" ^ string_of_int counter in
+        let (body, counter') = aux (x :: ctx) (counter + 1) b in
+        (Abs (x, body), counter')
+    | DBApp (m, n) ->
+        let (m', c1) = aux ctx counter m in
+        let (n', c2) = aux ctx c1 n in
+        (App (m', n'), c2)
+  in
+  fst (aux [] 0 t)
 
 let string_of_dbterm dbt = string_of_pterm @@ pterm_of_dbterm dbt
 
@@ -130,6 +127,13 @@ let rec subst n x b =
           else let z = new_free_var y free_body in
             Abs (z, subst n x (subst (Var z) y body))
         )
+
+let rec subst_db n x b =
+  match b with
+    | FDBVar x -> b
+    | DBVar k -> if k = x then n else b
+    | DBApp (t1, t2) -> DBApp(subst_db n x t1, subst_db n x t2)
+    | DBAbs body -> DBAbs (subst_db n (x + 1) body)
 
 let rec alpha_equiv t1 t2 =
   match (t1, t2) with

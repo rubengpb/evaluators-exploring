@@ -2,7 +2,6 @@ open Eval
 open Core.Utils
 
 let eval_apply str t =
-  let t = clousure_of_pure t in
   match str with
     | Gen params ->
       failwith "TODO"

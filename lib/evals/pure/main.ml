@@ -2,11 +2,12 @@ open Core.Syntax
 open Eval
 open Subst.Main
 open Clousure.Main
+open Debruijn.Main
 
 let eval_pure e t =
   match e.subst with
     | Subst -> TPure (eval_subst e t)
-    | DeBruijn -> failwith "TODO"
+    | DeBruijn -> TDeBruijn (eval_debruijn e t)
     | Clousure -> TClousure (eval_clousure e t)
   (* | One one_e -> ( *)
   (*   match one_e.style with *)
