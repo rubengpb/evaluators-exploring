@@ -5,7 +5,8 @@ open Evals.Eval
 let initial_config = {
   eval = { language = Pure; subst = Subst; style = EvalApply; strategy = One NormalOrder; };
   env = [];
-  church = false;
+  church_num = false;
+  church_list = false;
   display = false;
   simulator = None;
 }

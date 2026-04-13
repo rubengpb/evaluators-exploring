@@ -17,8 +17,10 @@ let handle_iconfig st = function
         (fun (v,_,t) -> print_endline (v ^ " = " ^ string_of_pterm t)) st.env
       | "expEnv" | "expandedEnv" -> List.iter
         (fun (v,t,_) -> print_endline (v ^ " = " ^ string_of_pterm t)) st.env
-      | "church" -> print_endline @@ string_of_bool st.church
-      | "display" -> print_endline @@ string_of_bool st.display
+      | "church" -> print_endline @@ string_of_church st.church_num st.church_list
+      | "church_num" | "ch_num" -> print_endline @@ string_of_onoff st.church_num
+      | "church_list" | "ch_list" -> print_endline @@ string_of_onoff st.church_list
+      | "display" -> print_endline @@ string_of_onoff st.display
       | other -> (
         match String.split_on_char '_' other with
         | "env":: vars -> let var = String.concat "_" vars in

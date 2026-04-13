@@ -55,12 +55,18 @@ let handle_set st param opt =
     | None ->
         print_endline @@ "[ERROR in set eval]\nNon exists this eval: " ^ opt;
         st)
-  | "church" ->
-    if opt = "true" then { st with church = true }
-    else { st with church = false }
-  | "display" ->
-    if opt = "true" then { st with display = true }
-    else { st with display = false }
+  | "ch" | "church" -> (
+    match opt with
+      | "true" | "on" -> { {st with church_list = true } with church_num = true }
+      | "num_true" | "num_on" -> { st with church_num = true }
+      | "list_true" | "list_on" -> { st with church_list = true }
+      | _ -> { {st with church_list = false } with church_num = false }
+    )
+  | "display" -> (
+    match opt with
+      | "true" | "on" -> { st with display = true }
+      | _ -> { st with display = false }
+    )
   | other ->
     print_endline @@ "[ERROR in set]\nNon exists this param: " ^ other;
     st
