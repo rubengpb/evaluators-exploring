@@ -20,9 +20,12 @@ rule read = parse
 
   | "(" { LPAREN }
   | ")" { RPAREN }
+  | "[" { LBRACK }
+  | "]" { RBRACK }
 
   | "\\" { LAMBDA }
   | "." { DOT }
+  | ";" { SEMICO }
 
   | ['a'-'z' 'A'-'Z' '_']['a'-'z' 'A'-'Z' '0'-'9' '_']*
       { IDENT (Lexing.lexeme lexbuf) }

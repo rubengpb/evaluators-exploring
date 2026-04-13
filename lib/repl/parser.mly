@@ -2,6 +2,7 @@
 open Ast
 open Core.Syntax
 open Core.Church_numerals
+open Core.Church_list
 %}
 
 %token Q
@@ -17,8 +18,11 @@ open Core.Church_numerals
 %token EQUAL
 %token LPAREN
 %token RPAREN
+%token LBRACK
+%token RBRACK
 %token LAMBDA
 %token DOT
+%token SEMICO
 %token <string> IDENT
 %token <int> NUMBER
 %token EOF
@@ -68,4 +72,10 @@ atoms:
 atom:
   | IDENT { Var $1 }
   | NUMBER { pterm_of_int $1 }
+  | LBRACK list RBRACK { pterm_of_list $2 }
   | LPAREN term RPAREN { $2 }
+
+list:
+  | { [] }
+  | term { [$1] }
+  | term SEMICO list { $1::$3 }

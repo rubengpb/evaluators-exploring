@@ -6,8 +6,11 @@ rule read = parse
   | [' ' '\t' '\n'] { read lexbuf }
   | "(" { LPAREN }
   | ")" { RPAREN }
+  | "[" { LBRACK }
+  | "]" { RBRACK }
   | "\\" { LAMBDA }
   | "." { DOT }
+  | ";" { SEMICO }
   | ['a'-'z' 'A'-'Z' '_']['a'-'z' 'A'-'Z' '0'-'9' '_']*
       { IDENT (Lexing.lexeme lexbuf) }
   | ['0'-'9']+ { NUMBER (int_of_string @@ Lexing.lexeme lexbuf) }
