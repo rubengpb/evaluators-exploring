@@ -36,16 +36,6 @@ let index_of x ctx =
   in
   aux 0 ctx
 
-(* let rec string_of_pterm_with_options num list t = *)
-(*   match num, list with *)
-(*     | true, true -> *)
-(*     | true, false -> *)
-(*     | false, true -> *)
-(*     | _ -> *)
-
-let string_of_pterm_list xs =
-  "[" ^ List.fold_left (fun acc s -> acc ^ string_of_pterm s ^ "; ") "" xs ^ "]"
-
 let rec dbterm_of_pterm_aux ctx = function
   | Var x -> (
     match index_of x ctx with
