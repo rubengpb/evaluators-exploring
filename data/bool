@@ -4,3 +4,6 @@ and = \p.\q. p q p
 or = \p.\q. p p q
 not = \p. p false true
 cond = \b.\x.\y. b x y
+xor = \p.\q.p (not q) q
+nand = \p.\q.not (and p q)
+implies = \p.\q.q true (not p)
