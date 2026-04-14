@@ -1,6 +1,16 @@
 open Core.Syntax
 open Core.Utils
 
+let cl_count = ref 0
+
+let cl_fresh () =
+  let old_value = !cl_count in
+  cl_count := old_value + 1;
+  old_value
+
+let cl_reset () =
+  cl_count := 0
+
 let rec clean_ctxt x ctxt =
   List.filter (fun (k, _) -> k <> x) ctxt
 

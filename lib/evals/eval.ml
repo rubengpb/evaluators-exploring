@@ -62,9 +62,9 @@ let string_of_subst = function
   | Clousure -> "Clousure"
 
 let subst_of_string = function
-  | "Subst" -> Some Subst
-  | "DeBruijn" -> Some DeBruijn
-  | "Clousure" -> Some Clousure
+  | "Subst" | "su" -> Some Subst
+  | "DeBruijn" | "db" -> Some DeBruijn
+  | "Clousure" | "cl" -> Some Clousure
   | _ -> None
 
 let short_string_of_pstrategy = function
