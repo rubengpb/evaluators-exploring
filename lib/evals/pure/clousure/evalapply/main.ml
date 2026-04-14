@@ -7,7 +7,7 @@ let eval_apply str t =
       failwith "TODO"
     | One name -> (
       match name with
-      | CallByValue -> Bv.bv [] t
+      | CallByValue -> Bv.bv t
       | CallByName -> Bn.bn t
       | ApplicativeOrder -> Ao.ao t
       | NormalOrder -> No.no t
