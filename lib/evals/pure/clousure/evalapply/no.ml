@@ -9,7 +9,7 @@ let rec no = function
   | Clou(CVar x, (y, n)::env) -> if x = y then no n else no @@ Clou(CVar x, env)
   | CAbs(x, b) -> let b' = no b in CAbs(x, b')
   | Clou(CAbs(x, b), env) ->
-    let var = x ^ string_of_int (cl_fresh ()) in
+    let var = x ^ "*" ^ string_of_int (cl_fresh ()) in
     let b' = no @@ Clou(b, (x, CVar var)::env) in
       CAbs(var, b')
   | CApp(m, n) ->

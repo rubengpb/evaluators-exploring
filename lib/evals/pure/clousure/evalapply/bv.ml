@@ -10,7 +10,6 @@ let rec clasicall_bv ctxt t =
     Clou (CAbs(x, b), c)
   | CApp (t1, t2), cont ->
     apply (clasicall_bv cont t1) (clasicall_bv cont t2)
-  (* | Clou (t , c1), c2 -> clasicall_bv (c1 @ c2) t *)
   | _ -> failwith "[Error] Evaluation of CallByValue with Clousure"
   and apply f v =
     match f with
