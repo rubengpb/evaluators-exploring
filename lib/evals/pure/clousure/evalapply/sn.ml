@@ -23,13 +23,13 @@ let rec sn = function
             CApp(m'', n')
     )
   | Clou(CApp(m, n), env) ->
-    let m' = sn @@ Clou(m, env) in (
+    let m' = bv @@ Clou(m, env) in (
       match m' with
-        | CAbs(x, b) -> sn @@ Clou(b, [(x, Clou(bv n, env))])
-        | Clou(CAbs(x, b), env') -> sn @@ Clou(b, (x, Clou(bv n, env))::env')
+        | CAbs(x, b) -> sn @@ Clou(b, [(x, bv @@ Clou(n, env))])
+        | Clou(CAbs(x, b), env') -> sn @@ Clou(b, (x, bv @@ Clou(n, env))::env')
         | _ ->
           let m'' = sn m' in
-          let n' = sn n in
+          let n' = sn @@ Clou(n, env) in
             CApp(m'', n')
     )
   | Clou(Clou(t, env1), env2) -> sn @@ Clou(t, env1 @ env2)

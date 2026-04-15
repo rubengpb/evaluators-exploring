@@ -23,8 +23,8 @@ let rec ao = function
     let m' = ao @@ Clou(m, env) in
     let n' = ao @@ Clou(n, env) in (
       match m' with
-        | CAbs(x, b) -> ao @@ Clou(b, [(x, Clou(n', env))])
-        | Clou(CAbs(x, b), env') -> ao @@ Clou(b, (x, Clou(n', env))::env')
+        | CAbs(x, b) -> ao @@ Clou(b, [(x, n')])
+        | Clou(CAbs(x, b), env') -> ao @@ Clou(b, (x, n')::env')
         | _ -> CApp(m', n')
     )
   | Clou(Clou(t, env1), env2) -> ao @@ Clou(t, env1 @ env2)
