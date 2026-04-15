@@ -7,7 +7,7 @@ let rec gen la op1 ar1 op2 ar2 t =
   match t with
   | CVar x as v -> v
   | Clou(CVar x, []) -> CVar x
-  | Clou(CVar x, (y, v)::env) -> if x = y then v else gen_aux @@ Clou(CVar x, env)
+  | Clou(CVar x, (y, n)::env) -> if x = y then gen_aux n else gen_aux @@ Clou(CVar x, env)
   | CAbs(x, b) -> let b' = la b in CAbs(x, b')
   | Clou(CAbs(x, b), env) ->
     let var = x ^ string_of_int (cl_fresh ()) in
