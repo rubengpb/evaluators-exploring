@@ -29,4 +29,10 @@ type zipper_ctxt =
   | AppR of pterm * zipper_ctxt (* m [] *)
   | AbsC of string * zipper_ctxt
 
+type zipper_ctxt_db =
+  | DBTop
+  | DBAppL of zipper_ctxt_db * dbterm
+  | DBAppR of dbterm * zipper_ctxt_db
+  | DBAbsC of zipper_ctxt_db
+
 type zipper = term * context

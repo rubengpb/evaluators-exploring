@@ -28,6 +28,18 @@ let string_of_redex = function
       colorize ("(" ^ string_of_pterm n ^ ")") "blue"
     | _ -> failwith "Error: Not redex to print"
 
+let string_of_db_redex = function
+    | DBApp(DBAbs b, FDBVar y) ->
+      colorize ("(\\" ^ "." ^ string_of_dbterm b ^ ")") "red" ^ " " ^
+      colorize y "blue"
+    | DBApp(DBAbs b, DBVar y) ->
+      colorize ("(\\" ^ "." ^ string_of_dbterm b ^ ")") "red" ^ " " ^
+      colorize (string_of_int y) "blue"
+    | DBApp(DBAbs b, n) ->
+      colorize ("(\\" ^ "." ^ string_of_dbterm b ^ ")") "red" ^ " " ^
+      colorize ("(" ^ string_of_dbterm n ^ ")") "blue"
+    | _ -> failwith "Error: Not redex to print"
+
 let rec plug_str t_str z_ctxt =
   match z_ctxt with
     | Top -> t_str
@@ -35,6 +47,10 @@ let rec plug_str t_str z_ctxt =
         plug_str (t_str ^ " " ^ x) ctx
     | AppL (ctx, n) ->
         plug_str (t_str ^ " (" ^ string_of_pterm n ^ ")") ctx
+    | AppR (Var x, ctx) ->
+        plug_str (x ^ " (" ^ t_str ^ ")") ctx
+    | AppR (Abs(x,m) as abs, ctx) ->
+        plug_str ("(" ^ string_of_pterm abs ^ ") (" ^ t_str ^ ")") ctx
     | AppR (m, ctx) ->
         plug_str (string_of_pterm m ^ " (" ^ t_str ^ ")") ctx
     | AbsC (x, Top) -> "\\" ^ x ^ "." ^ t_str
@@ -42,3 +58,20 @@ let rec plug_str t_str z_ctxt =
       plug_str ("\\" ^ x ^ "." ^ t_str) (AbsC(y, ctx))
     | AbsC (x, ctx) ->
       plug_str ("(\\" ^ x ^ "." ^ t_str ^ ")") ctx
+
+let rec plug_db_str t_str z_ctxt =
+  match z_ctxt with
+    | DBTop -> t_str
+    | DBAppL (ctx, FDBVar x) ->
+        plug_db_str (t_str ^ " " ^ x) ctx
+    | DBAppL (ctx, DBVar x) ->
+        plug_db_str (t_str ^ " " ^ string_of_int x) ctx
+    | DBAppL (ctx, n) ->
+        plug_db_str (t_str ^ " (" ^ string_of_dbterm n ^ ")") ctx
+    | DBAppR (m, ctx) ->
+        plug_db_str (string_of_dbterm m ^ " (" ^ t_str ^ ")") ctx
+    | DBAbsC DBTop -> "\\." ^ t_str
+    | DBAbsC (DBAbsC ctx) ->
+      plug_db_str ("\\." ^ t_str) (DBAbsC ctx)
+    | DBAbsC ctx ->
+      plug_db_str ("(\\." ^ t_str ^ ")") ctx
