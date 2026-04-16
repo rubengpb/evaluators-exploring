@@ -11,5 +11,4 @@ let eval_debruijn e t =
     | EvalApply -> eval_apply e.strategy t
     | EvalApplyZipper -> eval_apply_zipper e.strategy t
     | SmallStep -> eval_smallstep e.strategy t
-    | ReadBack -> failwith "TODO"
-    (* | ReadBack -> eval_readback e.strategy t *)
+    | ReadBack -> eval_readback e.strategy t

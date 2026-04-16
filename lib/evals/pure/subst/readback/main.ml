@@ -18,7 +18,7 @@ let eval_readback str t =
           match List.map evalreadback_of_short_string params with
           | [la_1; la_2; ar2_1; ar2_2] ->
             Gen.gen (Fun.compose la_1 la_2) (Fun.compose ar2_1 ar2_2) t
-        | _ -> failwith "ERROR: incorrect number of params in Pure Gen EvalApply"
+        | _ -> failwith "ERROR: incorrect number of params in Pure Gen ReadBack"
       )
     | One name -> (
       match name with
