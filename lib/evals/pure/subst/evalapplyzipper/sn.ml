@@ -11,13 +11,13 @@ let rec sn (t, z_ctxt) =
         (Abs(x, b'), z_ctxt)
     | App (m, n) ->
       let (m', _) = bv (m , AppL(z_ctxt, n)) in
-      let (n', _) = bv (n, AppR(m', z_ctxt)) in
       match m' with
         | Abs(x, b) ->
+          let (n', _) = bv (n, AppR(m', z_ctxt)) in
           let redex_str = string_of_redex (App(m', n')) in
           let full_str = plug_str redex_str z_ctxt in
           print_endline full_str;
           sn (subst n' x b, z_ctxt)
         | _ -> let (m'', _) = sn (m', AppL(z_ctxt, n)) in
-          let (n'', _) = sn (n', AppR(m'', z_ctxt)) in
-            (App(m'', n''), z_ctxt)
+          let (n', _) = sn (n, AppR(m'', z_ctxt)) in
+            (App(m'', n'), z_ctxt)

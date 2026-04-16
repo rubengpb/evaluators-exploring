@@ -19,5 +19,5 @@ let rec ha (t, z_ctxt) =
           print_endline full_str;
           ha (subst n' x b, z_ctxt)
         | _ -> let (m'', _) = ha (m', AppL(z_ctxt, n)) in
-          let (n', _) = ha (n, AppR(m', z_ctxt)) in
+          let (n', _) = ha (n, AppR(m'', z_ctxt)) in
             (App(m'', n'), z_ctxt)
