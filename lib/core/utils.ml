@@ -128,10 +128,20 @@ let rec subst n x b =
             Abs (z, subst n x (subst (Var z) y body))
         )
 
+let rec shift n x l =
+  match n with
+    | FDBVar x -> n
+    | DBVar k -> if k >= l then DBVar (k + x) else DBVar k
+    | DBApp (t1, t2) -> DBApp(shift t1 x l, shift t2 x l)
+    | DBAbs body -> DBAbs (shift body x (l+1))
+
 let rec subst_db n x b =
   match b with
     | FDBVar x -> b
-    | DBVar k -> if k = x then n else b
+    | DBVar k ->
+        if k = x then (shift n x 0)
+        else if k < x then b
+        else DBVar (k - 1)
     | DBApp (t1, t2) -> DBApp(subst_db n x t1, subst_db n x t2)
     | DBAbs body -> DBAbs (subst_db n (x + 1) body)
 
