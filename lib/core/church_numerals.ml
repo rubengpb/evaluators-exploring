@@ -21,10 +21,38 @@ let rec int_of_pterm_aux x y = function
       else None
   | _ -> None
 
+let rec int_of_cterm_aux x y = function
+  | CVar b ->
+      if b = y then Some 0 else None
+  | CApp (CVar a, e) ->
+      if x = a then
+        match int_of_cterm_aux x y e with
+        | Some n -> Some (n + 1)
+        | None -> None
+      else None
+  | _ -> None
+
+let rec int_of_dbterm_aux = function
+  | DBVar 0 -> Some 0
+  | DBApp (DBVar 1, e) -> (
+        match int_of_dbterm_aux e with
+        | Some n -> Some (n + 1)
+        | None -> None)
+  | _ -> None
+
 let int_of_pterm = function
   | Abs (x, Abs (y, e)) -> int_of_pterm_aux x y e
   | _ -> None
 
+let int_of_dbterm = function
+  | DBAbs (DBAbs e) -> int_of_dbterm_aux e
+  | _ -> None
+
+let int_of_cterm = function
+  | CAbs (x, (CAbs(y, e))) -> int_of_cterm_aux x y e
+  | _ -> None
+
 let int_of_term = function
   | TPure t -> int_of_pterm t
-  | _ -> None
+  | TDeBruijn  t-> int_of_dbterm t
+  | TClousure t -> int_of_cterm t

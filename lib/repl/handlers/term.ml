@@ -32,9 +32,24 @@ let rec string_of_pterm_with_options num list t =
 and string_of_pterm_list num xs =
   "[" ^ List.fold_left (fun acc s -> acc ^ string_of_pterm_with_options num true s ^ "; ") "" xs ^ "]"
 
+let string_of_dbterm_with_options num t =
+  if num then
+    match int_of_dbterm t with
+      | Some n -> string_of_int n
+      | None -> string_of_dbterm_pure t
+  else string_of_dbterm_pure t
+
+let string_of_cterm_with_options num t =
+  if num then
+    match int_of_cterm t with
+      | Some n -> string_of_int n
+      | None -> string_of_cterm t
+  else string_of_cterm t
+
 let string_of_term_with_options num list = function
   | TPure tt -> string_of_pterm_with_options num list tt
-  | t -> string_of_term t
+  | TDeBruijn dbt -> string_of_dbterm_with_options num dbt
+  | TClousure clt -> string_of_cterm_with_options num clt
 
 let handle_term st t =
   let t = expand st.env t in
