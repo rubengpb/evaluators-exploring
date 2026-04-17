@@ -14,6 +14,7 @@ val subst_db :
 val string_of_term : Syntax.term -> string
 val string_of_pterm : Syntax.pterm -> string
 val string_of_cterm : Syntax.cterm -> string
+val string_of_ctxt : Syntax.context -> string
 val string_of_dbterm : Syntax.dbterm -> string
 val string_of_dbterm_pure : Syntax.dbterm -> string
 val term_of_string : string -> Syntax.pterm

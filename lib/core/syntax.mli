@@ -35,4 +35,11 @@ type zipper_ctxt_db =
   | DBAppR of dbterm * zipper_ctxt_db
   | DBAbsC of zipper_ctxt_db
 
+type zipper_ctxt_c =
+  | CTop
+  | CAppL of zipper_ctxt_c * cterm
+  | CAppR of cterm * zipper_ctxt_c
+  | CAbsC of string * zipper_ctxt_c
+  | CClouC of zipper_ctxt_c * context
+
 type zipper = term * context

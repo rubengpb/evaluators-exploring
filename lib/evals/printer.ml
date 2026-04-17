@@ -40,6 +40,18 @@ let string_of_db_redex = function
       colorize ("(" ^ string_of_dbterm n ^ ")") "blue"
     | _ -> failwith "Error: Not redex to print"
 
+let string_of_c_redex = function
+    | CApp(CAbs(x,b), CVar y) ->
+      colorize ("(\\" ^ x ^ "." ^ string_of_cterm b ^ ")") "red" ^ " " ^
+      colorize y "blue"
+    | CApp(CAbs(x,b), n) ->
+      colorize ("(\\" ^ x ^ "." ^ string_of_cterm b ^ ")") "red" ^ " " ^
+      colorize ("(" ^ string_of_cterm n ^ ")") "blue"
+    | CApp(Clou(CAbs(x,b), z_ctxt) as cl, n) ->
+      colorize ("(" ^ string_of_cterm cl ^ ")") "red" ^ " " ^
+      colorize ("(" ^ string_of_cterm n ^ ")") "blue"
+    | _ -> failwith "Error: Not redex to print"
+
 let rec plug_str t_str z_ctxt =
   match z_ctxt with
     | Top -> t_str
@@ -75,3 +87,20 @@ let rec plug_db_str t_str z_ctxt =
       plug_db_str ("\\." ^ t_str) (DBAbsC ctx)
     | DBAbsC ctx ->
       plug_db_str ("(\\." ^ t_str ^ ")") ctx
+
+let rec plug_c_str t_str z_ctxt =
+  match z_ctxt with
+    | CTop -> t_str
+    | CAppL (ctx, CVar x) ->
+        plug_c_str (t_str ^ " " ^ x) ctx
+    | CAppL (ctx, n) ->
+        plug_c_str (t_str ^ " (" ^ string_of_cterm n ^ ")") ctx
+    | CAppR (m, ctx) ->
+        plug_c_str (string_of_cterm m ^ " (" ^ t_str ^ ")") ctx
+    | CAbsC (x,CTop) -> "\\" ^ x ^ "." ^ t_str
+    | CAbsC (x, CAbsC(y, ctx)) ->
+      plug_c_str ("\\" ^ x ^ "." ^ t_str) (CAbsC(y, ctx))
+    | CAbsC (x, ctx) ->
+      plug_c_str ("(\\" ^ x ^ "." ^ t_str ^ ")") ctx
+    | CClouC (z_ctxt, ctxt) ->
+      plug_c_str ("<" ^ t_str ^ ", [" ^ string_of_ctxt ctxt ^ "]>") z_ctxt
