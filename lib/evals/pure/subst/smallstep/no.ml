@@ -2,14 +2,25 @@ open Core.Syntax
 open Core.Utils
 open Core.Forms
 open Printer
+open Bn
 
 
 let rec step_no = function
-  | Abs (x, body) -> Abs(x, step_no body)
-  | App (Abs (x, body), arg) -> subst arg x body
-  | App (Var x, arg) -> App (Var x, step_no arg)
-  | App (t1, t2) -> App(step_no t1, t2)
-  | t -> t (* Variables *)
+  | App(m, n) when not (is_whnf m) ->
+    let m' = step_bn m in
+    App(m', n)
+  | App(Abs(x, b), n) ->
+    subst n x b
+  | App(m, n) when not (is_nf m) ->
+    let m' = step_no m in
+    App(m', n)
+  | App(v, n) when not (is_nf n) ->
+    let n' = step_no n in
+    App(v, n')
+  | Abs(x, b) when not (is_nf b) ->
+    let b' = step_no b in
+    Abs(x, b')
+  | _ -> failwith "Not redex!"
 
 let rec string_of_term_ss_no = function
   | Var x -> x

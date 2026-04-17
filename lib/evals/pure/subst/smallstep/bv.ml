@@ -4,13 +4,6 @@ open Core.Forms
 open Printer
 
 
-let rec step_bv = function
-  | Abs (x, body) -> Abs(x, step_bv body)
-  | App (Abs (x, body), arg) -> subst arg x body
-  | App (Var x, arg) -> App (Var x, step_bv arg)
-  | App (t1, t2) -> App(step_bv t1, t2)
-  | t -> t (* Variables *)
-
 let rec string_of_term_ss_bv = function
   | Var x -> x
   | Abs (x, t) ->
@@ -28,6 +21,17 @@ let rec string_of_term_ss_bv = function
       let left = colorize ("(" ^ string_of_pterm l ^ ")") "blue" in
       let right = colorize ("(" ^ string_of_pterm arg ^ ")") "red" in
       left ^ " " ^ right
+
+let rec step_bv = function
+  | App (Abs (x, b), m) ->
+      subst m x b
+  | App(m, n) when not (is_value m) ->
+    let m' = step_bv m in
+    App(m', n)
+  | App(v, n) when not (is_value n) ->
+    let n' = step_bv n in
+    App(v, n')
+  | _ -> failwith "Not redex!"
 
 let rec bv t =
   if is_wnf t then t

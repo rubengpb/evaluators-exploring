@@ -1,5 +1,15 @@
 open Syntax
 
+let is_abs = function
+  | Abs _ -> true
+  | _ -> false
+
+let is_var = function
+  | Var _ -> true
+  | _ -> false
+
+let is_value t = (is_abs t) || (is_var t)
+
 let rec spine t =
   match t with
   | App (t1, t2) ->

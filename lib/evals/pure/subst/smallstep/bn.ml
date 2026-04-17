@@ -5,10 +5,12 @@ open Printer
 
 
 let rec step_bn = function
-  | App (Abs (x, body), arg) -> subst arg x body
-  | App (Var x, arg) -> App (Var x, step_bn arg)
-  | App (t1, t2) -> App(step_bn t1, t2)
-  | t -> t (* Variables, Abstractions *)
+  | App (Abs (x, b), m) ->
+      subst m x b
+  | App (m, n) ->
+      let m' = step_bn m in
+      App (m', n)
+  | _ -> failwith "Not redex!"
 
 let rec string_of_term_ss_bn = function
   | Var x -> x
@@ -34,6 +36,6 @@ let rec string_of_term_ss_bn = function
 let rec bn t =
   if is_whnf t then t
   else (
-    print_endline @@ string_of_term_ss_bn t ^ " -->";
+    print_endline @@ string_of_term_ss_bn t;
     t |> step_bn |> bn
   )

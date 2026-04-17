@@ -4,16 +4,18 @@ open Core.Forms
 open Printer
 
 let rec step_ao = function
-  | Abs (x, body) -> Abs(x, step_ao body)
-  | App (Var x, arg) -> App (Var x, step_ao arg)
-  | App (Abs (x, body), arg) ->
-    let is_body_nf = is_nf body in
-    let is_arg_nf = is_nf arg in
-    if  is_body_nf && is_arg_nf then subst arg x body
-    else if is_body_nf then App(Abs(x, body), step_ao arg)
-    else App(Abs(x, step_ao body), arg)
-  | App (t1, t2) -> App(step_ao t1, t2)
-  | t -> t (* Variables *)
+  | App(m, n) when not (is_nf m) ->
+    let m' = step_ao m in
+    App(m', n)
+  | App(v, n) when not (is_nf n) ->
+    let n' = step_ao n in
+    App(v, n')
+  | App(Abs(x, b), v) ->
+    subst v x b
+  | Abs(x, b) when not (is_nf b)->
+    let b' = step_ao b in
+    Abs(x, b')
+  | _ -> failwith "Not redex!"
 
 let rec string_of_term_ss_ao = function
   | Var x -> x
