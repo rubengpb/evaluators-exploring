@@ -1,6 +1,7 @@
-include data/sub
+include data/bool data/sub data/combinators
 lower = \n.\m. and (isZero (sub n m)) (not (isZero (sub m n)))
 fac = \f.\n. cond (isZero n) one (prod n (f (pred n)))
+facz = \f.\n. cond (isZero n) (\k. k one) (\k. f (pred n) (\x. k (prod n x)))
 sum = \s.\n. cond (isZero n) zero (add n (s (pred n)))
 div = \d.\n.\m. cond (lower n m) zero (add one (d (sub n m) m))
 mod = \md.\m.\n. cond (lower m n) m (md (sub m n) n)

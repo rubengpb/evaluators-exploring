@@ -2,11 +2,15 @@
 open Ast
 open Core.Syntax
 open Core.Church_numerals
+open Core.Church_list
 %}
 
 %token Q
 %token ICONFIG
 %token SET
+%token ENV
+%token EXENV1
+%token EXENV2
 %token TYPE
 %token H
 %token LOAD
@@ -14,8 +18,11 @@ open Core.Church_numerals
 %token EQUAL
 %token LPAREN
 %token RPAREN
+%token LBRACK
+%token RBRACK
 %token LAMBDA
 %token DOT
+%token SEMICO
 %token <string> IDENT
 %token <int> NUMBER
 %token EOF
@@ -33,6 +40,13 @@ instruction:
   | Q { Quit }
   | ICONFIG { IConfig None }
   | ICONFIG IDENT { IConfig (Some $2) }
+  | ENV { IConfig (Some "env") }
+  | ENV IDENT { IConfig (Some ("env_" ^ $2)) }
+  | EXENV1 { IConfig (Some "expEnv") }
+  | EXENV1 IDENT { IConfig (Some ("expEnv_" ^ $2)) }
+  | EXENV2 { IConfig (Some "expEnv") }
+  | EXENV2 IDENT { IConfig (Some ("expEnv_" ^ $2)) }
+  | ICONFIG IDENT IDENT { IConfig (Some ($2 ^ "_" ^ $3)) }
   | SET IDENT lident { Set ($2, String.concat "_" $3) }
   | TYPE IDENT { Type $2 }
   | H { Help None }
@@ -57,5 +71,11 @@ atoms:
 
 atom:
   | IDENT { Var $1 }
-  | NUMBER { term_of_int $1 }
+  | NUMBER { pterm_of_int $1 }
+  | LBRACK list RBRACK { pterm_of_list $2 }
   | LPAREN term RPAREN { $2 }
+
+list:
+  | { [] }
+  | term { [$1] }
+  | term SEMICO list { $1::$3 }

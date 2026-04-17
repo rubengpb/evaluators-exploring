@@ -1,12 +1,27 @@
+(include_subdirs unqualified)
+
 (tests
  (names
    test_string_of_term
+   test_from_to_debruijn
    test_subst
    test_alpha_equiv
-   test_eval_nor
+   test_eval_bv
+   test_eval_bn
    test_eval_ao
+   test_eval_no
+   ; test_eval_hr
+   ; test_eval_he
+   ; test_eval_sn
+   ; test_eval_hn
+   ; test_eval_ha
+   ; test_eval_am
+   ; test_eval_ho
+   ; test_eval_so
+   ; test_eval_bs
    )
  (libraries
    evaluators_exploring.core
    evaluators_exploring.evals
+   evaluators_exploring.repl
    alcotest))

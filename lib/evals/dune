@@ -1,6 +1,6 @@
-(include_subdirs unqualified)
-
 (library
  (name evals)
  (public_name evaluators_exploring.evals)
  (libraries evaluators_exploring.core))
+
+(include_subdirs qualified)

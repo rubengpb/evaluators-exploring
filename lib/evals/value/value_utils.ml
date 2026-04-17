@@ -1,0 +1,5 @@
+open Core.Syntax
+
+let is_value = function
+  | App(_,_) -> false
+  | _ -> true

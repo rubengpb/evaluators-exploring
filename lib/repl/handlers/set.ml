@@ -1,21 +1,72 @@
 open Evals.Eval
 open Config
 
+let handle_sim_incongruence st = { st with simulator = None }
+
 let handle_set st param opt =
   match param with
   | "env" -> { st with env = [] }
+  | "lan" | "language" -> (
+    match language_of_string opt with
+      | Some lang -> let ev = { st.eval with language = lang } in
+        { st with eval = ev}
+      | None ->
+         print_endline @@ "[ERROR in set language]\nNon exists this language: " ^ opt;
+         st
+    )
+  | "sub" | "subst" -> (
+    match subst_of_string opt with
+      | Some sub -> let ev = { st.eval with subst = sub } in
+        { st with eval = ev}
+      | None ->
+         print_endline @@ "[ERROR in set subst]\nNon exists this subst: " ^ opt;
+         st
+    )
+  | "sty" | "style" -> (
+    match style_of_string opt with
+      | Some sty -> let ev = { st.eval with style = sty } in
+        { st with eval = ev}
+      | None ->
+         print_endline @@ "[ERROR in set style]\nNon exists this style: " ^ opt;
+         st
+    )
+  | "str" | "strategy" -> (
+    let st = handle_sim_incongruence st in
+    match strategy_of_string opt with
+      | Some str -> let ev = { st.eval with strategy = str } in
+        { st with eval = ev}
+      | None ->
+         print_endline @@ "[ERROR in set strategy]\nNon exists this strategy: " ^ opt;
+         st
+    )
+  | "sim" | "simulator" -> (
+    match simulator_option_of_string opt with
+      | Some sim -> let st = { st with simulator = Some sim} in
+        let ev = { st.eval with strategy = One sim.host } in
+        { st with eval = ev}
+      | None ->
+         print_endline @@ "[ERROR in set simulator]\nNon exists this simulator: " ^ opt;
+         st
+    )
   | "eval" ->
+    let st = handle_sim_incongruence st in
     (match eval_of_string opt with
     | Some ev -> { st with eval = ev }
     | None ->
         print_endline @@ "[ERROR in set eval]\nNon exists this eval: " ^ opt;
         st)
-  | "church" ->
-    if opt = "true" then { st with church = true }
-    else { st with church = false }
-  | "display" ->
-    if opt = "true" then { st with display = true }
-    else { st with display = false }
+  | "ch" | "church" -> (
+    match opt with
+      | "true" | "on" -> { {st with church_list = true } with church_num = true }
+      | "num_true" | "num_on" -> { st with church_num = true }
+      | "list_true" | "list_on" -> { st with church_list = true }
+      | _ -> { {st with church_list = false } with church_num = false }
+    )
+  | "display" -> (
+    match opt with
+      | "true" | "on" -> { st with display = true }
+      | _ -> { st with display = false }
+    )
   | other ->
     print_endline @@ "[ERROR in set]\nNon exists this param: " ^ other;
     st

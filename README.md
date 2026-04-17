@@ -29,6 +29,9 @@ dune test test_eval
 
 ## repl
 
+From the system, install `rlwrap` if you want to have a better experience
+typing inside the repl.
+
 The dependencies:
 
 ```bash

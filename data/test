@@ -1,0 +1,6 @@
+t0 = (\x.\y.x y) y
+t1 = (\x.\y.(\z.z) x y) y
+t2 = (\x.\y.(\z.z) x y) y a
+t3 = (\x.\y.(\z.z) x y) y ((\x.x) a)
+t4 = (\a.\b.\c. a b c) c b a
+t_zipp = (\x.x) (\y.y) (a ((\x.x) b))

@@ -8,17 +8,24 @@ rule read = parse
   | ":q" { Q }
   | ":config" { ICONFIG }
   | ":set" { SET }
+  | ":env" { ENV }
+  | ":expEnv" { EXENV1 }
+  | ":expandedEnv" { EXENV2 }
   | ":t" { TYPE }
   | ":h" { H }
+  | ":?" { H }
   | ":load" { LOAD }
 
   | "=" { EQUAL }
 
   | "(" { LPAREN }
   | ")" { RPAREN }
+  | "[" { LBRACK }
+  | "]" { RBRACK }
 
   | "\\" { LAMBDA }
   | "." { DOT }
+  | ";" { SEMICO }
 
   | ['a'-'z' 'A'-'Z' '_']['a'-'z' 'A'-'Z' '0'-'9' '_']*
       { IDENT (Lexing.lexeme lexbuf) }

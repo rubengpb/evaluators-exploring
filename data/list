@@ -1,7 +1,11 @@
-include data/bool
-pair = \x.\y.\f. f x y
-fst = \p. p (\x.\y. x)
-snd = \p. p (\x.\y. y)
-nil = \x. true
-cons = pair
-isEmpty = \l. l (\x.\y. false) true
+include data/bool data/nat
+nil = false
+isNil = \l. l (\x.\y. false) true
+cons = \x.\xs.\c.\n.c x (xs c n)
+hd = \l.l true false
+tl = \l.\c.\n.l (\h.\r.\g.g h (r c)) (\g.n) false
+singleton = \e.\c.\n. c e n
+append = \l1.\l2.\c.\n.l1 c (l2 c n)
+fold = \f.\acc.\l.l f acc
+map = \f.\l.\c.\n.l (\h. c (f h)) n
+length = \l.l (\x.\acc. succ acc) 0
