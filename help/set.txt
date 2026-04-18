@@ -1,0 +1,13 @@
+The :set command is the tool to change the config.
+
+The config of the repl is defined by:
+
+    Params:
+      eval        -> the evaluator config the language, substituion manager, style and strategy
+      env         -> env: the list of <id> with its related terms
+      church_num  -> if the result has the form of number church encoding, print it
+      church_list -> if the result has the form of list church encoding, print it
+      display     -> before print the result, print the expanded term to evaluate
+      simulator   -> a game to simulate some strategies inside others changing the
+                     initial term to evaluate
+

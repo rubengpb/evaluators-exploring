@@ -1,39 +1,33 @@
-let main_message =
-  "Simple λ-REPL: type lambda-terms, assign lambda-terms" ^
-  " and use them in expressions. \n\nType :q to exit.\n\n" ^
-  "   Commands:\n" ^
-  "     :load <file>\n" ^
-  "     :t <id>|<term>\n" ^
-  "     :config <param>\n" ^
-  "     :set <param> <opt>\n\n" ^
-  "More info about each command with :h <command>.\n\n" ^
-  "   Evaluation of terms:\n" ^
-  "     Type <id> = <term> to assign to an id a term.\n" ^
-  "     Type <term> to evaluate a term."
+let read_file path =
+  try
+    let ic = open_in path in
+    let len = in_channel_length ic in
+    let content = really_input_string ic len in
+    close_in ic;
+    content
+  with _ -> "[ERROR] Check that the documentations files have been uploaded."
+
+let help_path cmd = "help/" ^ cmd ^ ".txt"
 
 let handle_help st = function
   | None ->
-   print_endline main_message;
-   st
-  | Some s ->
-    print_endline
-    (match s with
-    | "q" -> "Type :q to exit"
-    | "h" -> main_message
-    | "load" -> "Type :load <file> to load predifined definitions.\n\n" ^
-        "If the file depends on another file, write at the first line: " ^
-        "include <other-file>+."
-    | "t" -> "Type :t <id> or :t <term> in order to see the type of the term."
-    | "config" -> "Config options:\n\n" ^
-          "   :config eval  (displays the current evaluator)\n" ^
-          "   :config env  (displays the current environment, with the map of <id> = <term>)\n" ^
-          "   :config church  (format numbers in the output, true or false)\n" ^
-          "   :config display  (print the initial term before evaluation, true or false)"
-    | "set" -> "Set options:\n\n" ^
-          "   :set eval <eval>  (set the current evaluator to <eval>)\n" ^
-          "   :set env clear  (clear the environment)\n" ^
-          "   :set church (true|false)  (activate/deactivate church output)\n" ^
-          "   :set display (true|false) (activate/deactivate initial print)"
-    | other -> "[ERROR in help]\nNon exists this instruction: " ^ other);
+    let path = help_path "main" in
+    print_endline (read_file path);
     st
-
+  | Some s ->
+    print_endline (
+      match s with
+      | "q" | "quit" -> read_file @@ help_path "q"
+      | "h" | "help" -> read_file @@ help_path "main"
+      | "load" as cmd -> read_file @@ help_path cmd
+      | "t" | "type" -> read_file @@ help_path "type"
+      | "config" | "iconfig" -> read_file @@ help_path "config"
+      | "set" as cmd -> read_file @@ help_path cmd
+      | "evals" as cmd -> read_file @@ help_path cmd
+      | "names" as cmd -> read_file @@ help_path cmd
+      | "env" as cmd -> read_file @@ help_path cmd
+      | "church" | "ch" -> read_file @@ help_path "church"
+      | "prebuilt" as cmd -> read_file @@ help_path cmd
+      | _ -> "[ERROR in help] Command not found: " ^ s
+      );
+    st

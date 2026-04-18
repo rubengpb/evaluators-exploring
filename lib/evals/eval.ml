@@ -52,8 +52,8 @@ let string_of_language = function
   | Value -> "Value"
 
 let language_of_string = function
-  | "Pure" -> Some Pure
-  | "Value" -> Some Value
+  | "Pure" | "p" -> Some Pure
+  | "Value" | "v" -> Some Value
   | _ -> None
 
 let string_of_subst = function

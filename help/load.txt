@@ -1,0 +1,18 @@
+Type :load <file> to load predifined definitions inside a file.
+
+The syntax of the file must be:
+
+    statement :=
+        | include <files> EOL <statement>
+        | <id> = term EOL <statement>
+        | {}
+
+For example:
+
+> include data/bool data/nat
+> t1 = and true (isZero 5)
+> t2 = add 2 2
+> include data/list
+> sum1_2 = (cons 1 (cons 2 nil)) add 0
+
+This definitions will be stored at the REPL env. For more info, type :h env.

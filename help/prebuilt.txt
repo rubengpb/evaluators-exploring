@@ -1,0 +1,10 @@
+Prebuilt files with typical definitions of terms:
+
+  - data/bool: definitions and simple booleans operators
+  - data/nat: definitions and simple aritmethic functions
+  - data/sub: definitions and simple aritmethic functions
+  - data/combinators: definitions of the logic combinators of Haskell Curry
+  - data/pair: definitions of simple functions related with pairs
+  - data/list: definitions of simple functions related with pairs
+  - data/recursive_functions: typical recursive functional functions
+  - data/inf_list: definitions of simple functions related with pairs

@@ -1,0 +1,34 @@
+The set of the evaluators are so big. This tool is designed to help with this
+problem.
+
+In this tool, an evaluator has 4 params:
+
+      | language | substitution manager | style | strategy |
+
+where the strategy is one specific or a generic strategy.
+
+An evaluator manage how evaluate a term. In general, it can be parametrizate
+by how it manage a lambda abstraction, how it manage an operator before execute
+it, how it manage the arguments of an application, how reduce a neutral.
+
+For more theoretical info, search at https://rubengpb.github.io/docs.html.
+
+If you what to know the evals (and how config it) and their names, execute
+:h names.
+
+    Commands:
+      :set eval <lan> <subst> <sty> <str>
+      :set eval (lan|language) <lan>
+      :set eval (su|subst) <subst>
+      :set eval (sty|style) <style>
+      :set eval (str|strategy) <strategy>
+
+    Gen evals:
+      :set eval str Gen <la> <op1> <ar1> <op2> <ar2>
+
+    where:
+      la -> when we have a lambda, how evaluate it body
+      op1 -> how evaluate the left part of the application before obtain an abs
+      ar1 -> how evaluate the arguments before doing a redex
+      op2 -> how evaluate the left part of the neutral application 
+      ar1 -> how evaluate the rigth part of the neutral application

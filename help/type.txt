@@ -1,0 +1,3 @@
+Type :t <id> to calculate the type of a term.
+
+The id must be inside the REPL evn.

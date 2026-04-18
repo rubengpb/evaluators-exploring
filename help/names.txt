@@ -1,0 +1,49 @@
+--------------------------------------------------
+| NAMES OF LANGAUGE                              |
+--------------------------------------------------
+| Language              | Repl long | Repl short |
+------------------------|-------------------------
+| Pure Lambda Calculus  | Pure      | p          |
+| Lambda-Value Calculus | Value     | v          |
+--------------------------------------------------
+
+--------------------------------------------------
+| NAMES OF SUBSTITUTIONS OPTIONS                 |
+--------------------------------------------------
+| Substitution type     | Repl long | Repl short |
+------------------------|-----------|-------------
+| Normal Substitution   | Subst     | su         |
+| With De Bruijn index  | DeBruijn  | db         |
+| Clousures             | Clou      | cl         |
+--------------------------------------------------
+
+--------------------------------------------------
+| NAMES OF EVALUATORS STYLE                      |
+--------------------------------------------------
+| Style                 | Repl long      | Short |
+------------------------|----------------|--------
+| Eval Apply            | EvalApply      | ea    |
+| Eval Apply with Zipper| EvalApplyZipper| eaz   |
+| Eval Read Back        | ReadBack       | rb    |
+| Small Step            | SmallStep      | ss    |
+--------------------------------------------------
+
+--------------------------------------------------
+| NAMES OF STRATEGY OF EVALUATION                |
+--------------------------------------------------
+| Name / Repl long              | Repl short     |
+--------------------------------|------------------
+| CallByValue                   | bv             |
+| CallByName                    | bn             |
+| ApplicativeOrder              | ao             |
+| NormalOrder                   | no             |
+| HeadReduction                 | hr             |
+| HeadSpine                     | he             |
+| StrincNormalisation           | sn             |
+| HybridNormalOrder             | hn             |
+| HybridApplicativeOrder        | ha             |
+| AheadMachine                  | am             |
+| HeadApplicativeOrder          | ho             |
+| SpineApplicativeOrder         | so             |
+| BalancedSpineApplicativeOrder | bs             |
+--------------------------------------------------

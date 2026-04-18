@@ -1,0 +1,14 @@
+The REPL works with pure lambda-calculus. There are not constant, prebuilt
+functions... This syntax sugar transforms lists and numbers into the
+tradicional Church encoding.
+
+When you write, "1 2" it is traduced to "(\s.\z.s z) (\s.\z.s (s z))" and
+"[1;a;[(\x.x); f]]" to "\c.\n.c (\s.\z.s z) (c a (c (\c.\n.c (\x.x) (c f n)) n))"
+
+You can algo display the result of evaluation.
+
+    Usefull commands:
+      :set church on          -> enable list and number display as Church encoding
+      :set church list on     -> enable list display as Church encoding
+      :set church number off  -> disable number display as Church encoding
+
