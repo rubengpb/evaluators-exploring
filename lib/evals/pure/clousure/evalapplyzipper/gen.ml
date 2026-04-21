@@ -37,20 +37,20 @@ let rec gen la op1 ar1 op2 ar2 (t, zipp) =
           (CApp(m'', n'), zipp)
     )
   | Clou(CApp(m, n), env) ->
-    let (m', _) = op1 @@ (Clou(m, env), CAppL(zipp, n)) in (
+    let (m', _) = op1 @@ (Clou(m, env), CAppL(zipp, Clou(n, env))) in (
       match m' with
         | CAbs(x, b) ->
           let (n', _) = ar1 (Clou(n, env), CAppR(m', zipp)) in
           let redex_str = string_of_c_redex (CApp(m', n')) in
           let full_str = plug_c_str redex_str zipp in
           print_endline full_str;
-          gen_aux @@ (Clou(b, [(x, Clou(n, env))]), zipp)
+          gen_aux @@ (Clou(b, [(x, n')]), zipp)
         | Clou(CAbs(x, b), env') ->
           let (n', _) = ar1 (Clou(n, env), CAppR(m', zipp)) in
           let redex_str = string_of_c_redex (CApp(m', n')) in
           let full_str = plug_c_str redex_str zipp in
           print_endline full_str;
-          gen_aux @@ (Clou(b, (x, Clou(n, env))::env'), zipp)
+          gen_aux @@ (Clou(b, (x, n')::env'), zipp)
         | _ ->
           let (m'', _) = op2 (m', CAppL(zipp, n)) in
           let (n', _) = ar2 (Clou(n, env), CAppR(m'', zipp)) in

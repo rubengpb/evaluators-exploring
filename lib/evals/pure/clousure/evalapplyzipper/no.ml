@@ -38,15 +38,15 @@ let rec no (t, zipp) =
       let (m', _) = bn @@ (Clou(m, env), CAppL(zipp, n)) in (
         match m' with
           | CAbs(x, b) ->
-            let redex_str = string_of_c_redex (CApp(m', n)) in
+            let redex_str = string_of_c_redex (CApp(m', Clou(n, env))) in
             let full_str = plug_c_str redex_str zipp in
             print_endline full_str;
-            no @@ (Clou(b, [(x, n)]), zipp)
+            no @@ (Clou(b, [(x, Clou(n, env))]), zipp)
           | Clou(CAbs(x, b), env') ->
-            let redex_str = string_of_c_redex (CApp(m', n)) in
+            let redex_str = string_of_c_redex (CApp(m', Clou(n, env))) in
             let full_str = plug_c_str redex_str zipp in
             print_endline full_str;
-            no @@ (Clou(b, (x, n)::env'), zipp)
+            no @@ (Clou(b, (x, Clou(n, env))::env'), zipp)
           | _ ->
             let (m'', _) = no @@ (m', CAppL(zipp, n)) in
             let (n', _) = no @@ (Clou(n, env), CAppR(m'', zipp)) in
