@@ -11,13 +11,13 @@ let rec gen la op1 ar1 op2 ar2 (t, zipp) =
   | Clou(CVar x, (y, n)::env) ->
     if x = y then gen_aux (n, zipp)
     else gen_aux @@ (Clou(CVar x, env), zipp)
-  | CAbs(x, b) -> let (b', _) = la b in (CAbs(x, b'), zipp)
+  | CAbs(x, b) -> let (b', _) = la (b, CAbsC(x, zipp)) in (CAbs(x, b'), zipp)
   | Clou(CAbs(x, b), env) ->
     let var = x ^ "*" ^ string_of_int (cl_fresh ()) in
-    let (b', _) = la @@ Clou(b, (x, CVar var)::env) in
+    let (b', _) = la @@ (Clou(b, (x, CVar var)::env), CClouC(zipp, env)) in
       (CAbs(var, b'), zipp)
   | CApp(m, n) ->
-    let m' = op1 m in (
+    let (m', _) = op1 (m, CAppL(zipp, n)) in (
       match m' with
         | CAbs(x, b) ->
           let (n', _) = ar1 (n, CAppR(m', zipp)) in
@@ -37,7 +37,7 @@ let rec gen la op1 ar1 op2 ar2 (t, zipp) =
           (CApp(m'', n'), zipp)
     )
   | Clou(CApp(m, n), env) ->
-    let m' = op1 @@ Clou(m, env) in (
+    let (m', _) = op1 @@ (Clou(m, env), CAppL(zipp, n)) in (
       match m' with
         | CAbs(x, b) ->
           let (n', _) = ar1 (Clou(n, env), CAppR(m', zipp)) in
