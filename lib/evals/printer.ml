@@ -50,7 +50,12 @@ let string_of_c_redex = function
     | CApp(Clou(CAbs(x,b), z_ctxt) as cl, n) ->
       colorize ("(" ^ string_of_cterm cl ^ ")") "red" ^ " " ^
       colorize ("(" ^ string_of_cterm n ^ ")") "blue"
-    | _ -> failwith "Error: Not redex to print"
+    | Clou(CApp(CAbs(x,b) as abs , n), z_ctxt)->
+      "<" ^
+      colorize ("(" ^ string_of_cterm abs ^ ")") "red" ^ " " ^
+      colorize ("(" ^ string_of_cterm n ^ ")") "blue" ^
+      ", " ^ string_of_ctxt z_ctxt ^ ">"
+    | wt -> failwith ("Error: Not redex to print: " ^ string_of_cterm wt)
 
 let rec plug_str t_str z_ctxt =
   match z_ctxt with
