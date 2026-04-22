@@ -9,10 +9,10 @@ let rec step_bs = function
   | App(m, n) when not (is_hnf m) ->
     let m' = step_ho m in
     App(m', n)
-  | App(v, n) when (is_abs v) && not (is_nf n) ->
+  | App(v, n) when (is_abs v) && not (is_hnf n) ->
     let n' = step_ho n in
     App(v, n')
-  | App(Abs(x, b), v) when (is_abs v) ->
+  | App(Abs(x, b), v) ->
     subst v x b
   | App(v, w) when not (is_nf v) ->
     let v' = step_bs v in

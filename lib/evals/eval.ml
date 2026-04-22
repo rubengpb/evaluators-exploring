@@ -121,7 +121,7 @@ let string_of_strategy = function
 let strategy_of_string str =
   let splited_str = String.split_on_char '_' str in
   match splited_str with
-    | "Gen"::params ->
+    | "Gen"::params | "g"::params | "gen"::params ->
       if List.for_all (fun x -> List.mem x apply_params) params
         || List.for_all (fun x -> List.mem x readback_params) params
       then Some (Gen params)
