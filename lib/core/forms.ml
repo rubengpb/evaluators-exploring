@@ -148,9 +148,9 @@ let rec cspine t =
   | CApp (t1, t2) ->
       let (h, args) = cspine t1 in
       (h, args @ [t2])
-  | Clou(CApp (t1, t2), env) ->
-      let (h, args) = cspine (Clou(t1, env)) in
-      (Clou(h, env), args @ [Clou(t2, env)])
+  (* | Clou(CApp (t1, t2), env) -> *)
+  (*     let (h, args) = cspine (Clou(t1, env)) in *)
+  (*     (Clou(h, env), args @ [Clou(t2, env)]) *)
   | _ -> (t, [])
 
 let is_cneu t =
@@ -170,7 +170,7 @@ let rec is_cnf t =
 let rec is_cwnf t =
   match t with
   | CAbs (_, _) -> true
-  | Clou((CAbs (_, _),_)) -> true
+  | Clou(CAbs (_, _),_) -> true
   | _ ->
       (match cspine t with
        | CVar _, args -> List.for_all is_cwnf args

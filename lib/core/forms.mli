@@ -22,3 +22,13 @@ val is_dbwnf : dbterm -> bool
 val is_dbhnf : dbterm -> bool
 val is_dbwhnf : dbterm -> bool
 val is_dbvhnf : dbterm -> bool
+
+val is_cvar : cterm -> bool
+val is_cabs : cterm -> bool
+val is_cvalue : cterm -> bool
+val is_cneu : cterm -> bool
+val is_cnf : cterm -> bool
+val is_cwnf : cterm -> bool
+val is_chnf : cterm -> bool
+val is_cwhnf : cterm -> bool
+val is_cvhnf : cterm -> bool
