@@ -29,9 +29,9 @@ let manage_form = function
 let eval_smallstep str t =
   match str with
     | Gen params -> (
-      (* let is_gen = manage_form (List.take 2 params) in *)
+      let is_gen = manage_form (List.take 2 params) in
       match List.map evalapply_of_short_string params with
-        (* | [la; op1; ar1; op2; ar2] -> Gen.gen is_gen la op1 ar1 op2 ar2 t *)
+        | [la; op1; ar1; op2; ar2] -> Gen.gen is_gen la op1 ar1 op2 ar2 t
         | _ -> failwith "ERROR: incorrect number of params in Pure Gen SmallStep"
       )
     | One name -> (
