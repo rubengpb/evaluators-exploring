@@ -29,6 +29,8 @@ let rec step_hr = function
     CApp(m', n)
   | Clou(CApp(m, n), env) ->
     step_hr (CApp(Clou(m, env), Clou(n, env)))
+  | Clou(Clou(t, env1), env2) ->
+    step_hr (Clou(t, env1 @ env2))
   | _ -> failwith "not redex!"
 
 let rec string_of_term_ss_hr = string_of_cterm

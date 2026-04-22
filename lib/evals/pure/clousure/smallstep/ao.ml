@@ -28,6 +28,8 @@ let rec step_ao = function
     Clou(b, (x, v)::env)
   | Clou(CApp(m, n), env) ->
     step_ao (CApp(Clou(m, env), Clou(n, env)))
+  | Clou(Clou(t, env1), env2) ->
+    step_ao (Clou(t, env1 @ env2))
   | _ -> failwith "Not redex!"
 
 let rec string_of_term_ss_ao = string_of_cterm

@@ -29,6 +29,8 @@ let rec step_am = function
     Clou(b, (x, n)::env)
   | Clou(CApp(m, n), env) ->
     step_am (CApp(Clou(m, env), Clou(n, env)))
+  | Clou(Clou(t, env1), env2) ->
+    step_am (Clou(t, env1 @ env2))
   | _ -> failwith "not redex!"
 
 let rec string_of_term_ss_am = string_of_cterm

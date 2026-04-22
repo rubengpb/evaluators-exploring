@@ -20,6 +20,8 @@ let rec step_bv = function
     Clou(b, (x, v)::env)
   | Clou(CApp(m, n), env) ->
     step_bv (CApp(Clou(m, env), Clou(n, env)))
+  | Clou(Clou(t, env1), env2) ->
+    step_bv (Clou(t, env1 @ env2))
   | _ -> failwith "Not redex!"
 
 let rec string_of_term_ss_bv = string_of_cterm

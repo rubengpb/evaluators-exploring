@@ -35,6 +35,8 @@ let rec step_ha = function
     CApp(v, n')
   | Clou(CApp(m, n), env) ->
     step_ha (CApp(Clou(m, env), Clou(n, env)))
+  | Clou(Clou(t, env1), env2) ->
+    step_ha (Clou(t, env1 @ env2))
   | _ -> failwith "not redex!"
 
 let rec string_of_term_ss_ha = string_of_cterm

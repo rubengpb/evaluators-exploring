@@ -32,6 +32,8 @@ let rec step_no = function
     CApp(v, n')
   | Clou(CApp(m, n), env) ->
     step_no (CApp(Clou(m, env), Clou(n, env)))
+  | Clou(Clou(t, env1), env2) ->
+    step_no (Clou(t, env1 @ env2))
   | _ -> failwith "Not redex!"
 
 let rec string_of_term_ss_no = string_of_cterm

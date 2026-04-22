@@ -25,6 +25,8 @@ let rec step_he = function
     Clou(b, (x, n)::env)
   | Clou(CApp(m, n), env) ->
     step_he (CApp(Clou(m, env), Clou(n, env)))
+  | Clou(Clou(t, env1), env2) ->
+    step_he (Clou(t, env1 @ env2))
   | _ -> failwith "not redex!"
 
 let rec string_of_term_ss_he = string_of_cterm
