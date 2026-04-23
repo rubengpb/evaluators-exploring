@@ -12,7 +12,7 @@ let rec step_bs = function
   | DBApp(v, n) when (is_dbabs v) && not (is_dbnf n) ->
     let n' = step_ho n in
     DBApp(v, n')
-  | DBApp(DBAbs b, v) when (is_dbabs v) ->
+  | DBApp(DBAbs b, v) ->
     subst_db v 0 b
   | DBApp(v, w) when not (is_dbnf v) ->
     let v' = step_bs v in
