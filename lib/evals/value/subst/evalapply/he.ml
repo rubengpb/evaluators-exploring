@@ -8,8 +8,6 @@ let rec he = function
   | App (m, n) -> apply (he m) n
 and apply m n =
   match m with
-    | Abs (x, b) ->
-      if is_value n
-      then he @@ subst n x b
-      else App(m, n)
+    | Abs (x, b) when is_value n ->
+      he @@ subst n x b
     | _ -> App(m, n)
