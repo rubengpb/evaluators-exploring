@@ -6,11 +6,11 @@ open Bv
 let rec ha = function
   | Var x as v -> v
   | Abs (x, b) -> Abs(x, ha b)
-  | App (m, n) -> apply (bv m) (ha n)
-and apply m n =
-  match m with
+  | App (m, n) -> apply (bv m) n
+and apply m' n =
+  match m' with
     | Abs (x, b) ->
-      if is_value n
-      then ha @@ subst n x b
-      else App(ha m, n)
-    | _ -> App(ha m, n)
+      let n' = ha n in
+      if is_value n' then ha @@ subst n' x b
+      else App(m', n')
+    | _ -> App(ha m', n)

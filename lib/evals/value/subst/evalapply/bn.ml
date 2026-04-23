@@ -8,8 +8,6 @@ let rec bn = function
   | App (m, n) -> apply (bn m) n
 and apply m n =
   match m with
-    | Abs (x, b) ->
-      if is_value n
-      then bn @@ subst n x b
-      else App(m, n)
+    | Abs (x, b) when is_value n ->
+      bn @@ subst n x b
     | _ -> App(m, n)
