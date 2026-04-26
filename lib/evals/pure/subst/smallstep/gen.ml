@@ -3,24 +3,23 @@ open Core.Utils
 open Core.Forms
 
 let rec step_gen (la, is_la) (op1, is_op1) (ar1,is_ar1) (op2, is_op2) (ar2, is_ar2) t =
-  let step_gen_aux = step_gen (la, is_la) (op1, is_op1) (ar1,is_ar1) (op2, is_op2) (ar2, is_ar2) in
   match t with
     | App(m, n) when not (is_op1 m) ->
-      let m' = step_gen_aux m in
+      let m' = op1 m in
       App(m', n)
     | App(v, n) when (is_abs v) && not (is_ar1 n) ->
-      let n' = step_gen_aux n in
+      let n' = ar1 n in
       App(v, n')
     | App(Abs(x, b), v) ->
       subst v x b
     | App(m, n) when not (is_op2 m) ->
-      let m' = step_gen_aux m in
+      let m' = op2 m in
       App(m', n)
     | App(v, n) when not (is_ar2 n) ->
-      let n' = step_gen_aux n in
+      let n' = ar2 n in
       App(v, n')
     | Abs(x, b) when not (is_la b) ->
-      let b' = step_gen_aux b in
+      let b' = la b in
       Abs(x, b')
     | _ -> failwith "Gen: Not redex!"
 

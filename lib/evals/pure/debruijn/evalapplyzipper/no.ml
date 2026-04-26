@@ -14,11 +14,10 @@ let rec no (t, z_ctxt) =
       let (m', _) = bn (m , DBAppL(z_ctxt, n)) in
       match m' with
         | DBAbs b ->
-          let (n', _) = no (n, DBAppR(m', z_ctxt)) in
-          let redex_str = string_of_db_redex (DBApp(m', n')) in
+          let redex_str = string_of_db_redex (DBApp(m', n)) in
           let full_str = plug_db_str redex_str z_ctxt in
           print_endline full_str;
-          no (subst_db n' 0 b, z_ctxt)
+          no (subst_db n 0 b, z_ctxt)
         | _ -> let (m'', _) = no (m', DBAppL(z_ctxt, n)) in
             let (n', _) = no (n, DBAppR(m', z_ctxt)) in
             (DBApp(m'', n'), z_ctxt)
