@@ -1,5 +1,6 @@
 open Core.Syntax
 open Core.Utils
+open Value_utils
 open Pure.Clousure.Cl_utils
 
 let rec gen la op1 ar1 op2 ar2 t =
@@ -16,15 +17,27 @@ let rec gen la op1 ar1 op2 ar2 t =
   | CApp(m, n) ->
     let m' = op1 m in (
       match m' with
-        | CAbs(x, b) -> gen_aux @@ Clou(b, [(x, ar1 n)])
-        | Clou(CAbs(x, b), env) -> gen_aux @@ Clou(b, (x, ar1 n)::env)
+        | CAbs(x, b) ->
+          let n' = ar1 n in
+          if is_cvalue n' then gen_aux @@ Clou(b, [(x, n')])
+          else CApp(m', n')
+        | Clou(CAbs(x, b), env) ->
+          let n' = ar1 n in
+          if is_cvalue n' then gen_aux @@ Clou(b, (x, n')::env)
+          else CApp(m', n')
         | _ -> CApp(op2 m', ar2 n)
     )
   | Clou(CApp(m, n), env) ->
     let m' = op1 @@ Clou(m, env) in (
       match m' with
-        | CAbs(x, b) -> gen_aux @@ Clou(b, [(x, ar1 @@ Clou(n, env))])
-        | Clou(CAbs(x, b), env') -> gen_aux @@ Clou(b, (x, ar1 @@ Clou(n, env))::env')
+        | CAbs(x, b) ->
+          let n' = ar1 @@ Clou(n, env) in
+          if is_cvalue n' then gen_aux @@ Clou(b, [(x, n')])
+          else CApp(m', n')
+        | Clou(CAbs(x, b), env') ->
+          let n' = ar1 @@ Clou(n, env) in
+          if is_cvalue n' then gen_aux @@ Clou(b, (x, n')::env')
+          else CApp(m', n')
         | _ -> CApp(op2 m', ar1 @@ Clou(n, env))
     )
   | Clou(Clou(t, env1), env2) -> gen_aux @@ Clou(t, env1 @ env2)

@@ -1,6 +1,7 @@
 open Core.Syntax
 open Core.Utils
 open Pure.Clousure.Cl_utils
+open Value_utils
 open Bn
 
 let rec no = function
@@ -15,8 +16,12 @@ let rec no = function
   | CApp(m, n) ->
     let m' = bn m in (
       match m' with
-        | CAbs(x, b) -> no @@ Clou(b, [(x, n)])
-        | Clou(CAbs(x, b), env) -> no @@ Clou(b, (x, n)::env)
+        | CAbs(x, b) ->
+          if is_cvalue n then no @@ Clou(b, [(x, n)])
+          else CApp(m', n)
+        | Clou(CAbs(x, b), env) ->
+          if is_cvalue n then no @@ Clou(b, (x, n)::env)
+          else CApp(m', n)
         | _ -> let m'' = no m' in
           let n' = no n in
             CApp(m'', n')
@@ -24,11 +29,14 @@ let rec no = function
   | Clou(CApp(m, n), env) ->
     let m' = bn @@ Clou(m, env) in (
       match m' with
-        | CAbs(x, b) -> no @@ Clou(b, [(x, Clou(n, env))])
-        | Clou(CAbs(x, b), env') -> no @@ Clou(b, (x, Clou(n, env))::env')
+        | CAbs(x, b) ->
+          if is_cvalue n then no @@ Clou(b, [(x, Clou(n, env))])
+          else CApp(m', n)
+        | Clou(CAbs(x, b), env') ->
+          if is_cvalue n then no @@ Clou(b, (x, Clou(n, env))::env')
+          else CApp(m', n)
         | _ -> let m'' = no m' in
           let n' = no @@ Clou(n, env) in
             CApp(m'', n')
     )
-  (* | Clou(Clou(t, env1), env2) -> no @@ Clou(t, env1 @ env2) *)
-  | _ -> failwith "[Error] Evaluation of NormalOrder wiht Clousure"
+  | Clou(Clou(t, env1), env2) -> no @@ Clou(t, env1 @ env2)

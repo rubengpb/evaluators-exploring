@@ -1,6 +1,7 @@
 open Core.Syntax
 open Core.Utils
 open Pure.Clousure.Cl_utils
+open Value_utils
 open Bv
 
 let rec ha = function
@@ -13,19 +14,33 @@ let rec ha = function
     let b' = ha @@ Clou(b, (x, CVar var)::env) in
       CAbs(var, b')
   | CApp(m, n) ->
-    let m' = bv m in
-    let n' = ha n in (
+    let m' = bv m in (
       match m' with
-        | CAbs(x, b) -> ha @@ Clou(b, [(x, n')])
-        | Clou(CAbs(x, b), env) -> ha @@ Clou(b, (x, n')::env)
-        | _ -> let m'' = ha m' in CApp(m'', n')
+        | CAbs(x, b) ->
+          let n' = ha n in
+          if is_cvalue n' then ha @@ Clou(b, [(x, n')])
+          else CApp(m', n')
+        | Clou(CAbs(x, b), env) ->
+          let n' = ha n in
+          if is_cvalue n' then ha @@ Clou(b, (x, n')::env)
+          else CApp(m', n')
+        | _ -> let m'' = ha m' in
+          let n' = ha n in
+          CApp(m'', n')
     )
   | Clou(CApp(m, n), env) ->
-    let m' = bv @@ Clou(m, env) in
-    let n' = ha @@ Clou(n, env) in (
+    let m' = bv @@ Clou(m, env) in (
       match m' with
-        | CAbs(x, b) -> ha @@ Clou(b, [(x, Clou(n', env))])
-        | Clou(CAbs(x, b), env') -> ha @@ Clou(b, (x, Clou(n', env))::env')
-        | _ -> let m'' = m' in CApp(m'', n')
+        | CAbs(x, b) ->
+          let n' = ha @@ Clou(n, env) in
+          if is_cvalue n' then ha @@ Clou(b, [(x, Clou(n', env))])
+          else CApp(m', n')
+        | Clou(CAbs(x, b), env') ->
+          let n' = ha @@ Clou(n, env) in
+          if is_cvalue n' then ha @@ Clou(b, (x, Clou(n', env))::env')
+          else CApp(m', n')
+        | _ -> let m'' = m' in
+          let n' = ha @@ Clou(n, env) in
+          CApp(m'', n')
     )
   | Clou(Clou(t, env1), env2) -> ha @@ Clou(t, env1 @ env2)

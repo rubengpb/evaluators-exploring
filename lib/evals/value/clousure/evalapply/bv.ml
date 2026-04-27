@@ -1,20 +1,5 @@
 open Core.Syntax
-
-let rec clasicall_bv ctxt t =
-  match t, ctxt with
-  | CVar x, [] -> CVar x
-  | CVar x, (y, v') :: c ->
-    if x = y then v'
-    else clasicall_bv c (CVar x)
-  | CAbs (x, b), c ->
-    Clou (CAbs(x, b), c)
-  | CApp (t1, t2), cont ->
-    apply (clasicall_bv cont t1) (clasicall_bv cont t2)
-  | _ -> failwith "[Error] Evaluation of CallByValue with Clousure"
-  and apply f v =
-    match f with
-    | Clou (CAbs (x, b), c) -> clasicall_bv ((x, v)::c) b
-    | _ -> CApp (f, v)
+open Value_utils
 
 let rec bv = function
   | CVar x as v -> v
@@ -26,17 +11,24 @@ let rec bv = function
     let m' = bv m in
     let n' = bv n in (
       match m' with
-        | CAbs(x, b) -> bv @@ Clou(b, [(x, n')])
-        | Clou(CAbs(x, b), env) -> bv @@ Clou(b, (x, n')::env)
+        | CAbs(x, b) ->
+          if is_cvalue n' then bv @@ Clou(b, [(x, n')])
+          else CApp(m', n')
+        | Clou(CAbs(x, b), env) ->
+          if is_cvalue n' then bv @@ Clou(b, (x, n')::env)
+          else CApp(m', n')
         | _ -> CApp(m', n')
     )
   | Clou(CApp(m, n), env) ->
     let m' = bv @@ Clou(m, env) in
     let n' = bv @@ Clou(n, env) in (
       match m' with
-        | CAbs(x, b) -> bv @@ Clou(b, [(x, n')])
-        | Clou(CAbs(x, b), env) -> bv @@ Clou(b, (x, n')::env)
+        | CAbs(x, b) ->
+          if is_cvalue n' then bv @@ Clou(b, [(x, n')])
+          else CApp(m', n')
+        | Clou(CAbs(x, b), env) ->
+          if is_cvalue n' then bv @@ Clou(b, (x, n')::env)
+          else CApp(m', n')
         | _ -> CApp(m', n')
     )
-  (* | Clou(Clou(t, env1), env2) -> bv @@ Clou(t, env1 @ env2) *)
-  | _ -> failwith "[Error] Evaluation of CallByValue wiht Clousure"
+  | Clou(Clou(t, env1), env2) -> bv @@ Clou(t, env1 @ env2)

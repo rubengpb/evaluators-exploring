@@ -1,6 +1,7 @@
 open Core.Syntax
 open Core.Utils
 open Pure.Clousure.Cl_utils
+open Value_utils
 open Bv
 
 let rec sn = function
@@ -15,8 +16,14 @@ let rec sn = function
   | CApp(m, n) ->
     let m' = bv m in (
       match m' with
-        | CAbs(x, b) -> sn @@ Clou(b, [(x, bv n)])
-        | Clou(CAbs(x, b), env) -> sn @@ Clou(b, (x, bv n)::env)
+        | CAbs(x, b) ->
+          let n' = bv n in
+          if is_cvalue n' then sn @@ Clou(b, [(x, n')])
+          else CApp(m', n')
+        | Clou(CAbs(x, b), env) ->
+          let n' = bv n in
+          if is_cvalue n' then sn @@ Clou(b, (x, n')::env)
+          else CApp(m', n')
         | _ ->
           let m'' = sn m' in
           let n' = sn n in
@@ -25,8 +32,14 @@ let rec sn = function
   | Clou(CApp(m, n), env) ->
     let m' = bv @@ Clou(m, env) in (
       match m' with
-        | CAbs(x, b) -> sn @@ Clou(b, [(x, bv @@ Clou(n, env))])
-        | Clou(CAbs(x, b), env') -> sn @@ Clou(b, (x, bv @@ Clou(n, env))::env')
+        | CAbs(x, b) ->
+          let n' = bv @@ Clou(n, env) in
+          if is_cvalue n' then sn @@ Clou(b, [(x, n')])
+          else CApp(m', n')
+        | Clou(CAbs(x, b), env') ->
+          let n' = bv @@ Clou(n, env) in
+          if is_cvalue n' then sn @@ Clou(b, (x, n')::env')
+          else CApp(m', n')
         | _ ->
           let m'' = sn m' in
           let n' = sn @@ Clou(n, env) in

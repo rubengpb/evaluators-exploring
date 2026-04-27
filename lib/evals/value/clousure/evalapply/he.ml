@@ -1,5 +1,6 @@
 open Core.Syntax
 open Core.Utils
+open Value_utils
 open Pure.Clousure.Cl_utils
 
 let rec he = function
@@ -14,15 +15,23 @@ let rec he = function
   | CApp(m, n) ->
     let m' = he m in (
       match m' with
-        | CAbs(x, b) -> he @@ Clou(b, [(x, n)])
-        | Clou(CAbs(x, b), env) -> he @@ Clou(b, (x, n)::env)
+        | CAbs(x, b) ->
+          if is_cvalue n then he @@ Clou(b, [(x, n)])
+          else CApp(m', n)
+        | Clou(CAbs(x, b), env) ->
+          if is_cvalue n then he @@ Clou(b, (x, n)::env)
+          else CApp(m', n)
         | _ -> CApp(m', n)
     )
   | Clou(CApp(m, n), env) ->
     let m' = he @@ Clou(m, env) in (
       match m' with
-        | CAbs(x, b) -> he @@ Clou(b, [(x, Clou(n, env))])
-        | Clou(CAbs(x, b), env') -> he @@ Clou(b, (x, Clou(n, env))::env')
+        | CAbs(x, b) ->
+          if is_cvalue n then he @@ Clou(b, [(x, Clou(n, env))])
+          else CApp(m', n)
+        | Clou(CAbs(x, b), env') ->
+          if is_cvalue n then he @@ Clou(b, (x, Clou(n, env))::env')
+          else CApp(m', n)
         | _ -> CApp(m', Clou(n, env))
     )
   | Clou(Clou(t, env1), env2) -> he @@ Clou(t, env1 @ env2)
