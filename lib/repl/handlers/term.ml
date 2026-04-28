@@ -15,7 +15,7 @@ let rec string_of_term_with_options num list t =
       match int_of_term t with
         | Some n -> string_of_int n
         | _ -> (match list_of_term t with
-                | Some xs -> string_of_term_list true xs
+        | Some xs -> "[" ^ string_of_term_list true xs ^ "]"
                 | _ -> string_of_term t)
       )
     | true, false -> (
@@ -25,12 +25,16 @@ let rec string_of_term_with_options num list t =
     )
     | false, true -> (
       match list_of_term t with
-        | Some xs -> string_of_term_list false xs
+        | Some xs -> "[" ^ string_of_term_list false xs ^ "]"
         | _ -> string_of_term t
     )
     | _ -> string_of_term t
 and string_of_term_list num xs =
-  "[" ^ List.fold_left (fun acc s -> acc ^ string_of_term_with_options num true s ^ "; ") "" xs ^ "]"
+  match xs with
+    | [] -> ""
+    | [x] -> string_of_term_with_options num true x
+    | x::xs ->
+      string_of_term_with_options num true x ^ "; " ^ string_of_term_list num xs
 
 let handle_term st t =
   let t = expand st.env t in
