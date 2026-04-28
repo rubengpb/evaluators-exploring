@@ -42,3 +42,33 @@ and apply_context env t =
   | [] -> t
   | (x, v) :: c ->
     apply_context c (subst (pure_of_clousure (eval_aux [] v)) x t)
+
+let rec normalize_var x vars =
+  let init = List.hd @@ String.split_on_char '*' x in
+  let not_free_names = List.map snd vars in
+  if not (List.mem x not_free_names) then init
+  else new_free_var init not_free_names
+
+let rec normalize_bound_vars t vars =
+  match t, vars with
+    | CVar _ as v, [] -> v
+    | CVar x, (y, z)::vars ->
+      if x = y then CVar z
+      else normalize_bound_vars (CVar x) vars
+    | CApp(m, n), vars ->
+      CApp(normalize_bound_vars m vars, normalize_bound_vars n vars)
+    | Clou(t, b), vars ->
+      Clou(normalize_bound_vars t vars, normalize_env b vars)
+    | CAbs(x, b), vars ->
+      let new_x = normalize_var x vars in
+      CAbs(new_x, normalize_bound_vars t ((x, new_x)::vars))
+  and normalize_env env vars =
+    List.map
+      (fun (var, body) -> (search_new_name var vars, normalize_bound_vars body vars))
+      env
+  and search_new_name var vars =
+    match vars with
+      | [] -> var
+      | (x, new_var)::vars ->
+        if x = var then new_var
+        else search_new_name var vars

@@ -1,5 +1,6 @@
 val free_vars : Syntax.pterm -> Syntax.var list
 
+val new_free_var : string -> string list -> string
 val subst :
   Syntax.pterm ->
   Syntax.var ->
