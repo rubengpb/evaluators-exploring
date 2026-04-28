@@ -45,9 +45,9 @@ and apply_context env t =
 
 let rec normalize_var x vars =
   let init = List.hd @@ String.split_on_char '*' x in
-  let not_free_names = List.map snd vars in
-  if not (List.mem x not_free_names) then init
-  else new_free_var init not_free_names
+  let new_names = List.map snd vars in
+  if not (List.mem init new_names) then init
+  else new_free_var init new_names
 
 let rec normalize_bound_vars t vars =
   match t, vars with
@@ -61,7 +61,7 @@ let rec normalize_bound_vars t vars =
       Clou(normalize_bound_vars t vars, normalize_env b vars)
     | CAbs(x, b), vars ->
       let new_x = normalize_var x vars in
-      CAbs(new_x, normalize_bound_vars t ((x, new_x)::vars))
+      CAbs(new_x, normalize_bound_vars b ((x, new_x)::vars))
   and normalize_env env vars =
     List.map
       (fun (var, body) -> (search_new_name var vars, normalize_bound_vars body vars))
@@ -69,6 +69,6 @@ let rec normalize_bound_vars t vars =
   and search_new_name var vars =
     match vars with
       | [] -> var
-      | (x, new_var)::vars ->
-        if x = var then new_var
+      | (x, new_name)::vars ->
+        if x = var then new_name
         else search_new_name var vars
