@@ -3,31 +3,29 @@ open Core.Utils
 open Eval
 
 let rec sim_bn_bv t =
-  let t' =
   match t with
+    (* | Var x as v -> Abs("A", App(Var "A", v)) *)
     | Var x as v -> v
-    | Abs(x, b) -> Abs("+", App(Var "+", b))
-    | App(m, n) -> 
+    | Abs(x, b) ->
+      let b' = sim_bn_bv b in
+      Abs("A", App(Var "A", Abs(x, b')))
+    | App(m, n) ->
       let m', n' = sim_bn_bv m, sim_bn_bv n in
-      Abs("+", App(m', (Abs("*", App(App(Var "*", n'), Var"+")))))
-  in
-  App(t', Abs("x", Var "x"))
+      Abs("A", App(m', (Abs("B", App(App(Var "B", n'), Var"A")))))
 
 let rec sim_bv_bn t =
-  let t' =
   match t with
-    | Var x as v -> Abs("*", App(Var "*", v))
+    | Var x as v -> Abs("A", App(Var "A", v))
     | Abs(x, b) ->
       let b' = sim_bv_bn b in
-      Abs("*", App(Var "*", Abs(x, b')))
+      Abs("A", App(Var "A", Abs(x, b')))
     | App(m, n) ->
       let m', n' = sim_bv_bn m, sim_bv_bn n in
-      Abs("*", App(m', Abs("+", App(n', Abs("-", App(App(Var "+", Var "-"), Var "*"))))))
-  in
-  App(t', Abs("x", Var "x"))
+      Abs("A", App(m', Abs("B", App(n', Abs("C", App(App(Var "B", Var "C"), Var "A"))))))
 
 let simulation_transform sim t =
+  let id = Abs("x", Var "x") in
   match sim.guest, sim.host with
-    | CallByName, CallByValue -> sim_bn_bv t
-    | CallByValue, CallByName -> sim_bv_bn t
+    | CallByName, CallByValue -> App(sim_bn_bv t, id)
+    | CallByValue, CallByName -> App(sim_bv_bn t, id)
     | _ -> print_endline "There is not simulation implemented."; t
