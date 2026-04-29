@@ -1,6 +1,7 @@
 open Core.Syntax
 open Core.Utils
 open Eval
+open Main_eval
 
 let rec sim_bn_bv t =
   match t with
@@ -36,4 +37,30 @@ let simulation_transform sim t =
     | StricNormalisation, NormalOrder -> App(sim_sn_no t, id)
     | _ -> print_endline "There is not simulation implemented."; t
 
-let inverse_simulation_transform _ _ t = t
+let rec inverse_simulation_ptransform sim ev t =
+  let id = Abs("x", Var "x") in
+  match sim.guest, sim.host with
+    | str1, str2 when str1 = str2 -> t
+    | CallByName, CallByValue -> t
+    | CallByValue, CallByName -> t
+    | NormalOrder, StricNormalisation -> (
+      match t with
+        | App(m, Abs(v, Var vs)) when v = vs -> m
+        | Abs(x, b) -> (
+          let b' = eval ev (App(b, id)) in
+            match b' with
+              | TPure b -> Abs(x, inverse_simulation_ptransform sim ev b)
+              | _ -> failwith "Wrong value to inverse")
+        | App(Var x, neu) -> (
+          let n' = eval ev (App(neu, id)) in
+            match n' with
+              | TPure n -> App(Var x, inverse_simulation_ptransform sim ev n)
+              | _ -> failwith "Wrong value to inverse")
+        | _ -> failwith "Wrong value to inverse"
+      )
+    | StricNormalisation, NormalOrder -> t
+    | _ -> failwith "TODO"
+
+let inverse_simulation_transform sim ev = function
+  | TPure t -> TPure (inverse_simulation_ptransform sim ev t)
+  | _ -> failwith "Error: No implemented simulation for other substitution manager"

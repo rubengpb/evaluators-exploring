@@ -51,6 +51,6 @@ let handle_term st t =
           string_of_term_with_options
             st.church_num
             st.church_list
-            (inverse_simulation_transform st.simulator st.eval t)
+            (inverse_simulation_transform sim st.eval t)
     );
   st
