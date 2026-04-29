@@ -44,4 +44,13 @@ let handle_term st t =
   if st.display then print_endline @@ "Evaluating: " ^ string_of_pterm t;
   let t = eval st.eval t in
     print_endline @@ string_of_term_with_options st.church_num st.church_list t;
+    (match st.simulator with
+      | None -> ()
+      | Some sim ->
+        print_endline @@
+          string_of_term_with_options
+            st.church_num
+            st.church_list
+            (inverse_simulation_transform st.simulator st.eval t)
+    );
   st

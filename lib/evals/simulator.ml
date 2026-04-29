@@ -29,8 +29,11 @@ let sim_sn_no t = sim_bv_bn t
 let simulation_transform sim t =
   let id = Abs("x", Var "x") in
   match sim.guest, sim.host with
+    | str1, str2 when str1 = str2 -> t
     | CallByName, CallByValue -> App(sim_bn_bv t, id)
     | CallByValue, CallByName -> App(sim_bv_bn t, id)
     | NormalOrder, StricNormalisation -> App(sim_no_sn t, id)
     | StricNormalisation, NormalOrder -> App(sim_sn_no t, id)
     | _ -> print_endline "There is not simulation implemented."; t
+
+let inverse_simulation_transform _ _ t = t
