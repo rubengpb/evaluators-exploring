@@ -1,0 +1,5 @@
+include data/sub data/list data/combinators
+ones = Y (\f.cons 1 f)
+takeAux = \t.\n.\l. cond (isZero n) nil (cons (hd l) (t (pred n) (tl l)))
+take = Y takeAux
+nat = Y (\g.\n.cons n (g (succ n))) 0

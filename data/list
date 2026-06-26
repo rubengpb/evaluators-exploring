@@ -9,3 +9,4 @@ append = \l1.\l2.\c.\n.l1 c (l2 c n)
 fold = \f.\acc.\l.l f acc
 map = \f.\l.\c.\n.l (\h. c (f h)) n
 length = \l.l (\x.\acc. succ acc) 0
+filter = \p.\l.l (\x.\xs.p x (cons x xs) xs) nil
