@@ -37,7 +37,7 @@ let rec step_gen (la, is_la) (op1, is_op1) (ar1,is_ar1) (op2, is_op2) (ar2, is_a
     step_gen_aux (CApp(Clou(m, env), Clou(n, env)))
   | Clou(Clou(t, env1), env2) ->
     step_gen_aux (Clou(t, env1 @ env2))
-  | _ -> failwith "Not redex!"
+  | _ -> failwith "Gen: No redex found!"
 
 
 let string_of_term_ss_gen = string_of_cterm
