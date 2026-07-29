@@ -58,7 +58,28 @@ let rec inverse_simulation_ptransform sim ev t =
               | _ -> failwith "Wrong value to inverse")
         | _ -> failwith "Wrong value to inverse"
       )
-    | StricNormalisation, NormalOrder -> t
+    | StricNormalisation, NormalOrder -> (
+      match t with
+        | App(m, Abs(v, Var vs)) when v = vs -> m
+        | Var _ as v -> v
+        | Abs(x,b) -> (
+          let b' = eval ev (App(b, id)) in
+            match b' with
+              | TPure b -> Abs(x, inverse_simulation_ptransform sim ev b)
+              | _ -> failwith "Wrong value to inverse")
+      (* | t -> t *)
+        (* | App(Var x, neu) -> ( *)
+        (*       let n' = eval ev (App(neu, id)) in *)
+        (*         match n' with *)
+        (*           | TPure n -> App(Var x, inverse_simulation_ptransform sim ev n) *)
+        (*           | _ -> failwith "Wrong value to inverse") *)
+        | App(m, n) ->
+          let m' = inverse_simulation_ptransform sim ev m in
+          let n' = eval ev (App(n, id)) in
+            match n' with
+              | TPure n -> App(m', inverse_simulation_ptransform sim ev n)
+              | _ -> failwith "Wrong value to inverse"
+      )
     | _ -> failwith "TODO"
 
 let inverse_simulation_transform sim ev = function
