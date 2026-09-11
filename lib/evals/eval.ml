@@ -20,7 +20,7 @@ type pstrategy =
   | NormalOrder
   | HeadReduction
   | HeadSpine
-  | StricNormalisation
+  | StrictNormalisation
   | HybridNormalOrder
   | HybridApplicativeOrder
   | AheadMachine
@@ -74,7 +74,7 @@ let short_string_of_pstrategy = function
   | NormalOrder -> "no"
   | HeadReduction -> "hr"
   | HeadSpine -> "he"
-  | StricNormalisation -> "sn"
+  | StrictNormalisation -> "sn"
   | HybridNormalOrder -> "hn"
   | HybridApplicativeOrder -> "ha"
   | AheadMachine -> "ao"
@@ -89,7 +89,7 @@ let string_of_pstrategy = function
   | NormalOrder -> "NormalOrder"
   | HeadReduction -> "HeadReduction"
   | HeadSpine -> "HeadSpine"
-  | StricNormalisation -> "StricNormalisation"
+  | StrictNormalisation -> "StrictNormalisation"
   | HybridNormalOrder -> "HybridNormalOrder"
   | HybridApplicativeOrder -> "HybridApplicativeOrder"
   | AheadMachine -> "AheadMachine"
@@ -104,7 +104,7 @@ let pstrategy_of_string = function
   | "NormalOrder" | "no" -> Some NormalOrder
   | "HeadReduction" | "hr" -> Some HeadReduction
   | "HeadSpine" | "he" -> Some HeadSpine
-  | "StricNormalisation" | "sn" -> Some StricNormalisation
+  | "StrictNormalisation" | "sn" -> Some StrictNormalisation
   | "HybridNormalOrder" | "hn" -> Some HybridNormalOrder
   | "HybridApplicativeOrder" | "ha" -> Some HybridApplicativeOrder
   | "AheadMachine" | "am" -> Some AheadMachine

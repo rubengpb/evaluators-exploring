@@ -32,7 +32,7 @@ let eval_apply_zipper str t =
       | NormalOrder -> fst @@ No.no (t, Top)
       | HeadReduction -> fst @@ Hr.hr (t, Top)
       | HeadSpine -> fst @@ He.he (t, Top)
-      | StricNormalisation -> fst @@ Sn.sn (t, Top)
+      | StrictNormalisation -> fst @@ Sn.sn (t, Top)
       | HybridNormalOrder -> fst @@ Hn.hn (t, Top)
       | HybridApplicativeOrder -> fst @@ Ha.ha (t, Top)
       | AheadMachine -> fst @@ Am.am (t, Top)

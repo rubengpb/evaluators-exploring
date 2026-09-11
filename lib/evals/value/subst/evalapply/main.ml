@@ -12,7 +12,7 @@ let eval_apply str t =
       | NormalOrder -> No.no t
       | HeadReduction -> Hr.hr t
       | HeadSpine -> He.he t
-      | StricNormalisation -> Sn.sn t
+      | StrictNormalisation -> Sn.sn t
       | HybridNormalOrder -> Hn.hn t
       | HybridApplicativeOrder -> Ha.ha t
       | AheadMachine -> Am.am t

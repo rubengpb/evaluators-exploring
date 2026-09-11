@@ -19,7 +19,7 @@ let eval_pure e t =
   (*       | NormalOrder -> TPure (fst (No.eval_no_zipp (t, Top))) *)
   (*       | HeadReduction -> TPure (fst (Hr.eval_hr_zipp (t, Top))) *)
   (*       | HeadSpine -> TPure (fst (He.eval_he_zipp (t, Top))) *)
-  (*       | StricNormalisation -> TPure (fst (Sn.eval_sn_zipp (t, Top))) *)
+  (*       | StrictNormalisation -> TPure (fst (Sn.eval_sn_zipp (t, Top))) *)
   (*       | HybridNormalOrder -> TPure (fst (Hn.eval_hn_zipp (t, Top))) *)
   (*       | HybridApplicativeOrder -> TPure (fst (Ha.eval_ha_zipp (t, Top))) *)
   (*       | AheadMachine -> TPure (fst (Am.eval_am_zipp (t, Top))) *)

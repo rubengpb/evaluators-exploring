@@ -20,7 +20,7 @@ let () =
     print_endline @@ "HR: " ^ string_of_term t_hr;
   let t_he = eval  { language = Pure; subst = Subst; strategy = One HeadSpine; style = EvalApply; } main_term in
     print_endline @@ "HE: " ^ string_of_term t_he;
-  let t_sn = eval  { language = Pure; subst = Subst; strategy = One StricNormalisation; style = EvalApply; } main_term in
+  let t_sn = eval  { language = Pure; subst = Subst; strategy = One StrictNormalisation; style = EvalApply; } main_term in
     print_endline @@ "SN: " ^ string_of_term t_sn;
   let t_hn = eval  { language = Pure; subst = Subst; strategy = One HybridNormalOrder; style = EvalApply; } main_term in
     print_endline @@ "HN: " ^ string_of_term t_hn;

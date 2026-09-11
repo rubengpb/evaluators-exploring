@@ -20,7 +20,7 @@ type pstrategy =
   | NormalOrder
   | HeadReduction
   | HeadSpine
-  | StricNormalisation
+  | StrictNormalisation
   | HybridNormalOrder
   | HybridApplicativeOrder
   | AheadMachine

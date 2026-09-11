@@ -39,7 +39,7 @@
 | NormalOrder                   | no             |
 | HeadReduction                 | hr             |
 | HeadSpine                     | he             |
-| StrincNormalisation           | sn             |
+| StrictNormalisation           | sn             |
 | HybridNormalOrder             | hn             |
 | HybridApplicativeOrder        | ha             |
 | AheadMachine                  | am             |

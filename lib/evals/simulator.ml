@@ -33,8 +33,8 @@ let simulation_transform sim t =
     | str1, str2 when str1 = str2 -> t
     | CallByName, CallByValue -> App(sim_bn_bv t, id)
     | CallByValue, CallByName -> App(sim_bv_bn t, id)
-    | NormalOrder, StricNormalisation -> App(sim_no_sn t, id)
-    | StricNormalisation, NormalOrder -> App(sim_sn_no t, id)
+    | NormalOrder, StrictNormalisation -> App(sim_no_sn t, id)
+    | StrictNormalisation, NormalOrder -> App(sim_sn_no t, id)
     | _ -> print_endline "There is not simulation implemented."; t
 
 let rec inverse_simulation_ptransform sim ev t =
@@ -43,7 +43,7 @@ let rec inverse_simulation_ptransform sim ev t =
     | str1, str2 when str1 = str2 -> t
     | CallByName, CallByValue -> t
     | CallByValue, CallByName -> t
-    | NormalOrder, StricNormalisation -> (
+    | NormalOrder, StrictNormalisation -> (
       match t with
         | App(m, Abs(v, Var vs)) when v = vs -> m
         | Abs(x, b) -> (
@@ -58,7 +58,7 @@ let rec inverse_simulation_ptransform sim ev t =
               | _ -> failwith "Wrong value to inverse")
         | _ -> failwith "Wrong value to inverse"
       )
-    | StricNormalisation, NormalOrder -> (
+    | StrictNormalisation, NormalOrder -> (
       match t with
         | App(m, Abs(v, Var vs)) when v = vs -> m
         | Var _ as v -> v
