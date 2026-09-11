@@ -41,7 +41,7 @@ let rec loop st =
           handle_command st ast
         with
         | Stdlib.Sys.Break ->
-            print_endline "Interrumped.";
+            print_endline "Interrumpted.";
             st
         | Failure msg ->
             print_endline ("Failure: " ^ msg);
