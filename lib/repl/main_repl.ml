@@ -11,7 +11,7 @@ let handle_command st = function
      | Set (param, opt) -> Set.handle_set st param opt
      | Type x -> Type.handle_type st x
      | Load file -> File.handle_file st file)
-  | Assign (v, t) -> Assign.handle_assing st v t
+  | Assign (v, t) -> Assign.handle_assign st v t
   | Term t -> Term.handle_term st t
 
 let prompt = "λ> "
