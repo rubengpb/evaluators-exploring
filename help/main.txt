@@ -15,7 +15,7 @@ More info about "syntax sugar"
 for numbers and list with               :h church
 More info about "short names" in
 options and evals-names with            :h names
-More info abour some prebuilt-in
+More info about some built-in
 files with terms definitions            :h prebuilt
 
      Evaluation of terms:
