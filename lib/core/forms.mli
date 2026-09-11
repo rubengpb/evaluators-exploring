@@ -1,6 +1,7 @@
 open Syntax
 
 val spine : pterm -> pterm * pterm list
+val unspine : pterm * pterm list -> pterm
 val dbspine : dbterm -> dbterm * dbterm list
 
 val is_var : pterm -> bool

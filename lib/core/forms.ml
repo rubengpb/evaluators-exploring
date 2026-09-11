@@ -17,6 +17,9 @@ let rec spine t =
       (h, args @ [t2])
   | _ -> (t, [])
 
+let unspine (h, args) =
+  List.fold_left (fun acc arg -> App (acc, arg)) h args
+
 let is_neu t =
   match spine t with
   | Var _, args when args <> [] -> true
